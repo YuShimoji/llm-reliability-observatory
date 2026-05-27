@@ -8,7 +8,7 @@ Branch: `main`
 
 Remote: `origin` -> `https://github.com/YuShimoji/llm-reliability-observatory.git`
 
-Latest synced commit: `59134e1 test: harden MVP1 publication boundaries`
+After pulling, use `git log --oneline -3` to confirm the latest synced commits.
 
 ## Current State
 
