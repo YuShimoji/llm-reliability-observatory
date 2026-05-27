@@ -8,6 +8,8 @@ Branch: `main`
 
 Remote: `origin` -> `https://github.com/YuShimoji/llm-reliability-observatory.git`
 
+Latest synced commit: `59134e1 test: harden MVP1 publication boundaries`
+
 ## Current State
 
 MVP1 Static Casebook Skeleton has been implemented and audited as a static Next.js App Router site.
@@ -95,6 +97,7 @@ npm audit --audit-level=moderate
 Test coverage currently includes:
 
 - AdSlot allowlist and denylist behavior.
+- Content publication boundaries: draft templates and fixtures stay out of public queries and sitemap output.
 - Editorial lint negative examples for email, phone number, API-key-like string, derogatory terms, warning-only terms, fixture exclusion, and classification frontmatter exclusion.
 
 ## Operational Notes
