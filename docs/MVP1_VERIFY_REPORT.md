@@ -1,25 +1,36 @@
 # MVP1 Verify Report
 
-実施日: 2026-05-26
+実施日: 2026-05-27
 
 対象: MVP1 Static Casebook Skeleton
 
+この監査は、新機能追加ではなく、現在のMVP1が「静的ケースブックの安全な骨組み」として成立しているかを確認するために実施した。公開本文、実在事例本文、docsの完成文面、投稿・管理・認証・DB・API・決済・広告JSなどは追加していない。
+
 ## 実行コマンドと結果
 
-| コマンド | 結果 | メモ |
+| コマンド | 結果 | 確認内容 |
 |---|---:|---|
 | `npm run lint:editorial` | 成功 | `editorial lint passed with no warnings.` |
-| `npm test` | 成功 | 5 tests pass。ad allowlist 2件、editorial-lint負例 3件。 |
-| `npm run build` | 成功 | 15 pages generated。`next start` を止めた状態で成功。 |
+| `npm test` | 成功 | 8 tests pass。ad allowlist、content publication guard、editorial-lint負例を確認。 |
+| `npm run build` | 成功 | 15 pages generated。App Routerの静的生成と型検査が通過。 |
 | `npm audit --audit-level=moderate` | 成功 | `found 0 vulnerabilities`。 |
 
-検証中、`next start` や `next dev` を起動したまま `npm run build` を再実行すると、`.next` の利用が競合してタイムアウトすることがあった。プロジェクトのNodeプロセスを停止した後の最終ビルドは成功した。
+`next dev -p 3101` は今回も `Starting...` のままHTTP応答に進まなかった。深追いはせず、検証は `npm run build` 後の `next start -p 3100` で代替した。
+
+確認環境:
+
+| 項目 | 値 |
+|---|---|
+| Node.js | v22.19.0 |
+| npm | 10.9.3 |
+| Next.js | 15.5.18 |
+| OS | Windows NT 10.0.26200.0 |
 
 ## ルート確認結果
 
-確認用に `npm run build` 後、`next start -p 3100` を起動し、`http://127.0.0.1:3100` に対して確認した。
+`npm run build` 後、`next start -p 3100` を起動し、`http://127.0.0.1:3100` に対して確認した。静的CSSアセットも200で返ることを確認した。
 
-| ルート | HTTP | 広告placeholder | 判定 |
+| ルート | HTTP | AdSlot | 判定 |
 |---|---:|---:|---|
 | `/` | 200 | あり | OK |
 | `/cases` | 200 | なし | OK |
@@ -36,40 +47,38 @@
 | `/admin/review` | 404 | なし | OK |
 | `/api` | 404 | なし | OK |
 
-`/cases` と `/articles` は、現在 `draft: true` のテンプレートのみなので空状態として表示される。HTTP本文上でもテンプレートタイトルやfixture名は見つからなかった。
+`/cases` と `/articles` は、公開対象がない状態で自然な空状態を表示している。HTTP本文上でも、`TODO: 事例タイトル`、`TODO: 記事タイトル`、fixture名は公開一覧に出ていない。
 
 ## draft制御とfixture非公開
 
 | 確認対象 | 結果 |
 |---|---|
 | `content/cases/001-template-case.mdx` | `draft: true` のため `/cases` に出ない。 |
-| `/cases/001-template-case` | 404。個別slug直アクセスでも非公開。 |
+| `/cases/001-template-case` | 404。直接slugアクセスでも非公開。 |
 | `content/articles/001-template-article.mdx` | `draft: true` のため `/articles` に出ない。 |
-| `/articles/001-template-article` | 404。個別slug直アクセスでも非公開。 |
+| `/articles/001-template-article` | 404。直接slugアクセスでも非公開。 |
 | `content/_fixtures/*` | 一覧、個別、sitemapに出ない。 |
 | `/cases/fixture-fabricated-citation-example` | 404。fixture slug相当の直アクセスも非公開。 |
 
-`sitemap.xml` には `001-template-case`、`001-template-article`、`fixture` を含まないことを確認した。
+今回、`tests/content-publication.test.ts` に公開取得ガードを追加した。`getAllCases()`、`getAllArticles()`、`getCaseBySlug()`、`getArticleBySlug()`、`sitemap()` の各経路で、draftテンプレートとfixtureが公開面に混ざらないことをテストで固定している。
 
 ## AdSlot確認
 
-`src/lib/ad-allowlist.ts` と配置箇所を確認し、`tests/ad-allowlist.test.ts` に `/api`、`/admin/review/queue`、末尾slash、query付きrootのケースを追加した。
+`src/lib/ad-allowlist.ts` と実際の配置箇所を確認した。`<AdSlot>` は次のページにだけ配置されている。
 
-| ページ種別 | 期待 | 実確認 |
-|---|---|---|
-| `/` | 表示 | 1枠表示 |
-| `/taxonomy` | 表示 | 1枠表示 |
-| `/methodology` | 表示 | 1枠表示 |
-| `/cases` | 非表示 | 0枠 |
-| `/articles` | 非表示 | 0枠 |
-| policy系ページ | 非表示 | 0枠 |
-| `/submit`, `/admin/*`, `/api/*` | 非表示 | 404かつ0枠 |
+| 配置先 | 判定 |
+|---|---|
+| `/` | 許可ページ。OK |
+| `/taxonomy` | 許可ページ。OK |
+| `/methodology` | 許可ページ。OK |
+| `/cases/[slug]` | 公開case詳細のみ生成される想定。現在公開caseなし。 |
+| `/articles/[slug]` | 公開article詳細のみ生成される想定。現在公開articleなし。 |
 
-公開済みのcase/articleがまだ存在しないため、`/cases/[slug]` と `/articles/[slug]` の公開詳細面での広告表示は、実データ投入後に再確認が必要。
+`/cases`、`/articles`、`/about`、`/privacy`、`/terms`、`/removal-request`、`/disclosures`、禁止ルートではAdSlotが表示されないことをHTTP確認と `tests/ad-allowlist.test.ts` で確認した。
 
 ## editorial-lint負例テスト
 
-`tests/editorial-lint.test.ts` を追加し、一時ディレクトリにテスト用contentを生成して検証する形にした。本番lint対象には負例ファイルを残していない。
+`tests/editorial-lint.test.ts` は、一時ディレクトリにテスト用contentを生成して検証する。本番lint対象には負例ファイルを残さない。
 
 | 負例 | 期待 | 結果 |
 |---|---|---|
@@ -82,11 +91,23 @@
 | case frontmatterの分類語 | error扱いしない | 無視 |
 | taxonomy本文の分類語 `捏造` | warningに留める | warning 1件 |
 
+日本語語彙はUnicode実体で検出できることも確認した。PowerShell上で一部日本語が文字化けして表示されることがあるが、ファイル内容とNode実行上の検出は正常。
+
 ## robots / sitemap確認
 
-`robots.ts` は `/api`、`/admin`、`/submit` を直接disallowするように修正した。`/api/` や `/admin/review` もrobotsのprefix解釈上この指定に含まれる。
+`robots.txt` は次の内容で返る。
 
-`sitemap.xml` は公開静的ページを含み、draft case/articleとfixtureは含まない。`privacy`、`terms`、`removal-request`、`disclosures` は、透明性・修正依頼・利用条件の確認ページとして検索到達可能である方が自然なので含めたままにした。広告はこれらのページに表示しない。
+```text
+User-Agent: *
+Allow: /
+Disallow: /api
+Disallow: /admin
+Disallow: /submit
+
+Sitemap: https://example.com/sitemap.xml
+```
+
+`sitemap.xml` は静的公開ページを含み、draft case/articleとfixtureを含まない。`privacy`、`terms`、`removal-request`、`disclosures` は、透明性、利用条件、削除依頼、開示を確認するためのページであり、検索到達できる方が現実的なのでsitemapに含めたままにする。これらのページには広告を表示しない。
 
 ## 見た目確認
 
@@ -105,7 +126,7 @@
 - `samples/_review/mvp1-route-audit/privacy-mobile.png`
 - `samples/_review/mvp1-route-audit/terms-desktop.png`
 
-desktopと375px mobile相当で、Header/Footer、Breadcrumb、cases/articlesの空状態、AdSlot placeholder、taxonomy/methodologyの読みやすさ、privacy/termsの広告非表示を確認した。現在は公開caseがないため、SeverityBadge、VerificationBadge、CaseCardの実表示は未確認で、公開事例投入後の確認対象として残る。
+desktopと375px mobile相当で、Header/Footer、Breadcrumb、cases/articlesの空状態、AdSlot placeholder、taxonomy/methodologyの読みやすさ、privacy/termsの広告非表示を確認した。現在は公開caseがないため、SeverityBadge、VerificationBadge、CaseCard、RelatedCasesの実データ表示は公開case投入後の確認対象として残る。
 
 ## スコープ逸脱チェック
 
@@ -119,19 +140,16 @@ desktopと375px mobile相当で、Header/Footer、Breadcrumb、cases/articlesの
 | AdSense JS本体 | なし |
 | コメント、投票、ランキング、ユーザー登録関連コード | 実装なし |
 
-grep上、`submit`、`admin`、`api` はallowlist、robots、説明文、taxonomyのsurface codeなどMVP1上必要な文脈に限られていた。
+grep上、禁止領域に関する語はREADME、handoff、監査レポート、allowlist、robots、taxonomyのsurface codeなど、MVP1の説明や防御的検証に必要な文脈に限られていた。
 
-## next dev問題
+## 今回の最小修正
 
-`next dev -p 3101` を短時間起動して確認したところ、今回もログは次の状態で止まり、HTTP応答には進まなかった。
+| ファイル | 理由 |
+|---|---|
+| `tests/content-publication.test.ts` | draft/fixtureが公開取得経路とsitemapに混ざらないことを自動テスト化。 |
+| `docs/MVP1_VERIFY_REPORT.md` | 2026-05-27時点の監査結果に更新。 |
 
-```text
-Next.js 15.5.18
-Local: http://localhost:3101
-Starting...
-```
-
-深追いはしていない。検証は `next start` で代替し、静的アセットが200で返ることを確認した。なお、`next dev` は `.next` を開発用に作り替えるため、起動中の `next start` と併用すると静的アセット確認が壊れる。検証時はどちらか一方だけを動かす。
+既存のローカル差分として、`docs/CASE_PUBLICATION_GUIDE.md`、`docs/PUBLIC_CASE_INPUT_TEMPLATE.md`、`docs/MVP1_1_PUBLIC_CASE_PROBE_REPORT.md`、`docs/HANDOFF.md` の更新がある。これらは公開本文を生成せず、人間が次に安全に入力するための導線・記録であり、MVP1の禁止機能には該当しない。
 
 ## 残課題
 
@@ -139,5 +157,16 @@ Starting...
 |---|---|
 | 公開case/article詳細ページの実表示 | 人間が `draft: false` の本文を追加した後 |
 | SeverityBadge / VerificationBadge / RelatedCasesの実UI | 公開case投入後 |
+| `/cases/[slug]` と `/articles/[slug]` の詳細AdSlot実表示 | 公開詳細ページが生成された後 |
 | `next dev` のStarting停止 | ローカル開発体験を整える段階 |
+| Sitemap URLの公開ドメイン化 | 公開ドメイン決定後に `NEXT_PUBLIC_SITE_URL` を設定し、`https://example.com/sitemap.xml` を差し替える |
 | favicon 404 | ブランドアセットを入れる段階 |
+
+## 次の安全な作業単位
+
+| 入口 | 目的 | 次に可能になること |
+|---|---|---|
+| 公開case入力 | `docs/PUBLIC_CASE_INPUT_TEMPLATE.md` に人間が1件分の実データを埋める。 | AIが公開本文を作らずに、最初の公開caseへ進める。 |
+| 公開case検証 | 人間執筆caseを `draft: false` にして表示確認する。 | 詳細ページ、badge、RelatedCases、sitemap、AdSlotを実データで確認できる。 |
+| `next dev` 調査 | `Starting...` 停止の原因を切り分ける。 | `next start` 代替なしで開発確認できる。 |
+| favicon/OG整備 | 共有・外形上の未整備を減らす。 | favicon 404と共有プレビュー未整備を解消できる。 |

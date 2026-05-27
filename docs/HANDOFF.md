@@ -1,6 +1,6 @@
 # Project Handoff
 
-Updated: 2026-05-26
+Updated: 2026-05-27
 
 Repository: `llm-reliability-observatory`
 
@@ -67,6 +67,18 @@ Detailed audit report:
 
 - `docs/MVP1_VERIFY_REPORT.md`
 
+MVP1.1 public case probe report:
+
+- `docs/MVP1_1_PUBLIC_CASE_PROBE_REPORT.md`
+
+Public case input contract:
+
+- `docs/PUBLIC_CASE_INPUT_TEMPLATE.md`
+
+Hands-on publication guide:
+
+- `docs/CASE_PUBLICATION_GUIDE.md`
+
 Screenshot artifacts:
 
 - `samples/_review/mvp1-route-audit/`
@@ -91,6 +103,8 @@ Test coverage currently includes:
 
 `next dev` was tested on this machine and repeatedly stayed at `Starting...` without serving HTTP. This was recorded but not debugged further because the audit request said not to deep-dive. Also, do not run `next dev` and `next start` against the same `.next` output at the same time; doing so can make static asset checks fail until the project is rebuilt.
 
+`NEXT_PUBLIC_SITE_URL` currently defaults to `https://example.com`, so robots and sitemap output use `https://example.com/sitemap.xml` unless the environment variable is set. Replace it after the public domain is decided.
+
 If route verification is needed again:
 
 ```bash
@@ -107,7 +121,8 @@ Then check:
 
 | Entry | Purpose | What It Unlocks |
 |---|---|---|
-| Verify published content | Add one human-authored `draft: false` case or article and verify detail rendering. | Real detail-page checks for badges, related cases, and detail AdSlot. |
+| Fill first public case input | Use `docs/PUBLIC_CASE_INPUT_TEMPLATE.md` to collect one human-authored, source-backed case. | Makes it safe to create the first non-fixture `draft: false` case without AI-authored public prose. |
+| Verify published content | Add one human-authored `draft: false` case and verify detail rendering. | Real detail-page checks for badges, related cases, detail AdSlot, and sitemap inclusion. |
 | Debug dev server | Investigate why `next dev` stays at `Starting...` on this machine. | Faster local iteration. |
 | Polish assets | Add favicon and minimal OG image. | Removes favicon 404 and improves sharing previews. |
 | Editorial expansion | Human-authored docs and public case text. | First publishable version without changing the static architecture. |
