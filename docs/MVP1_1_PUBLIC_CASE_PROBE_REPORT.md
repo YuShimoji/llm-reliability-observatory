@@ -1,92 +1,116 @@
 # MVP1.1 Public Case Integration Probe Report
 
-Date: 2026-05-27
+実施日: 2026-05-28
 
-Repository: `llm-reliability-observatory`
+対象: `llm-reliability-observatory`
 
-Branch: `main`
+開始時点:
 
-HEAD at probe start: `cee3d10 Implement MVP1 static casebook skeleton`
-
-## Branch Chosen
-
-No human-provided publishable case body was found in the current task prompt or in `content/cases`.
-
-Because the project rule is that AI must not invent public case prose, this probe did not create a `draft: false` public case. The work stayed on the input-contract path and added `docs/PUBLIC_CASE_INPUT_TEMPLATE.md` for the first human-authored case.
-
-## Existing Local Changes Observed
-
-The repository was not clean at probe start, even though the handoff note said it should be clean.
-
-Observed pre-existing local changes:
-
-- `docs/HANDOFF.md` had an unstaged link to `docs/CASE_PUBLICATION_GUIDE.md`.
-- `docs/CASE_PUBLICATION_GUIDE.md` existed as an untracked file.
-- `tests/content-publication.test.ts` existed as an untracked file and was included by the existing `npm test` command.
-
-These changes were preserved and not reverted.
-
-## Commands Run
-
-| Command | Result |
+| 項目 | 値 |
 |---|---|
-| `git status --short --branch` | `## main...origin/main`, with local unstaged/untracked files already present |
-| `git log --oneline -5` | Latest commit was `cee3d10 Implement MVP1 static casebook skeleton` |
-| `npm run lint:editorial` | Passed with no warnings |
-| `npm test` | Passed, 8 tests |
-| `npm run build` | Passed, 15 pages generated |
-| `node -v` | `v22.19.0` |
-| `npm -v` | `10.9.3` |
-| OS check | `Microsoft Windows NT 10.0.26200.0` |
+| Branch | `main` |
+| Remote | `origin` |
+| HEAD | `5cf776d docs: avoid stale handoff commit reference` |
+| `git pull origin main` | `Already up to date.` |
+| 作業ツリー | clean |
 
-`npm test` currently runs 8 tests because the local untracked `tests/content-publication.test.ts` file adds publication-boundary coverage for public queries and sitemap behavior.
+## 今回の分岐
 
-## Display Probe
+人間提供の公開case入力は、現在のタスク本文、`content/cases`、および `docs/PUBLIC_CASE_INPUT_TEMPLATE.md` のいずれにも見つからなかった。
 
-No public case was added, so the public detail route `/cases/[slug]` could not be validated with real case data in this run.
+そのため、今回も `draft: false` の公開caseは作成していない。fixture、template、AI生成文を公開caseとして流用することも行っていない。
 
-After `npm run build`, `next start` was checked with:
+## 不足している公開case入力
 
-```bash
-node .\node_modules\next\dist\bin\next start -p 3100
-```
+`docs/PUBLIC_CASE_INPUT_TEMPLATE.md` に対して、公開投入に必要な実入力はまだ未充足。
 
-Result:
+| 項目 | 現在状態 | 公開前に必要な入力 |
+|---|---|---|
+| `title` | 空欄 | 人間執筆の事例タイトル |
+| `slug` | 空欄 | 安定したURL slug |
+| `date` | `YYYY-MM-DD` の雛形 | 観測日または公開日 |
+| `model_vendor` / `model_product` / `model_version` | 空欄 | 人間が観測した範囲のモデル情報 |
+| `surface` / `task_category` / `primary_failure_category` | `unknown` などの雛形 | taxonomyに沿った分類 |
+| `severity` / `verification_status` | 最低値の雛形 | 根拠に対して過大でない値 |
+| `public_summary` | 空欄 | 160-220字程度の人間執筆概要 |
+| `source_links` | `[]` | 少なくとも1件の実在source link |
+| 本文9セクション | 見出しのみ | 人間提供または人間承認済みの公開本文 |
+| 公開可否確認 | 未実施 | 個人情報、秘密、APIキー、内部情報、断定的批判がないこと |
 
-- `http://127.0.0.1:3100/cases` returned HTTP 200.
-- The server reported ready through `next start`.
+## 実行コマンドと結果
 
-## Boundaries Confirmed
-
-| Boundary | Result |
+| コマンド | 結果 |
 |---|---|
-| Public case creation | Not performed because no human case text was available. |
-| Fixtures | `content/_fixtures` was not reused as public content. |
-| Draft template | `content/cases/001-template-case.mdx` remains the only case template and stays draft-only. |
-| Sitemap | No new public case slug was added because no `draft: false` case was created. |
-| AdSense | No AdSense JavaScript was added. Existing placeholder-only behavior was left unchanged. |
-| Scope exclusions | No submission form, admin UI, auth, Supabase, DB, Storage, email, payment, API route, ranking, score UI, or account feature was added. |
+| `git pull origin main` | 成功。`Already up to date.` |
+| `git status --short --branch` | `## main...origin/main` |
+| `git log --oneline -5` | `5cf776d`, `68b4fb0`, `59134e1`, `cee3d10` を確認 |
+| `npm run lint:editorial` | 成功。warningsなし |
+| `npm test` | 成功。8 tests pass |
+| `npm run build` | 成功。15 pages generated |
+| `npm audit --audit-level=moderate` | 成功。`found 0 vulnerabilities` |
 
-## next dev Note
+補助確認として `npx tsx` 経由で `src/app/sitemap.ts` のURL一覧を確認し、公開case slug、draft template slug、fixture slugが含まれないことを確認した。
 
-This probe did not debug `next dev`; that remains outside the MVP1.1 scope.
+## 表示確認
 
-Recorded environment:
+`npm run build` 後に `node .\node_modules\next\dist\bin\next start -p 3100` 相当で確認した。`next start` はHTTP応答まで進み、主要ルートは期待どおり返った。
 
-- Node: `v22.19.0`
-- npm: `10.9.3`
-- OS: `Microsoft Windows NT 10.0.26200.0`
-- Known command with issue: `next dev -p 3101`
-- Known symptom from handoff: Next.js prints `Starting...` and does not serve HTTP in this environment.
-- Alternative checked in this probe: `next start -p 3100` after `npm run build` served `/cases` with HTTP 200.
+| ルート | 期待 | 結果 | 備考 |
+|---|---:|---:|---|
+| `/` | 200 | 200 | AdSlotあり |
+| `/cases` | 200 | 200 | 公開caseなしの空状態。template/fixture名なし |
+| `/cases/001-template-case` | 404 | 404 | draft templateは直接表示されない |
+| `/articles` | 200 | 200 | 公開articleなしの空状態。template名なし |
+| `/articles/001-template-article` | 404 | 404 | draft templateは直接表示されない |
+| `/taxonomy` | 200 | 200 | AdSlotあり |
+| `/methodology` | 200 | 200 | AdSlotあり |
+| `/privacy` | 200 | 200 | AdSlotなし |
+| `/terms` | 200 | 200 | AdSlotなし |
+| `/removal-request` | 200 | 200 | AdSlotなし |
+| `/disclosures` | 200 | 200 | AdSlotなし |
+| `/submit` | 404 | 404 | 禁止ルートなし |
+| `/admin` | 404 | 404 | 禁止ルートなし |
+| `/admin/review` | 404 | 404 | 禁止ルートなし |
+| `/api` | 404 | 404 | API routeなし |
+| `/sitemap.xml` | 200 | 200 | draft/fixtureなし |
 
-## Remaining Uncertainty
+draft detail slugの404確認時に、Next.jsのserver stderrへ `NoFallbackError` が出た。HTTP結果は期待どおり404で、静的生成されたslug以外をfallbackしない挙動として扱う。
 
-The actual public-case surface is still unproven with real data. Severity badge, verification badge, case metadata layout, detail-page AdSlot, RelatedCases behavior, and sitemap inclusion for a real public case remain to be checked after a human provides one publishable case.
+## draft / fixture / sitemap / AdSlot 境界
 
-## Safe Next Work
+| 境界 | 結果 |
+|---|---|
+| `content/cases/001-template-case.mdx` | `draft: true` のまま。`/cases`、詳細、sitemapに出ない |
+| `content/articles/001-template-article.mdx` | `draft: true` のまま。`/articles`、詳細、sitemapに出ない |
+| `content/_fixtures/*` | 公開一覧、詳細、sitemapに出ない |
+| `/cases` / `/articles` | 公開対象なしの空状態として表示。TODO雛形を公開記事として誤認させない |
+| AdSlot許可ページ | `/`、`/taxonomy`、`/methodology` に表示 |
+| AdSlot不許可ページ | `/cases`、`/articles`、policy系、禁止ルートに表示なし |
+| sitemap URL | 現在は `https://example.com` ベース。公開ドメイン決定後に差し替える |
 
-1. Fill `docs/PUBLIC_CASE_INPUT_TEMPLATE.md` with one human-authored, source-backed case.
-2. Add one `content/cases/<slug>.mdx` with `draft: false` only after the publication gate is satisfied.
-3. Run `npm run lint:editorial`, `npm test`, and `npm run build`.
-4. Use `next start` to check `/cases`, `/cases/<slug>`, policy pages, and `/sitemap.xml`.
+今回、公開caseを追加していないため、`/cases/<slug>` の実データ詳細、SeverityBadge、VerificationBadge、CaseMetaBar、RelatedCases、detail AdSlotの本番表示はまだ未検証。
+
+## next dev 問題の扱い
+
+今回の目的から外れるため、`next dev` の `Starting...` 停止問題は深追いしていない。表示確認は既知の代替手順どおり、`npm run build` 後の `next start -p 3100` で実施した。
+
+## 残課題
+
+| 残る点 | 次に確認する条件 |
+|---|---|
+| 最初の公開case投入 | 人間が本文、根拠、source linkを提供した後 |
+| SeverityBadge / VerificationBadge実表示 | `draft: false` の公開case作成後 |
+| RelatedCasesの0件時または関連あり時の見え方 | 公開case detail生成後 |
+| detail AdSlot | 公開case detail生成後 |
+| sitemapへの公開case追加 | 公開case作成後 |
+| `NEXT_PUBLIC_SITE_URL` | 公開ドメイン決定後 |
+| `next dev` 停止 | ローカル開発速度を優先する段階 |
+
+## 次の安全な作業単位
+
+| 入口 | 目的 | 次に可能になること |
+|---|---|---|
+| 公開case入力を埋める | `docs/PUBLIC_CASE_INPUT_TEMPLATE.md` に人間が1件分の実データを記入する | AIが本文を補完せずに初回公開caseへ進める |
+| 公開case投入probe | 入力済みcaseを `content/cases/<slug>.mdx` として `draft: false` で追加する | `/cases/<slug>`、badge、RelatedCases、detail AdSlot、sitemapを実データで検証できる |
+| ドメイン設定 | `NEXT_PUBLIC_SITE_URL` を本番ドメインに合わせる | robots/sitemapの `example.com` 前提を外せる |
+| 開発体験の修理 | `next dev` 停止を切り分ける | build/start往復なしでUI確認できる |
