@@ -1,6 +1,6 @@
 # Project Handoff
 
-Updated: 2026-05-27
+Updated: 2026-05-28
 
 Repository: `llm-reliability-observatory`
 
@@ -8,13 +8,17 @@ Branch: `main`
 
 Remote: `origin` -> `https://github.com/YuShimoji/llm-reliability-observatory.git`
 
-After pulling, use `git log --oneline -3` to confirm the latest synced commits.
+Last verified base before this handoff update: `1d2abca docs: refresh public case probe status`
+
+After pulling, use `git log --oneline -5` to confirm the latest synced commits.
 
 ## Current State
 
 MVP1 Static Casebook Skeleton has been implemented and audited as a static Next.js App Router site.
 
 The project is intentionally limited to a static casebook skeleton. It does not include submissions, admin screens, authentication, Supabase, database, storage, email, payments, API routes, comments, voting, ranking, user accounts, organization pages, pricing, subscriptions, AdSense JavaScript, or model score/ranking UI.
+
+MVP1.2 First Human-Written Public Case was attempted on 2026-05-28, but no human-provided publishable case input was present in the task prompt, `content/cases`, or `docs/PUBLIC_CASE_INPUT_TEMPLATE.md`. No `draft: false` public case was created, and no fixture/template prose was reused as public content.
 
 ## Implemented Surface
 
@@ -94,6 +98,15 @@ npm run build
 npm audit --audit-level=moderate
 ```
 
+The same four commands were rerun on 2026-05-28 after the MVP1.2 resume check and passed again:
+
+- `npm run lint:editorial`: passed with no warnings.
+- `npm test`: passed, 8 tests.
+- `npm run build`: passed, 15 pages generated.
+- `npm audit --audit-level=moderate`: passed, 0 vulnerabilities.
+
+`next start -p 3100` route checks were also rerun. Expected public routes returned 200, forbidden routes and draft template slugs returned 404, `/cases` and `/articles` did not expose TODO templates or fixtures, and AdSlot remained limited to allowed pages.
+
 Test coverage currently includes:
 
 - AdSlot allowlist and denylist behavior.
@@ -124,11 +137,23 @@ Then check:
 
 | Entry | Purpose | What It Unlocks |
 |---|---|---|
-| Fill first public case input | Use `docs/PUBLIC_CASE_INPUT_TEMPLATE.md` to collect one human-authored, source-backed case. | Makes it safe to create the first non-fixture `draft: false` case without AI-authored public prose. |
+| Fill first public case input | Use `docs/PUBLIC_CASE_INPUT_TEMPLATE.md` to collect one human-authored, source-backed case. Required fields still missing: `title`, `slug`, `date`, model fields, taxonomy fields, 160-220 character `public_summary`, at least one `source_links` entry, and all nine body sections. | Makes it safe to create the first non-fixture `draft: false` case without AI-authored public prose. |
 | Verify published content | Add one human-authored `draft: false` case and verify detail rendering. | Real detail-page checks for badges, related cases, detail AdSlot, and sitemap inclusion. |
 | Debug dev server | Investigate why `next dev` stays at `Starting...` on this machine. | Faster local iteration. |
 | Polish assets | Add favicon and minimal OG image. | Removes favicon 404 and improves sharing previews. |
 | Editorial expansion | Human-authored docs and public case text. | First publishable version without changing the static architecture. |
+
+## Human-Side Resume Checklist
+
+For the next human working session, start here:
+
+1. Pull the latest `main`.
+2. Open `docs/PUBLIC_CASE_INPUT_TEMPLATE.md`.
+3. Fill one real, publishable, human-written case with at least one source link.
+4. Do not change `draft` to `false` until the publication gate in that template is satisfied.
+5. After the case is ready, add exactly one new `content/cases/<slug>.mdx` file and run the existing verification commands.
+
+Do not use `content/_fixtures` or `content/cases/001-template-case.mdx` prose as public case text.
 
 ## Guardrails For Future Work
 
