@@ -1,6 +1,6 @@
 # Project Handoff
 
-Updated: 2026-05-28
+Updated: 2026-06-01
 
 Repository: `llm-reliability-observatory`
 
@@ -8,7 +8,7 @@ Branch: `main`
 
 Remote: `origin` -> `https://github.com/YuShimoji/llm-reliability-observatory.git`
 
-Last verified base before this handoff update: `1d2abca docs: refresh public case probe status`
+Last verified base before this handoff update: `1439e3f docs: hand off human case input work`
 
 After pulling, use `git log --oneline -5` to confirm the latest synced commits.
 
@@ -19,6 +19,8 @@ MVP1 Static Casebook Skeleton has been implemented and audited as a static Next.
 The project is intentionally limited to a static casebook skeleton. It does not include submissions, admin screens, authentication, Supabase, database, storage, email, payments, API routes, comments, voting, ranking, user accounts, organization pages, pricing, subscriptions, AdSense JavaScript, or model score/ranking UI.
 
 MVP1.2 First Human-Written Public Case was attempted on 2026-05-28, but no human-provided publishable case input was present in the task prompt, `content/cases`, or `docs/PUBLIC_CASE_INPUT_TEMPLATE.md`. No `draft: false` public case was created, and no fixture/template prose was reused as public content.
+
+On 2026-05-29, a human-provided candidate case was staged into `docs/PUBLIC_CASE_INPUT_TEMPLATE.md` only. It is not yet copied into `content/cases` and must not be published until the remaining blockers are resolved: replace the placeholder source URL with a real official URL, make or approve the public summary for the preferred 160-220 character range, and confirm the adjusted taxonomy values.
 
 ## Implemented Surface
 
@@ -107,6 +109,12 @@ The same four commands were rerun on 2026-05-28 after the MVP1.2 resume check an
 
 `next start -p 3100` route checks were also rerun. Expected public routes returned 200, forbidden routes and draft template slugs returned 404, `/cases` and `/articles` did not expose TODO templates or fixtures, and AdSlot remained limited to allowed pages.
 
+On 2026-05-29, after staging the candidate case in `docs/PUBLIC_CASE_INPUT_TEMPLATE.md`, these commands also passed:
+
+- `npm run lint:editorial`: passed with no warnings.
+- `npm test`: passed, 8 tests.
+- `npm run build`: passed, 15 pages generated.
+
 Test coverage currently includes:
 
 - AdSlot allowlist and denylist behavior.
@@ -137,7 +145,7 @@ Then check:
 
 | Entry | Purpose | What It Unlocks |
 |---|---|---|
-| Fill first public case input | Use `docs/PUBLIC_CASE_INPUT_TEMPLATE.md` to collect one human-authored, source-backed case. Required fields still missing: `title`, `slug`, `date`, model fields, taxonomy fields, 160-220 character `public_summary`, at least one `source_links` entry, and all nine body sections. | Makes it safe to create the first non-fixture `draft: false` case without AI-authored public prose. |
+| Complete first public case input | `docs/PUBLIC_CASE_INPUT_TEMPLATE.md` now contains one human-provided candidate. Remaining blockers: real official source URL, final approval or expansion of the 116-character summary to the preferred 160-220 character range, and confirmation that `chat`, `nonexistent_capability`, `single_source`, and empty secondary categories are acceptable taxonomy mappings. | Makes it safe to create the first non-fixture `draft: false` case without AI-authored public prose. |
 | Verify published content | Add one human-authored `draft: false` case and verify detail rendering. | Real detail-page checks for badges, related cases, detail AdSlot, and sitemap inclusion. |
 | Debug dev server | Investigate why `next dev` stays at `Starting...` on this machine. | Faster local iteration. |
 | Polish assets | Add favicon and minimal OG image. | Removes favicon 404 and improves sharing previews. |
@@ -149,9 +157,10 @@ For the next human working session, start here:
 
 1. Pull the latest `main`.
 2. Open `docs/PUBLIC_CASE_INPUT_TEMPLATE.md`.
-3. Fill one real, publishable, human-written case with at least one source link.
-4. Do not change `draft` to `false` until the publication gate in that template is satisfied.
-5. After the case is ready, add exactly one new `content/cases/<slug>.mdx` file and run the existing verification commands.
+3. Replace the placeholder source URL with a real official source URL.
+4. Approve or revise the public summary so it meets the publication gate.
+5. Do not change `draft` to `false` until the publication gate in that template is satisfied.
+6. After the case is ready, add exactly one new `content/cases/<slug>.mdx` file and run the existing verification commands.
 
 Do not use `content/_fixtures` or `content/cases/001-template-case.mdx` prose as public case text.
 
