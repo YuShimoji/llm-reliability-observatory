@@ -1,6 +1,6 @@
 # Project Handoff
 
-Updated: 2026-06-01
+Updated: 2026-06-03
 
 Repository: `llm-reliability-observatory`
 
@@ -8,7 +8,7 @@ Branch: `main`
 
 Remote: `origin` -> `https://github.com/YuShimoji/llm-reliability-observatory.git`
 
-Last verified base before this handoff update: `1439e3f docs: hand off human case input work`
+Last verified base before this handoff update: `8e53b8f docs: stage first public case candidate`
 
 After pulling, use `git log --oneline -5` to confirm the latest synced commits.
 
@@ -21,6 +21,8 @@ The project is intentionally limited to a static casebook skeleton. It does not 
 MVP1.2 First Human-Written Public Case was attempted on 2026-05-28, but no human-provided publishable case input was present in the task prompt, `content/cases`, or `docs/PUBLIC_CASE_INPUT_TEMPLATE.md`. No `draft: false` public case was created, and no fixture/template prose was reused as public content.
 
 On 2026-05-29, a human-provided candidate case was staged into `docs/PUBLIC_CASE_INPUT_TEMPLATE.md` only. It is not yet copied into `content/cases` and must not be published until the remaining blockers are resolved: replace the placeholder source URL with a real official URL, make or approve the public summary for the preferred 160-220 character range, and confirm the adjusted taxonomy values.
+
+On 2026-06-03, local `main` was confirmed clean and up to date with `origin/main` before this handoff refresh. No public case file has been added yet.
 
 ## Implemented Surface
 
@@ -114,6 +116,13 @@ On 2026-05-29, after staging the candidate case in `docs/PUBLIC_CASE_INPUT_TEMPL
 - `npm run lint:editorial`: passed with no warnings.
 - `npm test`: passed, 8 tests.
 - `npm run build`: passed, 15 pages generated.
+
+On 2026-06-03, before pushing this handoff refresh, these commands passed again:
+
+- `npm run lint:editorial`: passed with no warnings.
+- `npm test`: passed, 8 tests.
+- `npm run build`: passed, 15 pages generated.
+- `npm audit --audit-level=moderate`: passed, 0 vulnerabilities.
 
 Test coverage currently includes:
 
