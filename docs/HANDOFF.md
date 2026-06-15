@@ -1,6 +1,6 @@
 # Project Handoff
 
-Updated: 2026-06-08
+Updated: 2026-06-15
 
 Repository: `llm-reliability-observatory`
 
@@ -8,7 +8,7 @@ Branch: `main`
 
 Remote: `origin` -> `https://github.com/YuShimoji/llm-reliability-observatory.git`
 
-Last verified base before this handoff update: `6d1ee07 docs: refresh handoff for public case staging`
+Last verified base before this handoff update: `ad55db1 docs: refresh handoff before public case work`
 
 After pulling, use `git log --oneline -5` to confirm the latest synced commits.
 
@@ -25,6 +25,8 @@ On 2026-05-29, a human-provided candidate case was staged into `docs/PUBLIC_CASE
 On 2026-06-03, local `main` was confirmed clean and up to date with `origin/main` before this handoff refresh. No public case file has been added yet.
 
 On 2026-06-08, local `main` was confirmed clean and up to date with `origin/main` before this handoff refresh. No public case file has been added yet, and the candidate remains staged only in `docs/PUBLIC_CASE_INPUT_TEMPLATE.md`.
+
+On 2026-06-15, a local MkDocs Material documentation view was added so the repository Markdown can be reviewed through a browser tree pane and temporary Chrome / Edge / DeepL page translation. This adds overview, turn-plan, and screenshot-index documents without rewriting the existing canonical Markdown bodies. The policy/TODO documents remain intentionally unfilled, and no translated permanent files were created.
 
 ## Implemented Surface
 
@@ -72,6 +74,41 @@ Docs intentionally contain headings and TODO only:
 - `docs/MONETIZATION_POLICY.md`
 
 Do not fill these with AI-authored final policy text unless the project owner explicitly changes that rule.
+
+## Local Documentation View
+
+Local browser review is now available through MkDocs Material.
+
+Primary files:
+
+- `mkdocs.yml`
+- `docs/index.md`
+- `docs/PROJECT_OVERVIEW.md`
+- `docs/DEVELOPMENT_TURNS.md`
+- `docs/SCREENSHOT_INDEX.md`
+- `docs/_root_README.md`
+- `tools/generate-doc-nav.ps1`
+
+Screenshot artifacts remain in `samples/_review/mvp1-route-audit/`. For MkDocs browser display, the same 12 PNG files are copied under `docs/assets/review/mvp1-route-audit/`.
+
+Normal local startup:
+
+```powershell
+python -m pip install mkdocs-material
+python -m mkdocs serve -a 127.0.0.1:8000
+```
+
+Then open `http://127.0.0.1:8000/` and use the left navigation:
+
+- `Project Overview` for implemented scope, future work, and where each status lives.
+- `Turn-Based Development Plan` for non-date-based development turns.
+- `Screenshot Index` for immediate visual checks and screenshot paths.
+
+If port 8000 is already occupied, use another local port such as:
+
+```powershell
+python -m mkdocs serve -a 127.0.0.1:8002
+```
 
 ## Verification Already Performed
 
@@ -133,6 +170,13 @@ On 2026-06-08, before pushing this handoff refresh, these commands passed again:
 - `npm run build`: passed, 15 pages generated.
 - `npm audit --audit-level=moderate`: passed, 0 vulnerabilities.
 
+On 2026-06-15, the local documentation view was verified:
+
+- `powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\generate-doc-nav.ps1`: produced a nav candidate for the current Markdown layout.
+- `python -m mkdocs build --clean -d <temp-dir>`: passed. `PROJECT_OVERVIEW/index.html` and `assets/review/mvp1-route-audit/home-desktop.png` were generated in the temp site.
+- Local HTTP checks passed for `PROJECT_OVERVIEW`, `DEVELOPMENT_TURNS`, `SCREENSHOT_INDEX`, and `home-desktop.png` through the MkDocs server.
+- Existing canonical Markdown bodies were checked with `git diff` and were not modified by the documentation-view work.
+
 Test coverage currently includes:
 
 - AdSlot allowlist and denylist behavior.
@@ -165,6 +209,8 @@ Then check:
 |---|---|---|
 | Complete first public case input | `docs/PUBLIC_CASE_INPUT_TEMPLATE.md` now contains one human-provided candidate. Remaining blockers: real official source URL, final approval or expansion of the 116-character summary to the preferred 160-220 character range, and confirmation that `chat`, `nonexistent_capability`, `single_source`, and empty secondary categories are acceptable taxonomy mappings. | Makes it safe to create the first non-fixture `draft: false` case without AI-authored public prose. |
 | Verify published content | Add one human-authored `draft: false` case and verify detail rendering. | Real detail-page checks for badges, related cases, detail AdSlot, and sitemap inclusion. |
+| Audit local docs view | Review `docs/PROJECT_OVERVIEW.md`, `docs/DEVELOPMENT_TURNS.md`, and `docs/SCREENSHOT_INDEX.md` in a browser translation workflow. | Confirms whether a new terminal can recover project state without reading every document manually. |
+| Refresh screenshots | Re-capture current route screenshots if UI changes. | Keeps `docs/SCREENSHOT_INDEX.md` aligned with the actual rendered app. |
 | Debug dev server | Investigate why `next dev` stays at `Starting...` on this machine. | Faster local iteration. |
 | Polish assets | Add favicon and minimal OG image. | Removes favicon 404 and improves sharing previews. |
 | Editorial expansion | Human-authored docs and public case text. | First publishable version without changing the static architecture. |
@@ -174,11 +220,13 @@ Then check:
 For the next human working session, start here:
 
 1. Pull the latest `main`.
-2. Open `docs/PUBLIC_CASE_INPUT_TEMPLATE.md`.
-3. Replace the placeholder source URL with a real official source URL.
-4. Approve or revise the public summary so it meets the publication gate.
-5. Do not change `draft` to `false` until the publication gate in that template is satisfied.
-6. After the case is ready, add exactly one new `content/cases/<slug>.mdx` file and run the existing verification commands.
+2. Run `python -m mkdocs serve -a 127.0.0.1:8000` and open the local docs view.
+3. Read `docs/PROJECT_OVERVIEW.md` and `docs/DEVELOPMENT_TURNS.md` for the current map.
+4. Open `docs/PUBLIC_CASE_INPUT_TEMPLATE.md`.
+5. Replace the placeholder source URL with a real official source URL.
+6. Approve or revise the public summary so it meets the publication gate.
+7. Do not change `draft` to `false` until the publication gate in that template is satisfied.
+8. After the case is ready, add exactly one new `content/cases/<slug>.mdx` file and run the existing verification commands.
 
 Do not use `content/_fixtures` or `content/cases/001-template-case.mdx` prose as public case text.
 

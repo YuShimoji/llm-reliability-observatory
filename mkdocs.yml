@@ -1,0 +1,41 @@
+site_name: LLM Reliability Observatory Local Docs
+site_description: Local browser view for repository Markdown review and temporary page translation.
+docs_dir: docs
+site_dir: .mkdocs-site
+use_directory_urls: true
+
+theme:
+  name: material
+  language: ja
+  features:
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+
+markdown_extensions:
+  - pymdownx.snippets:
+      base_path:
+        - .
+      check_paths: true
+
+nav:
+  - Overview:
+      - Local Documentation View: index.md
+      - Project Overview: PROJECT_OVERVIEW.md
+      - Turn-Based Development Plan: DEVELOPMENT_TURNS.md
+      - Screenshot Index: SCREENSHOT_INDEX.md
+      - Repository README: _root_README.md
+  - Specs:
+      - Methodology: METHODOLOGY.md
+      - Taxonomy: TAXONOMY.md
+      - Editorial Policy: EDITORIAL_POLICY.md
+      - Monetization Policy: MONETIZATION_POLICY.md
+  - Runtime State:
+      - Project Handoff: HANDOFF.md
+      - Public Case Input Template: PUBLIC_CASE_INPUT_TEMPLATE.md
+  - Development Notes:
+      - Case Publication Guide: CASE_PUBLICATION_GUIDE.md
+  - Artifacts:
+      - MVP1 Verify Report: MVP1_VERIFY_REPORT.md
+      - MVP1.1 Public Case Probe Report: MVP1_1_PUBLIC_CASE_PROBE_REPORT.md
