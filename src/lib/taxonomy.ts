@@ -57,8 +57,16 @@ export const severity_levels: TaxonomyOption[] = [
 
 export const verification_statuses: TaxonomyOption[] = [
   { code: "unverified_signal", label: "未検証シグナル", description: "記録のみで検証は未完了。" },
-  { code: "single_source", label: "単一ソース確認", description: "一つの情報源で確認済み。" },
-  { code: "multi_source", label: "複数ソース確認", description: "複数の情報源で確認済み。" },
+  {
+    code: "single_source",
+    label: "単一ソース確認",
+    description: "同一の発行主体による一つ以上の文書で確認済み。"
+  },
+  {
+    code: "multi_source",
+    label: "複数ソース確認",
+    description: "独立した複数の発行主体で確認済み。"
+  },
   { code: "reproduced", label: "再現済み", description: "条件付きで再現を確認済み。" },
   { code: "corrected", label: "訂正済み", description: "公開後の訂正が反映済み。" }
 ];

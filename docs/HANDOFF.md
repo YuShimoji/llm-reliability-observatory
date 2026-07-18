@@ -4,7 +4,9 @@ Updated: 2026-07-18
 
 Repository: `llm-reliability-observatory`
 
-Working branch: `codex/lro-publication-engine-v2`
+Acceptance branch: `codex/lro-publication-engine-v2`
+
+Post-acceptance integration target: `main` by fast-forward only; use live Git state as the final parity authority.
 
 Synced base inherited at task start: `add9336` on `main`, reported `+0/-0` against `origin/main`
 
@@ -19,7 +21,16 @@ The repository moved from a healthy static skeleton blocked on human-only prose 
 - Turn 2 Publication Engine v2 is complete and verified.
 - Turn 3 has a technically complete local review artifact; editorial approval is still a human gate.
 - Public case count remains truthfully 0.
-- No deployment, Sites conversion, public access change, real AdSense code, PR, or `main` merge was performed.
+- No deployment, Sites conversion, public access change, real AdSense code, PR, or merge commit was created. This acceptance turn authorizes only the recorded fast-forward integration into `main`.
+
+## Acceptance Hardening
+
+The Publication Engine v2 acceptance follow-up corrected two evidence inconsistencies before integration:
+
+- all four tracked `.png` review files were found to contain JPEG `FF D8 FF` magic bytes; the current artifacts were recaptured, decoded, and re-encoded as real PNG files with signature `89 50 4E 47 0D 0A 1A 0A`;
+- the first case now uses `verification_status: single_source` because its two documents share one issuing origin, OpenAI. The two source links remain intact and independent reproduction remains false.
+
+Regression protection is explicit and lightweight: `npm run review:verify-images` checks review-image extensions against magic bytes, and the normal test suite covers both signature detection and all four tracked artifacts. It is not added to `prebuild`.
 
 ## Start-State Dirty Diff Audit
 
@@ -120,7 +131,7 @@ Case: `content/cases/002-gpt-4o-sycophancy-rollback.mdx`
 - kind: `documented_regression`
 - category: `sycophancy`
 - severity: conservative `sev2`
-- verification: `multi_source`, referring to two related official OpenAI publications rather than independent reproduction
+- verification: `single_source`; two official documents, one source origin (OpenAI)
 - state: `draft: true`, `review_status: pending`
 - independent reproduction: not attempted
 - AI assistance: disclosed; human review incomplete
@@ -131,6 +142,14 @@ Sources:
 - `https://openai.com/index/expanding-on-sycophancy/`
 
 The draft records the April 25, 2025 GPT-4o ChatGPT update, the reported increase in sycophantic behavior, and rollback beginning April 28. It does not add an unsupported incident rate, all-user generalization, independent causal theory, or long-term impact claim.
+
+Evidence-counting note for future schema work:
+
+- document count: 2 official OpenAI documents;
+- source-origin count: 1 independent issuing organization (OpenAI);
+- independent reproduction: none.
+
+The current taxonomy therefore uses `single_source`. A future schema may store these three dimensions separately, but this acceptance fix does not add a new verification status.
 
 ## Local Review Artifact
 
@@ -155,6 +174,7 @@ Visual/browser readback:
 - two external source links, each with `target=_blank` and `rel="noopener noreferrer"`;
 - review ads: 0;
 - review console errors: 0.
+- all four `.png` artifacts have the PNG signature `89 50 4E 47 0D 0A 1A 0A`; `npm run review:verify-images` enforces extension/magic-byte agreement.
 
 ## Verification
 
@@ -163,9 +183,10 @@ Passed on this branch after authority integration:
 | Check | Result |
 |---|---|
 | `npm ls --depth=0` | pass; dependency tree valid |
-| `npm run content:compile` | pass; public cases 0, blocked case candidates 2, public articles 0; digest prefix `4604dd70b8f6`; registry unchanged on repeat |
+| `npm run content:compile` | pass twice; public cases 0, blocked case candidates 2, public articles 0; digest prefix `7bac89f05279`; second run unchanged |
 | `npm run lint:editorial` | pass, no warnings |
-| `npm test` | 15 pass, 0 fail |
+| `npm test` | 17 pass, 0 fail |
+| `npm run review:verify-images` | 4/4 valid PNG signatures |
 | `npm run build` | pass; 15 routes |
 | `npm audit --audit-level=low` | 0 vulnerabilities |
 | production public HTTP | 12/12 routes returned 200 |
@@ -210,14 +231,14 @@ The objective is complete when:
 6. compiler, lint, tests, build, audit, HTTP, console, desktop/mobile, and diff checks pass;
 7. new screenshots/readbacks and this handoff are updated.
 
-Do not include Sites deployment, public access changes, actual AdSense code or applications, PR creation, or merge to `main`. Those remain explicit owner gates.
+Do not include Sites deployment, public access changes, actual AdSense code or applications, paid reports, individual contracts, audit services, payments, or membership features. Turn 4 must start from updated `main` on a new branch and must not implicitly merge itself back.
 
 ## Resume Sequence
 
-1. Read this file, `docs/DEVELOPMENT_TURNS.md`, and `docs/CASE_PUBLICATION_GUIDE.md`.
-2. Confirm the current branch/upstream and clean worktree.
-3. Run `git fetch --prune origin`, then compare the branch with its upstream; do not merge `main` implicitly.
-4. Run `npm ls --depth=0` and `npm run content:compile`.
+1. Confirm `main` is clean and at parity with `origin/main`; fetch before treating the state as current.
+2. Read this file, `docs/DEVELOPMENT_TURNS.md`, and `docs/CASE_PUBLICATION_GUIDE.md`.
+3. Create a new `codex/` branch for Turn 4; do not continue feature work directly on `main`.
+4. Run `npm ls --depth=0`, `npm run content:compile`, and `npm run review:verify-images`.
 5. Review the active MDX, both source pages, `readback.md`, and four PNGs.
 6. Record an explicit editorial decision before changing `draft` or `review_status`.
 7. Keep owner-only Turn 5+ actions outside the branch unless separately authorized.

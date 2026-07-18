@@ -24,7 +24,7 @@
 
 ## 検証状態
 
-`unverified_signal`、`single_source`、`multi_source`、`reproduced`、`corrected`を使用します。複数ページが同一提供元の説明である場合は、独立した複数観測と同一視せず、本文でsourceの関係を説明します。
+`unverified_signal`、`single_source`、`multi_source`、`reproduced`、`corrected`を使用します。`single_source`は同一の発行主体による一つ以上の文書、`multi_source`は独立した複数の発行主体による確認を表します。文書数と発行主体数を混同せず、独立再現の有無は`reproducibility`と本文で別に説明します。
 
 ## Source typeとreview status
 

@@ -29,6 +29,10 @@ test("public case queries exclude draft templates and fixtures", () => {
     getCaseBySlug(evidenceDraftSlug, { includeDraft: true })?.review_status,
     "pending"
   );
+  assert.equal(
+    getCaseBySlug(evidenceDraftSlug, { includeDraft: true })?.verification_status,
+    "single_source"
+  );
   assert.equal(getCaseBySlug(evidenceDraftSlug, { includeDraft: true })?.source_links.length, 2);
   assert.equal(getCaseBySlug(fixtureCaseSlug, { includeDraft: true }), null);
 });

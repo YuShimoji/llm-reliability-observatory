@@ -6,7 +6,13 @@
   "case_kind": "documented_regression",
   "draft": true,
   "review_status": "pending",
+  "verification_status": "single_source",
   "source_count": 2,
+  "evidence_counts": {
+    "document_count": 2,
+    "source_origin_count": 1,
+    "independent_reproduction": false
+  },
   "source_types": [
     "official",
     "official"
@@ -36,14 +42,14 @@
     "public_case_count": 0,
     "blocked_case_candidate_count": 2,
     "public_article_count": 0,
-    "source_digest_prefix": "4604dd70b8f6",
+    "source_digest_prefix": "7bac89f05279",
     "second_run_registry_changed": false
   },
   "verification": {
     "npm_ls_depth_0": "passed",
     "editorial_lint": "passed_with_no_warnings",
     "tests": {
-      "passed": 15,
+      "passed": 17,
       "failed": 0
     },
     "production_build": "passed_15_routes",
@@ -53,8 +59,32 @@
     "review_console_errors": 0,
     "production_console_errors": 0,
     "mobile_viewport_width": 390,
-    "mobile_horizontal_overflow": false
+    "mobile_horizontal_overflow": false,
+    "review_image_count": 4,
+    "review_image_format_check": "passed_png_signature"
   },
+  "review_images": [
+    {
+      "file": "case-card.png",
+      "format": "png",
+      "signature": "89 50 4E 47 0D 0A 1A 0A"
+    },
+    {
+      "file": "case-detail-desktop.png",
+      "format": "png",
+      "signature": "89 50 4E 47 0D 0A 1A 0A"
+    },
+    {
+      "file": "case-detail-mobile.png",
+      "format": "png",
+      "signature": "89 50 4E 47 0D 0A 1A 0A"
+    },
+    {
+      "file": "source-links.png",
+      "format": "png",
+      "signature": "89 50 4E 47 0D 0A 1A 0A"
+    }
+  ],
   "artifacts": [
     "case-card.html",
     "case-card.png",

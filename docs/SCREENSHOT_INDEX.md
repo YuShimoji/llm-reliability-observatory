@@ -44,3 +44,5 @@
 | human readback | `readback.md` | 判定境界と人間レビュー項目 |
 
 これらは`draft: true` / `review_status: pending`の診断画像であり、公開承認、production route、独立再現の証明ではありません。
+
+4つの`.png`は実体もPNGで、先頭8バイト`89 50 4E 47 0D 0A 1A 0A`を持ちます。`npm run review:verify-images`で拡張子とmagic bytesの一致を検証します。
