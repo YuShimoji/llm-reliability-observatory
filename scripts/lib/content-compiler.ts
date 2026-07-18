@@ -63,6 +63,10 @@ function normalizedPath(value: string) {
   return value.split(path.sep).join("/");
 }
 
+function normalizeSource(value: string) {
+  return value.replace(/\r\n?/g, "\n");
+}
+
 function listMdxEntries(rootDir: string, relativeDirectory: string): SourceEntry[] {
   const directory = path.join(rootDir, relativeDirectory);
   if (!fs.existsSync(directory)) return [];
@@ -75,7 +79,7 @@ function listMdxEntries(rootDir: string, relativeDirectory: string): SourceEntry
       const absolutePath = path.join(directory, file);
       return {
         relativePath: normalizedPath(path.relative(rootDir, absolutePath)),
-        source: fs.readFileSync(absolutePath, "utf8")
+        source: normalizeSource(fs.readFileSync(absolutePath, "utf8"))
       };
     });
 }
@@ -135,7 +139,7 @@ function publicationState(blockers: string[], headingsPresent: number): Publicat
 export function compileCaseSource(source: string, sourceFile: string): CaseCompilation {
   let parsed: matter.GrayMatterFile<string>;
   try {
-    parsed = matter(source);
+    parsed = matter(normalizeSource(source));
   } catch (error) {
     const diagnostic: ContentDiagnostic = {
       file: sourceFile,
@@ -200,7 +204,7 @@ export function compileCaseSource(source: string, sourceFile: string): CaseCompi
 function compileArticleSource(source: string, sourceFile: string) {
   let parsed: matter.GrayMatterFile<string>;
   try {
-    parsed = matter(source);
+    parsed = matter(normalizeSource(source));
   } catch (error) {
     const diagnostic: ContentDiagnostic = {
       file: sourceFile,
@@ -260,7 +264,7 @@ function compileArticleSource(source: string, sourceFile: string) {
 
 function compileStaticPage(rootDir: string, section: "taxonomy" | "methodology") {
   const sourceFile = normalizedPath(path.join("content", section, "index.mdx"));
-  const source = fs.readFileSync(path.join(rootDir, sourceFile), "utf8");
+  const source = normalizeSource(fs.readFileSync(path.join(rootDir, sourceFile), "utf8"));
   const parsed = matter(source);
   const validated = staticPageFrontmatterSchema.parse(parsed.data);
   return {

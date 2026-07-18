@@ -42,14 +42,15 @@
     "public_case_count": 0,
     "blocked_case_candidate_count": 2,
     "public_article_count": 0,
-    "source_digest_prefix": "7bac89f05279",
+    "source_digest_prefix": "59c70d6a47cf",
+    "line_endings_normalized": true,
     "second_run_registry_changed": false
   },
   "verification": {
     "npm_ls_depth_0": "passed",
     "editorial_lint": "passed_with_no_warnings",
     "tests": {
-      "passed": 17,
+      "passed": 18,
       "failed": 0
     },
     "production_build": "passed_15_routes",

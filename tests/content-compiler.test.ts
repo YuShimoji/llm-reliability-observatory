@@ -137,6 +137,16 @@ test("content compilation is deterministic for identical input", () => {
   assert.equal(first, second);
 });
 
+test("content records are stable across LF and CRLF checkouts", () => {
+  const lf = validCaseSource();
+  const crlf = lf.replace(/\n/g, "\r\n");
+  const lfResult = compileCaseSource(lf, "virtual/lf.mdx");
+  const crlfResult = compileCaseSource(crlf, "virtual/lf.mdx");
+
+  assert.deepEqual(crlfResult, lfResult);
+  assert.equal(crlfResult.record?.body.includes("\r"), false);
+});
+
 test("blocked legacy Gemini candidate is documentation only, not a publication candidate", () => {
   const registry = compileContent(process.cwd()).registry;
   const legacySlug = "001-nonexistent-feature-guidance";

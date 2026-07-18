@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "source_digest": "7bac89f052797ccdbc4c99e5bf97103c34901d37ea6de57d4994cddd0da247a3",
+  "source_digest": "59c70d6a47cf2e882312ed8983848310268191a6ccfcc5a1630203900042a6c2",
   "cases": [
     {
       "title": "TODO: 事例タイトル",
@@ -31,7 +31,7 @@
       },
       "draft": true,
       "source_file": "content/cases/001-template-case.mdx",
-      "body": "## 状況\r\nTODO\r\n\r\n## 期待していた回答\r\nTODO\r\n\r\n## 実際の回答または要約\r\nTODO\r\n\r\n## 誤りと判断した根拠\r\nTODO\r\n\r\n## 再現条件\r\nTODO\r\n\r\n## 分類根拠\r\nTODO\r\n\r\n## 反証考察\r\nTODO\r\n\r\n## 編集後記\r\nTODO\r\n\r\n## 出典・参考リンク\r\nTODO",
+      "body": "## 状況\nTODO\n\n## 期待していた回答\nTODO\n\n## 実際の回答または要約\nTODO\n\n## 誤りと判断した根拠\nTODO\n\n## 再現条件\nTODO\n\n## 分類根拠\nTODO\n\n## 反証考察\nTODO\n\n## 編集後記\nTODO\n\n## 出典・参考リンク\nTODO",
       "sections": [
         {
           "heading": "状況",
@@ -189,7 +189,7 @@
       "disclosure": null,
       "draft": true,
       "source_file": "content/articles/001-template-article.mdx",
-      "body": "## TODO\r\nTODO",
+      "body": "## TODO\nTODO",
       "sections": [
         {
           "heading": "TODO",
@@ -212,7 +212,7 @@
     "taxonomy": {
       "title": "Taxonomy",
       "summary": "TODO: LROの分類体系について、人間が後で説明を書く。",
-      "body": "## TODO\r\nTODO",
+      "body": "## TODO\nTODO",
       "sections": [
         {
           "heading": "TODO",
@@ -223,7 +223,7 @@
     "methodology": {
       "title": "Methodology",
       "summary": "TODO: LROの検証・編集方法について、人間が後で説明を書く。",
-      "body": "## TODO\r\nTODO",
+      "body": "## TODO\nTODO",
       "sections": [
         {
           "heading": "TODO",

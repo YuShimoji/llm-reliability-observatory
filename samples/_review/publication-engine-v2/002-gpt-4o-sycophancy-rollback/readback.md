@@ -28,9 +28,9 @@
 
 ## Verification readback
 
-- content compiler v2: pass。public case 0、blocked case candidate 2、public article 0、digest prefix `7bac89f05279`、2回目registry unchanged。
+- content compiler v2: pass。public case 0、blocked case candidate 2、public article 0、digest prefix `59c70d6a47cf`、LF/CRLF正規化後の2回目registry unchanged。
 - editorial lint: warningなしでpass。
-- automated tests: 17 pass / 0 fail。
+- automated tests: 18 pass / 0 fail。
 - production build: pass、15 routes。
 - dependency audit: low thresholdで0 vulnerabilities。
 - HTTP: intended public 12 routesが200、blocked 8 routesが404。
