@@ -1,3 +1,5 @@
+import React from "react";
+
 function renderBlock(block: string, index: number) {
   const lines = block.split(/\r?\n/);
   const isList = lines.every((line) => line.startsWith("- "));
@@ -27,7 +29,7 @@ export function MarkdownBody({ source }: { source: string }) {
     .filter(Boolean);
 
   if (blocks.length === 0) {
-    return <p>TODO</p>;
+    return null;
   }
 
   return <div className="space-y-4 text-base leading-8 text-smoke">{blocks.map(renderBlock)}</div>;

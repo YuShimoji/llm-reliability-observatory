@@ -6,6 +6,11 @@ export type TaxonomyOption = {
 
 export const failure_categories: TaxonomyOption[] = [
   {
+    code: "sycophancy",
+    label: "過度な迎合",
+    description: "利用者の前提や感情へ根拠なく同調し、誠実な判断支援を損なう。"
+  },
+  {
     code: "fabricated_citation",
     label: "引用捏造",
     description: "存在しない出典や確認不能な参照を示す。"

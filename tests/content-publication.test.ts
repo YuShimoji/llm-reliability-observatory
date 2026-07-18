@@ -9,6 +9,7 @@ import {
 } from "../src/lib/content";
 
 const draftCaseSlug = "001-template-case";
+const evidenceDraftSlug = "002-gpt-4o-sycophancy-rollback";
 const draftArticleSlug = "001-template-article";
 const fixtureCaseSlug = "fixture-fabricated-citation-example";
 
@@ -18,9 +19,17 @@ test("public case queries exclude draft templates and fixtures", () => {
 
   assert.equal(publicCases.every((caseItem) => caseItem.draft === false), true);
   assert.equal(publicCases.some((caseItem) => caseItem.slug === draftCaseSlug), false);
+  assert.equal(publicCases.some((caseItem) => caseItem.slug === evidenceDraftSlug), false);
   assert.equal(allCaseFiles.some((caseItem) => caseItem.slug === draftCaseSlug), true);
+  assert.equal(allCaseFiles.some((caseItem) => caseItem.slug === evidenceDraftSlug), true);
   assert.equal(getCaseBySlug(draftCaseSlug), null);
+  assert.equal(getCaseBySlug(evidenceDraftSlug), null);
   assert.equal(getCaseBySlug(draftCaseSlug, { includeDraft: true })?.draft, true);
+  assert.equal(
+    getCaseBySlug(evidenceDraftSlug, { includeDraft: true })?.review_status,
+    "pending"
+  );
+  assert.equal(getCaseBySlug(evidenceDraftSlug, { includeDraft: true })?.source_links.length, 2);
   assert.equal(getCaseBySlug(fixtureCaseSlug, { includeDraft: true }), null);
 });
 
@@ -40,6 +49,7 @@ test("sitemap excludes draft templates and fixtures", () => {
   const serialized = urls.join("\n");
 
   assert.equal(serialized.includes(draftCaseSlug), false);
+  assert.equal(serialized.includes(evidenceDraftSlug), false);
   assert.equal(serialized.includes(draftArticleSlug), false);
   assert.equal(serialized.includes("fixture"), false);
   assert.equal(urls.some((url) => url.endsWith("/cases")), true);

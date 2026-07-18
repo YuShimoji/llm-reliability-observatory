@@ -1,4 +1,4 @@
-import type { ContentSection } from "./case";
+import type { ContentSection, PublicationState } from "./case";
 
 export type ArticleKind = "explainer" | "methodology" | "note";
 
@@ -16,6 +16,8 @@ export type ArticleFrontmatter = {
 };
 
 export type ArticleRecord = ArticleFrontmatter & {
+  source_file: string;
   body: string;
   sections: ContentSection[];
+  publication: PublicationState;
 };

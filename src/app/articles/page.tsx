@@ -18,7 +18,7 @@ export default function ArticlesPage() {
         <div>
           <h1 className="text-3xl font-semibold tracking-normal text-ink">Articles</h1>
           <p className="mt-3 max-w-2xl text-base leading-7 text-smoke">
-            解説記事は、人間が公開対象にしたMDXだけを表示します。
+            content compilerの公開条件を満たした解説記事だけを表示します。
           </p>
         </div>
         <p className="text-sm text-smoke">{articles.length} published</p>
@@ -41,8 +41,7 @@ export default function ArticlesPage() {
         </div>
       ) : (
         <div className="mt-8 border border-ink/10 bg-white/65 p-6 text-sm leading-7 text-smoke">
-          公開済みの記事はまだありません。`content/articles` の本文を人間が執筆し、
-          `draft: false` にしたものだけがここに表示されます。
+          公開基準を満たした記事は現在0件です。下書きはここには表示されません。
         </div>
       )}
     </div>

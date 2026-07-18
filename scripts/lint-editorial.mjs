@@ -1,4 +1,4 @@
-import { lintEditorialContent } from "../src/lib/editorial-lint.ts";
+import { lintEditorialContent } from "./lib/editorial-lint.ts";
 
 const result = lintEditorialContent(process.cwd());
 

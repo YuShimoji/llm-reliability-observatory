@@ -48,7 +48,7 @@ export default async function ArticleDetailPage({ params }: PageProps) {
         {article.title}
       </h1>
       <p className="mt-6 text-lg leading-8 text-smoke">{article.summary}</p>
-      <AdSlot slot="top" />
+      <AdSlot slot="top" eligible={article.publication.eligible} />
       <div className="mt-10 space-y-10">
         {article.sections.map((section) => (
           <section key={section.heading}>
@@ -58,7 +58,7 @@ export default async function ArticleDetailPage({ params }: PageProps) {
             </div>
           </section>
         ))}
-        <AdSlot slot="bottom" />
+        <AdSlot slot="bottom" eligible={article.publication.eligible} />
         <Disclosure value={article.disclosure} />
       </div>
       <div className="mt-10">
