@@ -1,6 +1,6 @@
 # Screenshot Index
 
-このページは、MVP1 route audit のスクリーンショットをブラウザで即確認するための索引です。
+このページは、production route監査とlocal-only case reviewのスクリーンショットを確認するための索引です。
 
 元 artifact は `samples/_review/mvp1-route-audit/` にあります。MkDocs から表示するため、同じ画像を `docs/assets/review/mvp1-route-audit/` にコピーしています。
 
@@ -27,3 +27,20 @@
 ## 読み方
 
 画像は MVP1 audit 時点の表示確認です。公開 case がまだないため、SeverityBadge、VerificationBadge、CaseCard、RelatedCases の実データ表示は未確認として残っています。
+
+## Publication Engine v2 local review
+
+一次資料付きdraft caseの診断証跡は次にあります。
+
+`samples/_review/publication-engine-v2/002-gpt-4o-sycophancy-rollback/`
+
+| 証跡 | ファイル | 確認内容 |
+|---|---|---|
+| case card | `case-card.png` | title、severity、verification、case kind、summary |
+| detail desktop | `case-detail-desktop.png` | local-only banner、metadata、本文導入 |
+| detail mobile | `case-detail-mobile.png` | 390px viewport、横溢れなし |
+| source links | `source-links.png` | official source 2件、accessed date、安全な外部リンク |
+| machine readback | `readback.json` | schema/publication/route/test結果 |
+| human readback | `readback.md` | 判定境界と人間レビュー項目 |
+
+これらは`draft: true` / `review_status: pending`の診断画像であり、公開承認、production route、独立再現の証明ではありません。

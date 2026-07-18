@@ -1,239 +1,232 @@
 # Project Handoff
 
-Updated: 2026-06-15
+Updated: 2026-07-18
 
 Repository: `llm-reliability-observatory`
 
-Branch: `main`
+Working branch: `codex/lro-publication-engine-v2`
+
+Synced base inherited at task start: `add9336` on `main`, reported `+0/-0` against `origin/main`
 
 Remote: `origin` -> `https://github.com/YuShimoji/llm-reliability-observatory.git`
 
-Last verified base before this handoff update: `ad55db1 docs: refresh handoff before public case work`
+## Outcome / State Transition
 
-After pulling, use `git log --oneline -5` to confirm the latest synced commits.
+The repository moved from a healthy static skeleton blocked on human-only prose to a development-ready Publication Engine v2 with a local-only evidence-backed case review artifact.
 
-## Current State
+- Turn 0 resume baseline remains valid.
+- Turn 1 authority and dirty-diff integration is complete.
+- Turn 2 Publication Engine v2 is complete and verified.
+- Turn 3 has a technically complete local review artifact; editorial approval is still a human gate.
+- Public case count remains truthfully 0.
+- No deployment, Sites conversion, public access change, real AdSense code, PR, or `main` merge was performed.
 
-MVP1 Static Casebook Skeleton has been implemented and audited as a static Next.js App Router site.
+## Start-State Dirty Diff Audit
 
-The project is intentionally limited to a static casebook skeleton. It does not include submissions, admin screens, authentication, Supabase, database, storage, email, payments, API routes, comments, voting, ranking, user accounts, organization pages, pricing, subscriptions, AdSense JavaScript, or model score/ranking UI.
+The task began with intentional changes in exactly four files:
 
-MVP1.2 First Human-Written Public Case was attempted on 2026-05-28, but no human-provided publishable case input was present in the task prompt, `content/cases`, or `docs/PUBLIC_CASE_INPUT_TEMPLATE.md`. No `draft: false` public case was created, and no fixture/template prose was reused as public content.
+- `docs/HANDOFF.md`
+- `docs/DEVELOPMENT_TURNS.md`
+- `docs/PROJECT_OVERVIEW.md`
+- `package-lock.json`
 
-On 2026-05-29, a human-provided candidate case was staged into `docs/PUBLIC_CASE_INPUT_TEMPLATE.md` only. It is not yet copied into `content/cases` and must not be published until the remaining blockers are resolved: replace the placeholder source URL with a real official URL, make or approve the public summary for the preferred 160-220 character range, and confirm the adjusted taxonomy values.
+No reset, checkout, or stash was used. The three docs contained the 2026-07-17 restart-readiness handoff and were adopted as the factual baseline before being integrated with the new authority. The initial lockfile diff had only the `esbuild` platform family version move `0.28.0 -> 0.28.1` at the package-version level. It also contained npm-generated peer/dev metadata flag changes.
 
-On 2026-06-03, local `main` was confirmed clean and up to date with `origin/main` before this handoff refresh. No public case file has been added yet.
+Decision Packet resolution for the metadata flags:
 
-On 2026-06-08, local `main` was confirmed clean and up to date with `origin/main` before this handoff refresh. No public case file has been added yet, and the candidate remains staged only in `docs/PUBLIC_CASE_INPUT_TEMPLATE.md`.
+- Observed fact: flags changed outside the literal `esbuild` version lines.
+- Risk: adopting unexplained lock churn could hide an unrelated dependency change.
+- Safe check: from an isolated copy of the `HEAD` lockfile, the same npm `11.6.2` audit-fix operation was reproduced.
+- Result: reproduced and workspace lockfiles had the same SHA-256, `11E2158D907C531380097D8E0E62CE2FEB3DF6E2AE0C3484EFD703B73EEF82B0`.
+- Decision: the original lock correction was adopted. Later lock changes add the explicit Publication Engine dependencies `gray-matter` and `zod`.
 
-On 2026-06-15, a local MkDocs Material documentation view was added so the repository Markdown can be reviewed through a browser tree pane and temporary Chrome / Edge / DeepL page translation. This adds overview, turn-plan, and screenshot-index documents without rewriting the existing canonical Markdown bodies. The policy/TODO documents remain intentionally unfilled, and no translated permanent files were created.
+The worktree was then moved to `codex/lro-publication-engine-v2` without discarding the dirty diff. Repository-local Git author email was changed to `YuShimoji@users.noreply.github.com`; existing history was not rewritten.
 
-## Implemented Surface
+## Authority Now in Force
 
-Public routes:
+The former rules “wait until a human writes all prose,” “the Gemini candidate is the only entrance,” and “AI-assisted public prose is prohibited” are retired.
 
-- `/`
-- `/cases`
-- `/articles`
-- `/taxonomy`
-- `/methodology`
-- `/about`
-- `/privacy`
-- `/terms`
-- `/removal-request`
-- `/disclosures`
+Current rule:
 
-Generated metadata routes:
+> AI-assisted drafting is allowed, but sources, verification bounds, counterevidence, AI-assistance disclosure, and review status are mandatory. Content is not public before human approval.
 
-- `/sitemap.xml`
-- `/robots.txt`
+Operational policy is recorded in:
 
-Blocked or absent routes verified as 404:
-
-- `/submit`
-- `/admin`
-- `/admin/review`
-- `/api`
-
-## Content Model
-
-Production content templates:
-
-- `content/cases/001-template-case.mdx`
-- `content/articles/001-template-article.mdx`
-
-Both are `draft: true`, so they are excluded from public listings, direct detail pages, and sitemap output.
-
-Synthetic examples live only in `content/_fixtures/`. Fixtures are for local UI/test/reference use and are excluded from public routes and sitemap output.
-
-Docs intentionally contain headings and TODO only:
-
-- `docs/METHODOLOGY.md`
 - `docs/EDITORIAL_POLICY.md`
+- `docs/METHODOLOGY.md`
 - `docs/TAXONOMY.md`
 - `docs/MONETIZATION_POLICY.md`
-
-Do not fill these with AI-authored final policy text unless the project owner explicitly changes that rule.
-
-## Local Documentation View
-
-Local browser review is now available through MkDocs Material.
-
-Primary files:
-
-- `mkdocs.yml`
-- `docs/index.md`
-- `docs/PROJECT_OVERVIEW.md`
-- `docs/DEVELOPMENT_TURNS.md`
-- `docs/SCREENSHOT_INDEX.md`
-- `docs/_root_README.md`
-- `tools/generate-doc-nav.ps1`
-
-Screenshot artifacts remain in `samples/_review/mvp1-route-audit/`. For MkDocs browser display, the same 12 PNG files are copied under `docs/assets/review/mvp1-route-audit/`.
-
-Normal local startup:
-
-```powershell
-python -m pip install mkdocs-material
-python -m mkdocs serve -a 127.0.0.1:8000
-```
-
-Then open `http://127.0.0.1:8000/` and use the left navigation:
-
-- `Project Overview` for implemented scope, future work, and where each status lives.
-- `Turn-Based Development Plan` for non-date-based development turns.
-- `Screenshot Index` for immediate visual checks and screenshot paths.
-
-If port 8000 is already occupied, use another local port such as:
-
-```powershell
-python -m mkdocs serve -a 127.0.0.1:8002
-```
-
-## Verification Already Performed
-
-Detailed audit report:
-
-- `docs/MVP1_VERIFY_REPORT.md`
-
-MVP1.1 public case probe report:
-
-- `docs/MVP1_1_PUBLIC_CASE_PROBE_REPORT.md`
-
-Public case input contract:
-
-- `docs/PUBLIC_CASE_INPUT_TEMPLATE.md`
-
-Hands-on publication guide:
-
 - `docs/CASE_PUBLICATION_GUIDE.md`
 
-Screenshot artifacts:
+These documents describe implemented workflow and verifiable boundaries; they are not presented as final legal determinations. The old Gemini nonexistent-capability candidate remains in `docs/PUBLIC_CASE_INPUT_TEMPLATE.md` as a `blocked_legacy_candidate`. It is not a compiler input, active gate, or publication candidate.
 
-- `samples/_review/mvp1-route-audit/`
+The roadmap authority is `docs/DEVELOPMENT_TURNS.md`:
 
-Commands that passed after the audit fixes:
+0. resume baseline
+1. authority and dirty-diff integration
+2. Publication Engine v2
+3. first evidence-backed case review
+4. 3-5 case corpus and observatory UI
+5. owner-only Sites compatibility deployment
+6. public editorial MVP
+7. AdSense technical probe
+8. recurring observation loop
 
-```bash
-npm run lint:editorial
-npm test
-npm run build
-npm audit --audit-level=moderate
-```
+## Publication Engine v2
 
-The same four commands were rerun on 2026-05-28 after the MVP1.2 resume check and passed again:
+### Build-time content boundary
 
-- `npm run lint:editorial`: passed with no warnings.
-- `npm test`: passed, 8 tests.
-- `npm run build`: passed, 15 pages generated.
-- `npm audit --audit-level=moderate`: passed, 0 vulnerabilities.
+- `gray-matter` parses YAML frontmatter, including nested objects and multiline arrays.
+- Zod schemas in `src/content/schema.ts` validate case/article metadata.
+- `scripts/lib/content-compiler.ts` reads MDX and produces `src/generated/content-registry.json`.
+- source paths and inputs are sorted before serialization; a content SHA-256 is recorded.
+- `predev`, `pretest`, and `prebuild` run the compiler.
+- runtime application code reads the generated registry and contains no `node:fs` or `process.cwd()` dependency.
 
-`next start -p 3100` route checks were also rerun. Expected public routes returned 200, forbidden routes and draft template slugs returned 404, `/cases` and `/articles` did not expose TODO templates or fixtures, and AdSlot remained limited to allowed pages.
+### Case metadata contract
 
-On 2026-05-29, after staging the candidate case in `docs/PUBLIC_CASE_INPUT_TEMPLATE.md`, these commands also passed:
+New required structures include:
 
-- `npm run lint:editorial`: passed with no warnings.
-- `npm test`: passed, 8 tests.
-- `npm run build`: passed, 15 pages generated.
+- `case_kind`: `documented_regression`, `observed_output`, or `reproduction_test`
+- `review_status`: `pending` or `approved`
+- `last_verified_at`
+- `source_links[]`: `label`, `url`, `source_type`, `accessed_at`
+- `ai_assistance`: `used`, `disclosure`, `human_reviewed`
 
-On 2026-06-03, before pushing this handoff refresh, these commands passed again:
+### Fail-closed publication contract
 
-- `npm run lint:editorial`: passed with no warnings.
-- `npm test`: passed, 8 tests.
-- `npm run build`: passed, 15 pages generated.
-- `npm audit --audit-level=moderate`: passed, 0 vulnerabilities.
+A case is publication-eligible only when all conditions are true:
 
-On 2026-06-08, before pushing this handoff refresh, these commands passed again:
+1. schema valid;
+2. `draft === false`;
+3. `review_status === approved`;
+4. all 9 required headings exist with non-empty bodies;
+5. no `TODO`, empty required value, `example.com`, or invalid URL exists;
+6. at least one structured source link exists.
 
-- `npm run lint:editorial`: passed with no warnings.
-- `npm test`: passed, 8 tests.
-- `npm run build`: passed, 15 pages generated.
-- `npm audit --audit-level=moderate`: passed, 0 vulnerabilities.
+Missing `draft` normalizes to non-public and adds a blocker. A case that declares publication intent but breaks a gate makes the compiler/build fail. Fixtures can never become publication-eligible. Missing content no longer renders a `TODO` fallback.
 
-On 2026-06-15, the local documentation view was verified:
+The same generated registry controls case/article listings, direct detail lookup, related cases, and sitemap output. There is no production draft-preview route.
 
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\generate-doc-nav.ps1`: produced a nav candidate for the current Markdown layout.
-- `python -m mkdocs build --clean -d <temp-dir>`: passed. `PROJECT_OVERVIEW/index.html` and `assets/review/mvp1-route-audit/home-desktop.png` were generated in the temp site.
-- Local HTTP checks passed for `PROJECT_OVERVIEW`, `DEVELOPMENT_TURNS`, `SCREENSHOT_INDEX`, and `home-desktop.png` through the MkDocs server.
-- Existing canonical Markdown bodies were checked with `git diff` and were not modified by the documentation-view work.
+### Advertising eligibility
 
-Test coverage currently includes:
+Ad eligibility is state-based, not a broad route allowlist. A page must be both published and substantive, and must be a case/article detail route. Home, empty listings, policy/info pages, drafts, local review artifacts, and errors are ineligible. No real advertising JavaScript or publisher ID is present.
 
-- AdSlot allowlist and denylist behavior.
-- Content publication boundaries: draft templates and fixtures stay out of public queries and sitemap output.
-- Editorial lint negative examples for email, phone number, API-key-like string, derogatory terms, warning-only terms, fixture exclusion, and classification frontmatter exclusion.
+## First Evidence-Backed Case
 
-## Operational Notes
+Case: `content/cases/002-gpt-4o-sycophancy-rollback.mdx`
 
-`next start` works for verification after `npm run build`.
+- title: GPT-4oの迎合的応答を招いた2025年4月更新とロールバック
+- kind: `documented_regression`
+- category: `sycophancy`
+- severity: conservative `sev2`
+- verification: `multi_source`, referring to two related official OpenAI publications rather than independent reproduction
+- state: `draft: true`, `review_status: pending`
+- independent reproduction: not attempted
+- AI assistance: disclosed; human review incomplete
 
-`next dev` was tested on this machine and repeatedly stayed at `Starting...` without serving HTTP. This was recorded but not debugged further because the audit request said not to deep-dive. Also, do not run `next dev` and `next start` against the same `.next` output at the same time; doing so can make static asset checks fail until the project is rebuilt.
+Sources:
 
-`NEXT_PUBLIC_SITE_URL` currently defaults to `https://example.com`, so robots and sitemap output use `https://example.com/sitemap.xml` unless the environment variable is set. Replace it after the public domain is decided.
+- `https://openai.com/index/sycophancy-in-gpt-4o/`
+- `https://openai.com/index/expanding-on-sycophancy/`
 
-If route verification is needed again:
+The draft records the April 25, 2025 GPT-4o ChatGPT update, the reported increase in sycophantic behavior, and rollback beginning April 28. It does not add an unsupported incident rate, all-user generalization, independent causal theory, or long-term impact claim.
 
-```bash
-npm run build
-npx next start -p 3100
-```
+## Local Review Artifact
 
-Then check:
+Artifact root:
 
-- Expected 200: `/`, `/cases`, `/articles`, `/taxonomy`, `/methodology`, `/about`, `/privacy`, `/terms`, `/removal-request`, `/disclosures`
-- Expected 404: `/submit`, `/admin`, `/admin/review`, `/api`, `/cases/001-template-case`, `/articles/001-template-article`
+`samples/_review/publication-engine-v2/002-gpt-4o-sycophancy-rollback/`
 
-## Safe Next Work
+Contents:
 
-| Entry | Purpose | What It Unlocks |
-|---|---|---|
-| Complete first public case input | `docs/PUBLIC_CASE_INPUT_TEMPLATE.md` now contains one human-provided candidate. Remaining blockers: real official source URL, final approval or expansion of the 116-character summary to the preferred 160-220 character range, and confirmation that `chat`, `nonexistent_capability`, `single_source`, and empty secondary categories are acceptable taxonomy mappings. | Makes it safe to create the first non-fixture `draft: false` case without AI-authored public prose. |
-| Verify published content | Add one human-authored `draft: false` case and verify detail rendering. | Real detail-page checks for badges, related cases, detail AdSlot, and sitemap inclusion. |
-| Audit local docs view | Review `docs/PROJECT_OVERVIEW.md`, `docs/DEVELOPMENT_TURNS.md`, and `docs/SCREENSHOT_INDEX.md` in a browser translation workflow. | Confirms whether a new terminal can recover project state without reading every document manually. |
-| Refresh screenshots | Re-capture current route screenshots if UI changes. | Keeps `docs/SCREENSHOT_INDEX.md` aligned with the actual rendered app. |
-| Debug dev server | Investigate why `next dev` stays at `Starting...` on this machine. | Faster local iteration. |
-| Polish assets | Add favicon and minimal OG image. | Removes favicon 404 and improves sharing previews. |
-| Editorial expansion | Human-authored docs and public case text. | First publishable version without changing the static architecture. |
+- `case-card.html` / `case-card.png`
+- `case-detail.html` / `case-detail-desktop.png` / `case-detail-mobile.png`
+- `source-links.html` / `source-links.png`
+- `readback.json`
+- `readback.md`
 
-## Human-Side Resume Checklist
+The HTML uses the production component and production CSS output but is served only by `npm run review:serve`. Generation rejects any case that is not a blocked pending draft. These files are diagnostic evidence, not publication approval.
 
-For the next human working session, start here:
+Visual/browser readback:
 
-1. Pull the latest `main`.
-2. Run `python -m mkdocs serve -a 127.0.0.1:8000` and open the local docs view.
-3. Read `docs/PROJECT_OVERVIEW.md` and `docs/DEVELOPMENT_TURNS.md` for the current map.
-4. Open `docs/PUBLIC_CASE_INPUT_TEMPLATE.md`.
-5. Replace the placeholder source URL with a real official source URL.
-6. Approve or revise the public summary so it meets the publication gate.
-7. Do not change `draft` to `false` until the publication gate in that template is satisfied.
-8. After the case is ready, add exactly one new `content/cases/<slug>.mdx` file and run the existing verification commands.
+- desktop detail rendered with local-review and not-approved labels;
+- mobile viewport 390px, no horizontal overflow;
+- two external source links, each with `target=_blank` and `rel="noopener noreferrer"`;
+- review ads: 0;
+- review console errors: 0.
 
-Do not use `content/_fixtures` or `content/cases/001-template-case.mdx` prose as public case text.
+## Verification
 
-## Guardrails For Future Work
+Passed on this branch after authority integration:
 
-- Keep public case/article prose human-authored.
-- Keep fixtures under `content/_fixtures`.
-- Keep `draft: true` content out of listings, detail routes, and sitemap.
-- Keep AdSense JavaScript out of MVP1; only placeholder slots are allowed.
-- Do not add API routes, auth, DB, Supabase, storage, mail, payment, comments, voting, ranking, or account features during MVP1 skeleton work.
+| Check | Result |
+|---|---|
+| `npm ls --depth=0` | pass; dependency tree valid |
+| `npm run content:compile` | pass; public cases 0, blocked case candidates 2, public articles 0; digest prefix `4604dd70b8f6`; registry unchanged on repeat |
+| `npm run lint:editorial` | pass, no warnings |
+| `npm test` | 15 pass, 0 fail |
+| `npm run build` | pass; 15 routes |
+| `npm audit --audit-level=low` | 0 vulnerabilities |
+| production public HTTP | 12/12 routes returned 200 |
+| blocked HTTP | 8/8 routes returned 404, including both draft templates, the new draft case, and fixture-equivalent slug |
+| production home/cases | draft absent, ads 0, construction markers absent, public count text shows 0 |
+| sitemap | new draft, templates, fixtures absent |
+| browser console | 0 errors on production home, cases, draft 404, and local review |
+| visual | desktop and 390px mobile checked; mobile horizontal overflow false |
+
+Expected 200 routes:
+
+`/`, `/cases`, `/articles`, `/taxonomy`, `/methodology`, `/about`, `/privacy`, `/terms`, `/removal-request`, `/disclosures`, `/robots.txt`, `/sitemap.xml`
+
+Expected 404 routes checked:
+
+`/submit`, `/admin`, `/admin/review`, `/api`, `/cases/001-template-case`, `/cases/002-gpt-4o-sycophancy-rollback`, `/articles/001-template-article`, `/cases/fixture-fabricated-citation-example`
+
+## Residual Work Ownership
+
+| Residual | Purpose | Effect | Requirement | State | Owner | Next move |
+|---|---|---|---|---|---|---|
+| First case editorial decision | Close Turn 3 | Determines approve/revise/reject; production count remains 0 meanwhile | Human source/prose/classification review | Pending human judgment | Project owner / editor | Review MDX, both official sources, screenshots, and readback |
+| Mini corpus | Validate observatory value with real data | Enables useful listings, taxonomy, related cases | 2-4 more evidence-backed candidates under the same contract | Not started | Editor + developer | Start only after first-case review feedback is incorporated |
+| Production site URL | Correct canonical robots/sitemap URLs | Current fallback remains `https://example.com` | Domain and environment decision | Owner-only pending | Deployment owner | Set `NEXT_PUBLIC_SITE_URL` in Turn 5/6 |
+| Sites compatibility/deployment | Prove target hosting | Would change external/public state | Owner instruction and target configuration | Out of current scope | Project owner | Handle in owner-only Turn 5 |
+| AdSense probe | Validate future primary revenue path | Introduces external policy/account/code surface | Public editorial MVP, owner publisher setup, privacy/consent review | Turn 7 only | Project owner | Do not add IDs or code before explicit gate |
+| Legacy Gemini candidate | Preserve potentially useful observation without blocking work | None while blocked; unsafe if copied | Real source, scope, observation evidence | Blocked legacy reference | Original information owner | Re-evaluate only if evidence arrives |
+| Local MkDocs runtime | Optional browser docs view | Does not block Next.js development | Working local Python + mkdocs-material | Machine-local pending | Local developer | Repair only when docs server is needed |
+| Favicon/OG assets | Presentation polish | Sharing remains skeletal | Approved brand assets | Not started | Brand/product owner | Include with Turn 4 UI work if assets exist |
+
+## Recommended Farthest Safe Goal
+
+Set the next objective to **Turn 4: Evidence-Backed Mini Corpus and Observatory UI**, with a hard first checkpoint to close the Turn 3 human review.
+
+The objective is complete when:
+
+1. the first OpenAI case receives an explicit approve/revise/reject decision;
+2. any required correction is applied and re-verified;
+3. 3-5 total source-backed cases exist under the same schema, each pending or approved with honest boundaries;
+4. listings, taxonomy navigation, related-case logic, update/source labels, empty states, and ad eligibility are reviewed against the corpus;
+5. pending/draft cases remain absent from production routes and sitemap;
+6. compiler, lint, tests, build, audit, HTTP, console, desktop/mobile, and diff checks pass;
+7. new screenshots/readbacks and this handoff are updated.
+
+Do not include Sites deployment, public access changes, actual AdSense code or applications, PR creation, or merge to `main`. Those remain explicit owner gates.
+
+## Resume Sequence
+
+1. Read this file, `docs/DEVELOPMENT_TURNS.md`, and `docs/CASE_PUBLICATION_GUIDE.md`.
+2. Confirm the current branch/upstream and clean worktree.
+3. Run `git fetch --prune origin`, then compare the branch with its upstream; do not merge `main` implicitly.
+4. Run `npm ls --depth=0` and `npm run content:compile`.
+5. Review the active MDX, both source pages, `readback.md`, and four PNGs.
+6. Record an explicit editorial decision before changing `draft` or `review_status`.
+7. Keep owner-only Turn 5+ actions outside the branch unless separately authorized.
+
+## Guardrails
+
+- Preserve fixtures under `content/_fixtures` and never publish them.
+- AI assistance is allowed only with disclosure and human approval before publication.
+- Keep evidence boundaries explicit; local/browser proof is not independent reproduction or production acceptance.
+- Do not expose drafts through query parameters, secret slugs, or alternate production routes.
+- Keep ads off drafts, empty listings, home, policy/info, review, and error pages.
+- Do not add submissions, admin, auth, DB, API, payments, accounts, rankings, real ad IDs, or deployment changes in the current lane.

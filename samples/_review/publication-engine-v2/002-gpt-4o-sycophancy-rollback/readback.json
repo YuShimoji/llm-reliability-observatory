@@ -1,0 +1,67 @@
+{
+  "artifact_version": 1,
+  "artifact_scope": "local_review_only",
+  "artifact_is_publication_approval": false,
+  "slug": "002-gpt-4o-sycophancy-rollback",
+  "case_kind": "documented_regression",
+  "draft": true,
+  "review_status": "pending",
+  "source_count": 2,
+  "source_types": [
+    "official",
+    "official"
+  ],
+  "required_headings_present": 9,
+  "required_heading_count": 9,
+  "ai_assistance": {
+    "used": true,
+    "human_reviewed": false,
+    "disclosure": "OpenAIの公式一次資料2件を根拠に、Codexが日本語草稿の構成と表現を補助した。人間による公開レビューは未完了。"
+  },
+  "production_exposure": {
+    "listing_exposed": false,
+    "detail_exposed": false,
+    "detail_http_status": 404,
+    "related_cases_exposed": false,
+    "sitemap_exposed": false
+  },
+  "advertising": {
+    "review_ad_count": 0,
+    "home_ad_count": 0,
+    "empty_cases_ad_count": 0
+  },
+  "content_compiler": {
+    "result": "passed",
+    "schema_version": 2,
+    "public_case_count": 0,
+    "blocked_case_candidate_count": 2,
+    "public_article_count": 0,
+    "source_digest_prefix": "4604dd70b8f6",
+    "second_run_registry_changed": false
+  },
+  "verification": {
+    "npm_ls_depth_0": "passed",
+    "editorial_lint": "passed_with_no_warnings",
+    "tests": {
+      "passed": 15,
+      "failed": 0
+    },
+    "production_build": "passed_15_routes",
+    "npm_audit_low": "passed_0_vulnerabilities",
+    "production_public_routes": "12_of_12_http_200",
+    "production_blocked_routes": "8_of_8_http_404",
+    "review_console_errors": 0,
+    "production_console_errors": 0,
+    "mobile_viewport_width": 390,
+    "mobile_horizontal_overflow": false
+  },
+  "artifacts": [
+    "case-card.html",
+    "case-card.png",
+    "case-detail.html",
+    "case-detail-desktop.png",
+    "case-detail-mobile.png",
+    "source-links.html",
+    "source-links.png"
+  ]
+}
