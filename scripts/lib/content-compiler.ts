@@ -371,6 +371,7 @@ export function writeRegistry(rootDir: string, registry: ContentRegistry) {
   const serialized = serializeRegistry(registry);
   fs.mkdirSync(path.dirname(outputPath), { recursive: true });
   const previous = fs.existsSync(outputPath) ? fs.readFileSync(outputPath, "utf8") : null;
-  if (previous !== serialized) fs.writeFileSync(outputPath, serialized, "utf8");
-  return { outputPath, changed: previous !== serialized, bytes: Buffer.byteLength(serialized) };
+  const changed = previous === null || normalizeSource(previous) !== serialized;
+  if (changed) fs.writeFileSync(outputPath, serialized, "utf8");
+  return { outputPath, changed, bytes: Buffer.byteLength(serialized) };
 }

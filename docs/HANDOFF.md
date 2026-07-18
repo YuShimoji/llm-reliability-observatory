@@ -30,7 +30,7 @@ The Publication Engine v2 acceptance follow-up corrected two evidence inconsiste
 - all four tracked `.png` review files were found to contain JPEG `FF D8 FF` magic bytes; the current artifacts were recaptured, decoded, and re-encoded as real PNG files with signature `89 50 4E 47 0D 0A 1A 0A`;
 - the first case now uses `verification_status: single_source` because its two documents share one issuing origin, OpenAI. The two source links remain intact and independent reproduction remains false.
 
-Regression protection is explicit and lightweight: `npm run review:verify-images` checks review-image extensions against magic bytes, and the normal test suite covers both signature detection and all four tracked artifacts. It is not added to `prebuild`. The compiler also normalizes source line endings before parsing and hashing, so Windows CRLF and LF checkouts produce the same registry and digest.
+Regression protection is explicit and lightweight: `npm run review:verify-images` checks review-image extensions against magic bytes, and the normal test suite covers both signature detection and all four tracked artifacts. It is not added to `prebuild`. The compiler also normalizes source line endings before parsing and hashing, so Windows CRLF and LF checkouts produce the same registry and digest; the registry writer treats LF- and CRLF-equivalent output as unchanged.
 
 ## Start-State Dirty Diff Audit
 
@@ -185,7 +185,7 @@ Passed on this branch after authority integration:
 | `npm ls --depth=0` | pass; dependency tree valid |
 | `npm run content:compile` | pass twice; public cases 0, blocked case candidates 2, public articles 0; digest prefix `59c70d6a47cf`; second run unchanged |
 | `npm run lint:editorial` | pass, no warnings |
-| `npm test` | 18 pass, 0 fail |
+| `npm test` | 19 pass, 0 fail |
 | `npm run review:verify-images` | 4/4 valid PNG signatures |
 | `npm run build` | pass; 15 routes |
 | `npm audit --audit-level=low` | 0 vulnerabilities |

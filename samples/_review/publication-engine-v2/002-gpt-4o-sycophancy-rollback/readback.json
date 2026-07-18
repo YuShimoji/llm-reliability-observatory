@@ -50,7 +50,7 @@
     "npm_ls_depth_0": "passed",
     "editorial_lint": "passed_with_no_warnings",
     "tests": {
-      "passed": 18,
+      "passed": 19,
       "failed": 0
     },
     "production_build": "passed_15_routes",

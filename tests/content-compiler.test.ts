@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
@@ -7,7 +8,8 @@ import test from "node:test";
 import {
   compileCaseSource,
   compileContent,
-  serializeRegistry
+  serializeRegistry,
+  writeRegistry
 } from "../scripts/lib/content-compiler";
 import { MarkdownBody } from "../src/components/MarkdownBody";
 import { SourceLinks } from "../src/components/SourceLinks";
@@ -145,6 +147,24 @@ test("content records are stable across LF and CRLF checkouts", () => {
 
   assert.deepEqual(crlfResult, lfResult);
   assert.equal(crlfResult.record?.body.includes("\r"), false);
+});
+
+test("registry writer does not rewrite an equivalent CRLF checkout", () => {
+  const rootDir = fs.mkdtempSync(path.join(os.tmpdir(), "lro-registry-"));
+  try {
+    const registry = compileContent(process.cwd()).registry;
+    const outputPath = path.join(rootDir, "src", "generated", "content-registry.json");
+    const crlf = serializeRegistry(registry).replace(/\n/g, "\r\n");
+    fs.mkdirSync(path.dirname(outputPath), { recursive: true });
+    fs.writeFileSync(outputPath, crlf, "utf8");
+
+    const result = writeRegistry(rootDir, registry);
+
+    assert.equal(result.changed, false);
+    assert.equal(fs.readFileSync(outputPath, "utf8"), crlf);
+  } finally {
+    fs.rmSync(rootDir, { recursive: true, force: true });
+  }
 });
 
 test("blocked legacy Gemini candidate is documentation only, not a publication candidate", () => {
