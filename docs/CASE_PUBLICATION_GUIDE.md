@@ -25,6 +25,17 @@ case本文には「状況」「期待していた回答」「実際の回答ま�
 8. 公開判断時だけ`draft: false` / `review_status: approved` / `ai_assistance.human_reviewed: true`へ同時に変更する。
 9. compiler、lint、tests、build、production route、sitemap、visual、consoleを再確認する。
 
+## 複数caseの一括レビュー
+
+複数のpending draftは、公開状態を変えずにlocal-onlyで比較できます。
+
+```powershell
+npm run review:generate-corpus
+npm run review:serve -- --root=samples/_review/turn4-mini-corpus
+```
+
+`corpus-evidence-matrix.md`、各MDX、全source、`corpus-review.html`、`corpus-readback.md`を読み、各caseへ`approve`、`revise`、`reject`のいずれかを記録します。一括レビュー画面の表示成功は承認ではありません。複数caseを同時に`approved`へ移す場合も、caseごとの判断理由を残し、3つのpublication fieldを同時に変更してから全検証を再実行します。
+
 ## Fail-closed gate
 
 次のいずれかがあるcaseは公開されません。公開意図（`draft: false`かつ`approved`）がある場合はcompileを失敗させます。
@@ -48,7 +59,7 @@ npm run build
 npm audit --audit-level=low
 ```
 
-production確認はbuild後に`npx next start -p 3100`で行います。広告枠は公開済みでsubstantiveなcase/article detailだけが適格です。home、空一覧、policy、draft、review、404には出しません。
+production確認はbuild後に`.\node_modules\.bin\next.cmd start -p 3100`で行います。広告枠は公開済みでsubstantiveなcase/article detailだけが適格です。home、空一覧、policy、draft、review、404には出しません。
 
 ## 範囲外
 
