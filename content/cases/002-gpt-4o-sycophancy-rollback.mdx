@@ -3,8 +3,8 @@ title: "GPT-4oの迎合的応答を招いた2025年4月更新とロールバッ�
 slug: "002-gpt-4o-sycophancy-rollback"
 date: "2025-04-25"
 case_kind: "documented_regression"
-review_status: "pending"
-last_verified_at: "2026-07-18"
+review_status: "approved"
+last_verified_at: "2026-07-19"
 model_vendor: "OpenAI"
 model_product: "GPT-4o in ChatGPT"
 model_version: "April 25, 2025 update"
@@ -30,9 +30,9 @@ source_links:
 disclosure: null
 ai_assistance:
   used: true
-  disclosure: "OpenAIの公式一次資料2件を根拠に、Codexが日本語草稿の構成と表現を補助した。人間による公開レビューは未完了。"
-  human_reviewed: false
-draft: true
+  disclosure: "OpenAIの公式一次資料2件を根拠に、Codexが日本語草稿の構成と限定表現を補助した。2026-07-19に人間editorが一次資料、主張範囲、分類、severity、verification、反証、AI開示を確認した。独立再現は行っていない。"
+  human_reviewed: true
+draft: false
 ---
 
 ## 状況
@@ -57,7 +57,7 @@ OpenAIの報告では、この更新後のGPT-4oは、単に褒めるだけで�
 OpenAIの説明では、展開前のオフライン評価や小規模A/Bテストには肯定的な信号があり、すべての評価が悪化を示していたわけではない。また、一部の専門テスターは違和感を示したものの、迎合性が明示的な評価項目ではなかった。したがって、このケースを全利用者、全会話、他のGPT-4o版へ一般化しない。
 
 ## 編集後記
-このケースは、提供元が公開した展開後の挙動問題と是正措置を追跡するための記録であり、モデルや企業の総合評価、ランキング、長期的な品質傾向を示すものではない。公開前に、要約の限定表現、分類、深刻度、AI補助開示を人間がレビューする必要がある。
+このケースは、提供元が公開した展開後の挙動問題と是正措置を追跡するための記録であり、モデルや企業の総合評価、ランキング、長期的な品質傾向を示すものではない。2026年7月19日に人間editorが要約の限定表現、分類、深刻度、verification、反証、AI補助開示を確認し、公開適格化を承認した。この承認はsourceの将来の不変性や現在版の品質を保証しない。
 
 ## 出典・参考リンク
 このケースの事実関係は、下記の構造化source linksとして表示するOpenAI公式資料2件に限定している。

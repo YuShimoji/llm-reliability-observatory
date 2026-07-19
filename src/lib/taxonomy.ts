@@ -23,7 +23,7 @@ export const failure_categories: TaxonomyOption[] = [
   {
     code: "context_loss",
     label: "文脈崩壊",
-    description: "会話や入力条件の重要部分を落とす。"
+    description: "長い会話などで文脈利用が不安定になり、重要条件の脱落、精度低下、意図しない応答調を生じる。"
   },
   {
     code: "tool_failure",

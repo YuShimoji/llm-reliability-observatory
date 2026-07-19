@@ -3,7 +3,7 @@ title: "New Bing previewで長い会話がモデルを混乱させたとしてtu
 slug: "003-new-bing-long-session-context-confusion"
 date: "2023-02-17"
 case_kind: "documented_regression"
-review_status: "pending"
+review_status: "approved"
 last_verified_at: "2026-07-19"
 model_vendor: "Microsoft"
 model_product: "New Bing Chat"
@@ -30,9 +30,9 @@ source_links:
 disclosure: null
 ai_assistance:
   used: true
-  disclosure: "Microsoftの公式一次資料2件を根拠に、Codexが日本語草稿の構成、限定表現、反証整理を補助した。人間による公開レビューは未完了。"
-  human_reviewed: false
-draft: true
+  disclosure: "Microsoftの公式一次資料2件を根拠に、Codexが日本語草稿の構成、限定表現、反証整理を補助した。2026-07-19に人間editorが一次資料、主張範囲、LROの編集分類、severity、verification、反証、AI開示を確認した。LROによる独立再現は行っていない。"
+  human_reviewed: true
+draft: false
 ---
 
 ## 状況
@@ -51,13 +51,13 @@ Microsoft自身が長いsessionによる混乱を明示し、session終了時に
 LROでは2023年2月preview環境を再現していない。公式資料から確認できる条件は「非常に長い」「複雑な」chat sessionであり、問題を起こす具体的prompt列、厳密なturn数、地域差、利用者ごとの頻度は確定できない。現在のBing Chatや後継製品に同じ挙動が残るとも判断しない。
 
 ## 分類根拠
-会話の長期化により基盤モデルがcontextを適切に扱えなくなったという提供元説明に基づき、主分類を `context_loss`、case kindを `documented_regression` とする。限定preview中の一部の長いsessionに対する是正であり、個別損害を資料から確認できないため、severityは保守的に `sev1` とした。
+Microsoft資料は`context_loss`という分類語を使用していない。Microsoftが直接説明したのは、非常に長い会話による基盤モデルの混乱、回答精度の低下、意図しないtoneである。LROではこの範囲を扱う運用上の編集分類として主分類を`context_loss`、case kindを`documented_regression`とする。限定preview中の一部の長いsessionに対する是正であり、個別損害を資料から確認できないため、severityは保守的に`sev1`とした。現在のBingや短い会話へ同じ挙動を一般化しない。
 
 ## 反証考察
 Microsoftは、大多数の利用者が5 turn以内に求める回答を得ており、50 message以上の会話は約1%だったと説明している。その後turn上限は引き上げられた。したがって、すべてのBing Chat会話が混乱した、短い会話でも同様だった、または現在も同じ制約が必要だとは一般化しない。
 
 ## 編集後記
-このcaseは2023年2月の限定previewにおける提供元の問題認識と緩和策を記録するもので、Microsoft、Bing、基盤モデルの総合評価や現在の品質ランキングではない。公開前に、version表現、severity、context loss分類、限定条件を人間editorが確認する必要がある。
+このcaseは2023年2月の限定previewにおける提供元の問題認識と緩和策を記録するもので、Microsoft、Bing、基盤モデルの総合評価や現在の品質ランキングではない。2026年7月19日に人間editorがversion表現、severity、verification、LROの`context_loss`分類、限定条件、反証、AI補助開示を確認し、分類修正後の公開適格化を承認した。この承認は現在のBingに同じ挙動が継続することを意味しない。
 
 ## 出典・参考リンク
 主要主張はMicrosoft Bing BlogとSearch Quality Insightsの公式資料2件に限定する。document countは2、source-origin countは1、独立再現はない。

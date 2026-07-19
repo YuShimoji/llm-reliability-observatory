@@ -3,7 +3,7 @@ title: "GitHub Copilotのコード提案に脆弱性が含まれた一次研究�
 slug: "004-github-copilot-insecure-code-replication"
 date: "2023-11-18"
 case_kind: "reproduction_test"
-review_status: "pending"
+review_status: "approved"
 last_verified_at: "2026-07-19"
 model_vendor: "GitHub"
 model_product: "GitHub Copilot"
@@ -30,9 +30,9 @@ source_links:
 disclosure: null
 ai_assistance:
   used: true
-  disclosure: "独立した一次研究2件を根拠に、Codexが日本語草稿の構成、研究間差分、限定表現を補助した。LRO自身は実験を再実行しておらず、人間による公開レビューも未完了。"
-  human_reviewed: false
-draft: true
+  disclosure: "独立した一次研究2件を根拠に、Codexが日本語草稿の構成、研究間差分、限定表現を補助した。2026-07-19に人間editorが一次資料、主張範囲、分類、severity、verification、反証、AI開示を確認した。第二研究チームによるtargeted replicationはあるが、LRO自身は実験を再実行していない。"
+  human_reviewed: true
+draft: false
 ---
 
 ## 状況
@@ -57,7 +57,7 @@ coding assistantが生成したコードにsecurity weaknessが含まれたと�
 targeted replicationでは、原研究と比べて脆弱な提案の割合が低下し、一部のCWE scenarioでは脆弱性が確認されなかった。対象言語、prompt、Copilot版、CodeQL版、suggestionの選び方も研究間で異なる。したがって、原研究の割合を現在のCopilot、全言語、全利用者、実repositoryへ適用しない。
 
 ## 編集後記
-このcaseは、異なる時期の制御研究が示したboundedなsecurity reliability evidenceを比較するもので、GitHub Copilotの総合評価、現在版のsecurity score、開発者個人の責任評価ではない。公開前に、研究間の比較表現、severity、`multi_source`の独立性を人間editorが確認する必要がある。
+このcaseは、異なる時期の制御研究が示したboundedなsecurity reliability evidenceを比較するもので、GitHub Copilotの総合評価、現在版のsecurity score、開発者個人の責任評価ではない。2026年7月19日に人間editorが研究間の比較表現、severity、`multi_source`の独立性、現在版へ一般化しない境界、AI補助開示を確認し、公開適格化を承認した。LRO自身による再実行は行っていない。
 
 ## 出典・参考リンク
 主要主張は原研究と独立targeted replicationの2件に限定する。LROは論文にない発生率、実被害、現在版への継続性を補完しない。
