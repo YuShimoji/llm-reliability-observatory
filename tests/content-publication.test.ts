@@ -10,6 +10,11 @@ import {
 
 const draftCaseSlug = "001-template-case";
 const evidenceDraftSlug = "002-gpt-4o-sycophancy-rollback";
+const turn4DraftSlugs = [
+  evidenceDraftSlug,
+  "003-new-bing-long-session-context-confusion",
+  "004-github-copilot-insecure-code-replication"
+];
 const draftArticleSlug = "001-template-article";
 const fixtureCaseSlug = "fixture-fabricated-citation-example";
 
@@ -34,6 +39,24 @@ test("public case queries exclude draft templates and fixtures", () => {
     "single_source"
   );
   assert.equal(getCaseBySlug(evidenceDraftSlug, { includeDraft: true })?.source_links.length, 2);
+  for (const slug of turn4DraftSlugs) {
+    const caseItem = getCaseBySlug(slug, { includeDraft: true });
+    assert.equal(getCaseBySlug(slug), null, slug);
+    assert.equal(caseItem?.draft, true, slug);
+    assert.equal(caseItem?.review_status, "pending", slug);
+    assert.equal(caseItem?.ai_assistance.human_reviewed, false, slug);
+    assert.equal(caseItem?.publication.eligible, false, slug);
+  }
+  assert.equal(
+    getCaseBySlug("003-new-bing-long-session-context-confusion", { includeDraft: true })
+      ?.verification_status,
+    "single_source"
+  );
+  assert.equal(
+    getCaseBySlug("004-github-copilot-insecure-code-replication", { includeDraft: true })
+      ?.verification_status,
+    "multi_source"
+  );
   assert.equal(getCaseBySlug(fixtureCaseSlug, { includeDraft: true }), null);
 });
 
@@ -54,6 +77,7 @@ test("sitemap excludes draft templates and fixtures", () => {
 
   assert.equal(serialized.includes(draftCaseSlug), false);
   assert.equal(serialized.includes(evidenceDraftSlug), false);
+  for (const slug of turn4DraftSlugs) assert.equal(serialized.includes(slug), false, slug);
   assert.equal(serialized.includes(draftArticleSlug), false);
   assert.equal(serialized.includes("fixture"), false);
   assert.equal(urls.some((url) => url.endsWith("/cases")), true);

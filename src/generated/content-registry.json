@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "source_digest": "59c70d6a47cf2e882312ed8983848310268191a6ccfcc5a1630203900042a6c2",
+  "source_digest": "42e8f27aad23216e9e1cc5e0af05e9f6ac89738d35a9686a990b572aba47c0ed",
   "cases": [
     {
       "title": "TODO: 事例タイトル",
@@ -174,6 +174,190 @@
         "required_headings_present": 9,
         "required_heading_count": 9
       }
+    },
+    {
+      "title": "GitHub Copilotのコード提案に脆弱性が含まれた一次研究と追試",
+      "slug": "004-github-copilot-insecure-code-replication",
+      "date": "2023-11-18",
+      "case_kind": "reproduction_test",
+      "review_status": "pending",
+      "last_verified_at": "2026-07-19",
+      "model_vendor": "GitHub",
+      "model_product": "GitHub Copilot",
+      "model_version": "technical preview and version 1.77.922",
+      "version_is_estimated": false,
+      "surface": "coding_assistant",
+      "plan": "unknown",
+      "task_category": "coding",
+      "primary_failure_category": "coding_accident",
+      "secondary_failure_categories": [],
+      "severity": "sev2",
+      "verification_status": "multi_source",
+      "reproducibility": "published_targeted_replication_not_rerun_by_lro",
+      "public_summary": "GitHub Copilotのコード提案をCWEベースの条件で評価した一次研究は、脆弱な提案が含まれることを報告した。独立した研究チームによる新しい版のPython追試では割合の低下と一部改善が示された一方、脆弱な提案は残った。これは現在のCopilotや実repository全体の発生率を示さない。",
+      "source_links": [
+        {
+          "label": "Pearce et al.: Asleep at the Keyboard? Assessing the Security of GitHub Copilot's Code Contributions",
+          "url": "https://arxiv.org/abs/2108.09293",
+          "source_type": "primary",
+          "accessed_at": "2026-07-19"
+        },
+        {
+          "label": "Majdinasab et al.: Assessing the Security of GitHub Copilot Generated Code — A Targeted Replication Study",
+          "url": "https://arxiv.org/abs/2311.11177",
+          "source_type": "primary",
+          "accessed_at": "2026-07-19"
+        }
+      ],
+      "disclosure": null,
+      "ai_assistance": {
+        "used": true,
+        "disclosure": "独立した一次研究2件を根拠に、Codexが日本語草稿の構成、研究間差分、限定表現を補助した。LRO自身は実験を再実行しておらず、人間による公開レビューも未完了。",
+        "human_reviewed": false
+      },
+      "draft": true,
+      "source_file": "content/cases/004-github-copilot-insecure-code-replication.mdx",
+      "body": "## 状況\n2021年の一次研究はGitHub Copilot technical previewをCWEに関連する89 scenarioで評価し、1,689 programを生成した。2023年の別研究チームは、より新しいCopilot 1.77.922とCodeQL 2.12.4を用い、Pythonと12 CWEに範囲を絞ったtargeted replicationを実施した。\n\n## 期待していた回答\nAI coding assistantの提案は、promptの機能要件だけでなく、入力検証、認証、path処理などの基本的なsecurity要件を不注意に損なわないことが望ましい。ただし、両研究もCopilotがsecurity reviewの代替である、または全提案が安全であるという保証を前提としていない。\n\n## 実際の回答または要約\n最初の研究は、評価した生成programのおよそ40%が脆弱だったと報告した。targeted replicationは対象をPythonに限定し、新しいCopilot版で脆弱な提案の割合が原研究より低下した一方、複数scenarioで脆弱な提案が残ることを示した。ここでは危険なコード例やcredentialを転載せず、研究結果の範囲だけを要約する。\n\n## 誤りと判断した根拠\n原研究はCWE別のprompt、複数言語、CodeQLまたは手動検査を用いて脆弱性を評価した。著者と実験時期が異なるtargeted replicationは、原研究の一部条件を新しいCopilot版で再評価し、改善と残存問題の両方を報告した。独立した2研究主体が共通して脆弱な提案の存在を確認しているため、文書数2、source-origin count 2の `multi_source` とする。\n\n## 再現条件\n公開論文にはscenario、対象CWE、分析方法が記載され、targeted replicationにはdatasetとscriptへの参照がある。ただしLROはCopilot technical previewまたは1.77.922を用いた実験を再実行していない。ここでいう独立再現は第二の研究チームによる公開追試を指し、LROによる現在版の再現を意味しない。\n\n## 分類根拠\ncoding assistantが生成したコードにsecurity weaknessが含まれたという制御実験であるため、case kindを `reproduction_test`、主分類を `coding_accident` とする。脆弱コードを未検査で採用した場合は作業品質やsecurityに影響し得る一方、実repositoryでの被害や現在版の発生率は示されていないため、severityは `sev2` に限定した。\n\n## 反証考察\ntargeted replicationでは、原研究と比べて脆弱な提案の割合が低下し、一部のCWE scenarioでは脆弱性が確認されなかった。対象言語、prompt、Copilot版、CodeQL版、suggestionの選び方も研究間で異なる。したがって、原研究の割合を現在のCopilot、全言語、全利用者、実repositoryへ適用しない。\n\n## 編集後記\nこのcaseは、異なる時期の制御研究が示したboundedなsecurity reliability evidenceを比較するもので、GitHub Copilotの総合評価、現在版のsecurity score、開発者個人の責任評価ではない。公開前に、研究間の比較表現、severity、`multi_source`の独立性を人間editorが確認する必要がある。\n\n## 出典・参考リンク\n主要主張は原研究と独立targeted replicationの2件に限定する。LROは論文にない発生率、実被害、現在版への継続性を補完しない。",
+      "sections": [
+        {
+          "heading": "状況",
+          "content": "2021年の一次研究はGitHub Copilot technical previewをCWEに関連する89 scenarioで評価し、1,689 programを生成した。2023年の別研究チームは、より新しいCopilot 1.77.922とCodeQL 2.12.4を用い、Pythonと12 CWEに範囲を絞ったtargeted replicationを実施した。"
+        },
+        {
+          "heading": "期待していた回答",
+          "content": "AI coding assistantの提案は、promptの機能要件だけでなく、入力検証、認証、path処理などの基本的なsecurity要件を不注意に損なわないことが望ましい。ただし、両研究もCopilotがsecurity reviewの代替である、または全提案が安全であるという保証を前提としていない。"
+        },
+        {
+          "heading": "実際の回答または要約",
+          "content": "最初の研究は、評価した生成programのおよそ40%が脆弱だったと報告した。targeted replicationは対象をPythonに限定し、新しいCopilot版で脆弱な提案の割合が原研究より低下した一方、複数scenarioで脆弱な提案が残ることを示した。ここでは危険なコード例やcredentialを転載せず、研究結果の範囲だけを要約する。"
+        },
+        {
+          "heading": "誤りと判断した根拠",
+          "content": "原研究はCWE別のprompt、複数言語、CodeQLまたは手動検査を用いて脆弱性を評価した。著者と実験時期が異なるtargeted replicationは、原研究の一部条件を新しいCopilot版で再評価し、改善と残存問題の両方を報告した。独立した2研究主体が共通して脆弱な提案の存在を確認しているため、文書数2、source-origin count 2の `multi_source` とする。"
+        },
+        {
+          "heading": "再現条件",
+          "content": "公開論文にはscenario、対象CWE、分析方法が記載され、targeted replicationにはdatasetとscriptへの参照がある。ただしLROはCopilot technical previewまたは1.77.922を用いた実験を再実行していない。ここでいう独立再現は第二の研究チームによる公開追試を指し、LROによる現在版の再現を意味しない。"
+        },
+        {
+          "heading": "分類根拠",
+          "content": "coding assistantが生成したコードにsecurity weaknessが含まれたという制御実験であるため、case kindを `reproduction_test`、主分類を `coding_accident` とする。脆弱コードを未検査で採用した場合は作業品質やsecurityに影響し得る一方、実repositoryでの被害や現在版の発生率は示されていないため、severityは `sev2` に限定した。"
+        },
+        {
+          "heading": "反証考察",
+          "content": "targeted replicationでは、原研究と比べて脆弱な提案の割合が低下し、一部のCWE scenarioでは脆弱性が確認されなかった。対象言語、prompt、Copilot版、CodeQL版、suggestionの選び方も研究間で異なる。したがって、原研究の割合を現在のCopilot、全言語、全利用者、実repositoryへ適用しない。"
+        },
+        {
+          "heading": "編集後記",
+          "content": "このcaseは、異なる時期の制御研究が示したboundedなsecurity reliability evidenceを比較するもので、GitHub Copilotの総合評価、現在版のsecurity score、開発者個人の責任評価ではない。公開前に、研究間の比較表現、severity、`multi_source`の独立性を人間editorが確認する必要がある。"
+        },
+        {
+          "heading": "出典・参考リンク",
+          "content": "主要主張は原研究と独立targeted replicationの2件に限定する。LROは論文にない発生率、実被害、現在版への継続性を補完しない。"
+        }
+      ],
+      "publication": {
+        "eligible": false,
+        "blockers": [
+          "draft",
+          "review_not_approved"
+        ],
+        "schema_valid": true,
+        "required_headings_present": 9,
+        "required_heading_count": 9
+      }
+    },
+    {
+      "title": "New Bing previewで長い会話がモデルを混乱させたとしてturn上限を導入",
+      "slug": "003-new-bing-long-session-context-confusion",
+      "date": "2023-02-17",
+      "case_kind": "documented_regression",
+      "review_status": "pending",
+      "last_verified_at": "2026-07-19",
+      "model_vendor": "Microsoft",
+      "model_product": "New Bing Chat",
+      "model_version": "February 2023 preview; underlying model undisclosed",
+      "version_is_estimated": true,
+      "surface": "chat",
+      "plan": "limited preview",
+      "task_category": "research",
+      "primary_failure_category": "context_loss",
+      "secondary_failure_categories": [],
+      "severity": "sev1",
+      "verification_status": "single_source",
+      "reproducibility": "not_independently_reproduced_by_lro",
+      "public_summary": "Microsoftは2023年2月、New Bing previewの非常に長い会話が基盤のchat modelを混乱させ、回答精度や意図したtoneを損なう場合があると説明した。対策としてsession turn上限を導入したが、正確なモデル版、全sessionでの発生率、現在のBingへの継続性は確定できない。",
+      "source_links": [
+        {
+          "label": "Microsoft Bing Blog: The new Bing & Edge — Updates to Chat",
+          "url": "https://blogs.bing.com/search/february-2023/The-new-Bing-Edge-Updates-to-Chat",
+          "source_type": "official",
+          "accessed_at": "2026-07-19"
+        },
+        {
+          "label": "Microsoft Search Quality Insights: Building the New Bing",
+          "url": "https://blogs.bing.com/search-quality-insights/february-2023/Building-the-New-Bing",
+          "source_type": "official",
+          "accessed_at": "2026-07-19"
+        }
+      ],
+      "disclosure": null,
+      "ai_assistance": {
+        "used": true,
+        "disclosure": "Microsoftの公式一次資料2件を根拠に、Codexが日本語草稿の構成、限定表現、反証整理を補助した。人間による公開レビューは未完了。",
+        "human_reviewed": false
+      },
+      "draft": true,
+      "source_file": "content/cases/003-new-bing-long-session-context-confusion.mdx",
+      "body": "## 状況\nMicrosoftはNew Bingの限定preview中だった2023年2月17日、非常に長いchat sessionが基盤のchat modelを混乱させる場合があるとして、1 sessionあたり5 turn、1日50 turnの上限を導入した。2月21日の技術説明では、長いsessionが回答を不正確にしたり、意図しないtoneにしたりする可能性があると記録している。\n\n## 期待していた回答\nNew Bing Chatには、会話中の重要な条件を保持しながら、Microsoftが意図する正確さとtoneの範囲で検索・調査を支援することが期待される。ここでの期待は、無制限の長さを保証することではなく、製品が許容するsession内で文脈混乱を抑えることである。\n\n## 実際の回答または要約\nMicrosoftの説明では、非常に長い会話で基盤モデルが混乱し、回答の精度が下がるか、意図しないtoneになる場合があった。個別の会話ログや特定回答を転載するのではなく、提供元がpreview全体について公表した挙動と緩和策を要約している。\n\n## 誤りと判断した根拠\nMicrosoft自身が長いsessionによる混乱を明示し、session終了時にcontextをclearする運用とturn上限を導入した。別の公式技術説明でも、長いsessionと不正確な回答または意図しないtoneを関連づけている。ただし両文書の発行主体は同じMicrosoftであるため、独立した複数sourceによる確認とは扱わない。\n\n## 再現条件\nLROでは2023年2月preview環境を再現していない。公式資料から確認できる条件は「非常に長い」「複雑な」chat sessionであり、問題を起こす具体的prompt列、厳密なturn数、地域差、利用者ごとの頻度は確定できない。現在のBing Chatや後継製品に同じ挙動が残るとも判断しない。\n\n## 分類根拠\n会話の長期化により基盤モデルがcontextを適切に扱えなくなったという提供元説明に基づき、主分類を `context_loss`、case kindを `documented_regression` とする。限定preview中の一部の長いsessionに対する是正であり、個別損害を資料から確認できないため、severityは保守的に `sev1` とした。\n\n## 反証考察\nMicrosoftは、大多数の利用者が5 turn以内に求める回答を得ており、50 message以上の会話は約1%だったと説明している。その後turn上限は引き上げられた。したがって、すべてのBing Chat会話が混乱した、短い会話でも同様だった、または現在も同じ制約が必要だとは一般化しない。\n\n## 編集後記\nこのcaseは2023年2月の限定previewにおける提供元の問題認識と緩和策を記録するもので、Microsoft、Bing、基盤モデルの総合評価や現在の品質ランキングではない。公開前に、version表現、severity、context loss分類、限定条件を人間editorが確認する必要がある。\n\n## 出典・参考リンク\n主要主張はMicrosoft Bing BlogとSearch Quality Insightsの公式資料2件に限定する。document countは2、source-origin countは1、独立再現はない。",
+      "sections": [
+        {
+          "heading": "状況",
+          "content": "MicrosoftはNew Bingの限定preview中だった2023年2月17日、非常に長いchat sessionが基盤のchat modelを混乱させる場合があるとして、1 sessionあたり5 turn、1日50 turnの上限を導入した。2月21日の技術説明では、長いsessionが回答を不正確にしたり、意図しないtoneにしたりする可能性があると記録している。"
+        },
+        {
+          "heading": "期待していた回答",
+          "content": "New Bing Chatには、会話中の重要な条件を保持しながら、Microsoftが意図する正確さとtoneの範囲で検索・調査を支援することが期待される。ここでの期待は、無制限の長さを保証することではなく、製品が許容するsession内で文脈混乱を抑えることである。"
+        },
+        {
+          "heading": "実際の回答または要約",
+          "content": "Microsoftの説明では、非常に長い会話で基盤モデルが混乱し、回答の精度が下がるか、意図しないtoneになる場合があった。個別の会話ログや特定回答を転載するのではなく、提供元がpreview全体について公表した挙動と緩和策を要約している。"
+        },
+        {
+          "heading": "誤りと判断した根拠",
+          "content": "Microsoft自身が長いsessionによる混乱を明示し、session終了時にcontextをclearする運用とturn上限を導入した。別の公式技術説明でも、長いsessionと不正確な回答または意図しないtoneを関連づけている。ただし両文書の発行主体は同じMicrosoftであるため、独立した複数sourceによる確認とは扱わない。"
+        },
+        {
+          "heading": "再現条件",
+          "content": "LROでは2023年2月preview環境を再現していない。公式資料から確認できる条件は「非常に長い」「複雑な」chat sessionであり、問題を起こす具体的prompt列、厳密なturn数、地域差、利用者ごとの頻度は確定できない。現在のBing Chatや後継製品に同じ挙動が残るとも判断しない。"
+        },
+        {
+          "heading": "分類根拠",
+          "content": "会話の長期化により基盤モデルがcontextを適切に扱えなくなったという提供元説明に基づき、主分類を `context_loss`、case kindを `documented_regression` とする。限定preview中の一部の長いsessionに対する是正であり、個別損害を資料から確認できないため、severityは保守的に `sev1` とした。"
+        },
+        {
+          "heading": "反証考察",
+          "content": "Microsoftは、大多数の利用者が5 turn以内に求める回答を得ており、50 message以上の会話は約1%だったと説明している。その後turn上限は引き上げられた。したがって、すべてのBing Chat会話が混乱した、短い会話でも同様だった、または現在も同じ制約が必要だとは一般化しない。"
+        },
+        {
+          "heading": "編集後記",
+          "content": "このcaseは2023年2月の限定previewにおける提供元の問題認識と緩和策を記録するもので、Microsoft、Bing、基盤モデルの総合評価や現在の品質ランキングではない。公開前に、version表現、severity、context loss分類、限定条件を人間editorが確認する必要がある。"
+        },
+        {
+          "heading": "出典・参考リンク",
+          "content": "主要主張はMicrosoft Bing BlogとSearch Quality Insightsの公式資料2件に限定する。document countは2、source-origin countは1、独立再現はない。"
+        }
+      ],
+      "publication": {
+        "eligible": false,
+        "blockers": [
+          "draft",
+          "review_not_approved"
+        ],
+        "schema_valid": true,
+        "required_headings_present": 9,
+        "required_heading_count": 9
+      }
     }
   ],
   "articles": [
@@ -233,9 +417,9 @@
     }
   },
   "stats": {
-    "case_count": 2,
+    "case_count": 4,
     "public_case_count": 0,
-    "blocked_case_count": 2,
+    "blocked_case_count": 4,
     "article_count": 1,
     "public_article_count": 0,
     "fixture_count": 5
