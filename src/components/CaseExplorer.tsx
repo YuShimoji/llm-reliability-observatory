@@ -13,12 +13,17 @@ import type { CaseRecord } from "@/types/case";
 type CaseExplorerProps = {
   cases: CaseRecord[];
   reviewMode?: boolean;
+  staticResetControl?: boolean;
 };
 
 const selectClassName =
   "mt-2 w-full border border-ink/15 bg-white px-3 py-2 text-sm text-ink focus:border-moss focus:outline-none";
 
-export function CaseExplorer({ cases, reviewMode = false }: CaseExplorerProps) {
+export function CaseExplorer({
+  cases,
+  reviewMode = false,
+  staticResetControl = false
+}: CaseExplorerProps) {
   const [filters, setFilters] = useState<CaseFilters>(EMPTY_CASE_FILTERS);
   const options = useMemo(() => getCaseFilterOptions(cases), [cases]);
   const visibleCases = useMemo(() => filterCases(cases, filters), [cases, filters]);
@@ -92,7 +97,7 @@ export function CaseExplorer({ cases, reviewMode = false }: CaseExplorerProps) {
       <div className="mt-4 flex flex-wrap items-center justify-between gap-3 text-sm text-smoke">
         <p data-case-result-count="true">{visibleCases.length} of {cases.length} cases</p>
         <p>This curated collection is not a statistical sample.</p>
-        {filtersActive ? (
+        {filtersActive || staticResetControl ? (
           <button
             type="button"
             className="border border-ink/15 bg-white px-3 py-1.5 text-xs font-semibold text-ink hover:border-moss"

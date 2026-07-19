@@ -42,10 +42,17 @@ if (cases.length < 3 || cases.length > 5) {
   throw new Error(`Turn 4 review requires 3-5 adopted cases; found ${cases.length}.`);
 }
 for (const caseItem of cases) {
-  if (!caseItem.draft || caseItem.review_status !== "pending" || caseItem.publication.eligible) {
-    throw new Error(`Corpus review is restricted to blocked pending drafts: ${caseItem.slug}`);
+  const pendingReview = caseItem.draft && caseItem.review_status === "pending" && !caseItem.publication.eligible;
+  const approvedReview =
+    !caseItem.draft &&
+    caseItem.review_status === "approved" &&
+    caseItem.ai_assistance.human_reviewed &&
+    caseItem.publication.eligible;
+  if (!pendingReview && !approvedReview) {
+    throw new Error(`Corpus review requires a safe pending or approved state: ${caseItem.slug}`);
   }
 }
+const allCasesApproved = cases.every((caseItem) => caseItem.publication.eligible);
 
 const cssDirectory = path.join(rootDir, ".next", "static", "css");
 if (!fs.existsSync(cssDirectory)) {
@@ -84,6 +91,7 @@ const filterScript = `
   const cards = [...explorer.querySelectorAll('[data-case-filter-item="true"]')];
   const details = [...document.querySelectorAll('[data-corpus-detail="true"]')];
   const count = explorer.querySelector('[data-case-result-count="true"]');
+  const reset = explorer.querySelector('[data-case-filter-reset="true"]');
   const dataKeys = { category: 'category', vendor: 'vendor', verificationStatus: 'verificationStatus', caseKind: 'caseKind' };
   const apply = () => {
     const filters = Object.fromEntries(controls.map((control) => [control.dataset.caseFilter, control.value]));
@@ -96,6 +104,10 @@ const filterScript = `
     if (count) count.textContent = visible + ' of ' + cards.length + ' cases';
   };
   controls.forEach((control) => control.addEventListener('change', apply));
+  reset?.addEventListener('click', () => {
+    controls.forEach((control) => { control.value = ''; });
+    apply();
+  });
   apply();
 })();
 `;
@@ -154,13 +166,15 @@ const caseSections = cases.map((caseItem) => {
 const markup = renderToStaticMarkup(
   <main className="review-frame">
     <header className="review-intro">
-      <p className="review-label">Turn 4 / local-only corpus review / not approved</p>
+      <p className="review-label">
+        Turn 4 / local-only corpus review / {allCasesApproved ? "owner-approved source state" : "not approved"}
+      </p>
       <h1 className="mt-4 text-3xl font-semibold text-ink">Evidence-Backed Mini Corpus</h1>
       <p className="mt-4 max-w-4xl text-base leading-7 text-smoke">
-        3件のpending draftをproduction componentで一括比較する診断面です。公開承認、production route、統計的な市場代表性を意味しません。
+        3件の{allCasesApproved ? "publication-eligible case" : "pending draft"}をproduction componentで一括比較する診断面です。外部配備、公開URL、統計的な市場代表性を意味しません。
       </p>
       <p className="mt-3 text-sm text-smoke">
-        全caseは draft true / review_status pending。広告、投稿、保存、認証機能はありません。
+        全caseは{allCasesApproved ? " project owner/editor承認済みでsource/build上の公開適格状態" : " draft true / review_status pending"}です。広告配信、投稿、保存、認証機能はありません。
       </p>
       <nav className="mt-5 flex flex-wrap gap-3 text-sm font-semibold text-moss">
         <a href="corpus-evidence-matrix.md" className="underline">Evidence matrix (Markdown)</a>
@@ -171,7 +185,7 @@ const markup = renderToStaticMarkup(
     <section className="mt-10">
       <h2 className="text-2xl font-semibold text-ink">Compare and filter</h2>
       <p className="mt-3 text-sm leading-6 text-smoke">Filters use exact metadata matches. They do not infer semantic similarity or causality.</p>
-      <div className="mt-5"><CaseExplorer cases={cases} reviewMode /></div>
+      <div className="mt-5"><CaseExplorer cases={cases} reviewMode staticResetControl /></div>
     </section>
     {caseSections}
   </main>

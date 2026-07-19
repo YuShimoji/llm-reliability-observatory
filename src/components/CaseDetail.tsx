@@ -43,7 +43,7 @@ export function CaseDetail({
           <p className="font-semibold uppercase tracking-[0.14em] text-rust">Local review only</p>
           <p className="mt-2">
             {caseItem.review_status} / draft: {String(caseItem.draft)}。この画面は診断用であり、
-            公開承認またはproduction routeを意味しません。
+            production routeまたは外部配備の観測証跡ではありません。
           </p>
         </aside>
       ) : null}
