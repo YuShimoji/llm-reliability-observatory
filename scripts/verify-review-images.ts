@@ -4,7 +4,7 @@ import { verifyReviewImages } from "./lib/review-image-format";
 const rootArgument = process.argv.find((argument) => argument.startsWith("--root="))?.slice(7);
 const reviewRoot = path.resolve(
   process.cwd(),
-  rootArgument ?? path.join("samples", "_review", "publication-engine-v2")
+  rootArgument ?? path.join("samples", "_review")
 );
 const checks = verifyReviewImages(reviewRoot);
 

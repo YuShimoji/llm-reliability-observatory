@@ -43,3 +43,9 @@ test("tracked publication-engine review images match their extensions", () => {
     ]
   );
 });
+
+test("all tracked review images match their extensions", () => {
+  const checks = verifyReviewImages(path.join(process.cwd(), "samples", "_review"));
+  assert.ok(checks.length >= 16);
+  assert.equal(checks.every((check) => check.valid), true);
+});

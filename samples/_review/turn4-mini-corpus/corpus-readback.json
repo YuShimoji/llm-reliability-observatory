@@ -1,0 +1,104 @@
+{
+  "artifact_version": 1,
+  "validated_at": "2026-07-19",
+  "scope": "local_review_only",
+  "branch": "codex/lro-turn4-evidence-corpus-ui",
+  "base_commit": "200867e9a748d0f6fd0bfd85716d62b164b3bfd8",
+  "publication_approval": false,
+  "registry": {
+    "source_digest": "42e8f27aad23216e9e1cc5e0af05e9f6ac89738d35a9686a990b572aba47c0ed",
+    "public_cases": 0,
+    "blocked_case_candidates": 4,
+    "public_articles": 0
+  },
+  "corpus": {
+    "adopted_count": 3,
+    "vendors": ["OpenAI", "Microsoft", "GitHub"],
+    "primary_failure_categories": ["sycophancy", "context_loss", "coding_accident"],
+    "verification_distribution": {
+      "single_source": 2,
+      "multi_source": 1
+    },
+    "statistical_sample": false,
+    "cases": [
+      {
+        "slug": "002-gpt-4o-sycophancy-rollback",
+        "draft": true,
+        "review_status": "pending",
+        "human_reviewed": false,
+        "document_count": 2,
+        "source_origin_count": 1,
+        "independent_reproduction": false
+      },
+      {
+        "slug": "003-new-bing-long-session-context-confusion",
+        "draft": true,
+        "review_status": "pending",
+        "human_reviewed": false,
+        "document_count": 2,
+        "source_origin_count": 1,
+        "independent_reproduction": false
+      },
+      {
+        "slug": "004-github-copilot-insecure-code-replication",
+        "draft": true,
+        "review_status": "pending",
+        "human_reviewed": false,
+        "document_count": 2,
+        "source_origin_count": 2,
+        "independent_reproduction": true,
+        "independent_reproduction_boundary": "Published targeted replication by a second research team; not rerun by LRO."
+      }
+    ]
+  },
+  "local_review": {
+    "html": "corpus-review.html",
+    "filters": ["category", "vendor", "verification_status", "case_kind"],
+    "github_filter_result": "1 of 3 cases",
+    "source_links": 6,
+    "source_link_target_blank": true,
+    "source_link_rel_noopener_noreferrer": true,
+    "related_case_rule": "explicit exact metadata only",
+    "ad_elements": 0,
+    "console_errors": 0,
+    "desktop_horizontal_overflow": false,
+    "mobile_viewport": "390x844",
+    "mobile_horizontal_overflow": false
+  },
+  "production": {
+    "public_route_smoke": "12/12 returned 200",
+    "draft_route_smoke": "5/5 returned 404",
+    "draft_slugs_in_cases_articles_or_sitemap": 0,
+    "production_case_count": 0,
+    "ad_elements_or_markers": 0,
+    "console_errors": 0,
+    "desktop_horizontal_overflow": false,
+    "mobile_horizontal_overflow": false
+  },
+  "images": [
+    {
+      "file": "corpus-review-desktop.png",
+      "viewport": "1280x800",
+      "format": "PNG",
+      "signature": "89 50 4E 47 0D 0A 1A 0A"
+    },
+    {
+      "file": "corpus-review-mobile.png",
+      "viewport": "390x844",
+      "format": "PNG",
+      "signature": "89 50 4E 47 0D 0A 1A 0A"
+    }
+  ],
+  "visual_readback": {
+    "garbled_text": false,
+    "clipped_required_labels": false,
+    "missing_link_display": false,
+    "horizontal_overflow": false
+  },
+  "human_gate": {
+    "required": true,
+    "allowed_decisions": ["approve", "revise", "reject"],
+    "decision_recorded": false,
+    "publication_state_changes_allowed_without_decision": false
+  }
+}

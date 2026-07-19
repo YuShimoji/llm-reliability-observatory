@@ -28,11 +28,12 @@ export function CaseCard({
       </h2>
       <p className="mt-3 text-sm leading-6 text-smoke">{caseItem.public_summary}</p>
       <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.12em] text-moss">
-        {caseItem.case_kind.replaceAll("_", " ")}
+        {caseItem.case_kind.replaceAll("_", " ")} · {caseItem.primary_failure_category.replaceAll("_", " ")}
       </p>
       <p className="mt-4 text-xs text-smoke">
         {caseItem.model_vendor} / {caseItem.model_product} / {caseItem.date}
       </p>
+      <p className="mt-2 text-xs text-smoke">Last verified {caseItem.last_verified_at}</p>
     </article>
   );
 }

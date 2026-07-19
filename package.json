@@ -13,6 +13,7 @@
     "prebuild": "npm run content:compile",
     "test": "node --import tsx --test tests/*.test.ts",
     "review:generate": "tsx scripts/generate-case-review.tsx",
+    "review:generate-corpus": "tsx scripts/generate-corpus-review.tsx",
     "review:verify-images": "tsx scripts/verify-review-images.ts",
     "review:serve": "tsx scripts/serve-review.ts"
   },

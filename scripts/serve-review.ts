@@ -3,7 +3,11 @@ import http from "node:http";
 import path from "node:path";
 
 const port = Number(process.env.LRO_REVIEW_PORT ?? "3200");
-const rootDir = path.resolve(process.cwd(), "samples", "_review", "publication-engine-v2");
+const rootArgument = process.argv.find((argument) => argument.startsWith("--root="))?.slice(7);
+const rootDir = path.resolve(
+  process.cwd(),
+  rootArgument ?? path.join("samples", "_review", "publication-engine-v2")
+);
 const contentTypes: Record<string, string> = {
   ".html": "text/html; charset=utf-8",
   ".json": "application/json; charset=utf-8",

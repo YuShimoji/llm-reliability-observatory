@@ -14,13 +14,17 @@ type CaseDetailProps = {
   relatedCases: CaseRecord[];
   reviewMode?: boolean;
   showAds?: boolean;
+  relatedCaseHrefForCase?: (caseItem: CaseRecord) => string;
+  relatedCaseLabelForCase?: (caseItem: CaseRecord) => string;
 };
 
 export function CaseDetail({
   caseItem,
   relatedCases,
   reviewMode = false,
-  showAds = true
+  showAds = true,
+  relatedCaseHrefForCase,
+  relatedCaseLabelForCase
 }: CaseDetailProps) {
   const sectionByHeading = new Map(caseItem.sections.map((section) => [section.heading, section.content]));
   const adEligible =
@@ -84,7 +88,11 @@ export function CaseDetail({
             Human reviewed: {String(caseItem.ai_assistance.human_reviewed)}
           </p>
         </section>
-        <RelatedCases cases={relatedCases} />
+        <RelatedCases
+          cases={relatedCases}
+          hrefForCase={relatedCaseHrefForCase}
+          relationLabelForCase={relatedCaseLabelForCase}
+        />
         <AdSlot slot="bottom" eligible={adEligible} />
         <Disclosure value={caseItem.disclosure} />
       </div>

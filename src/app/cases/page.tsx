@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Breadcrumb } from "@/components/Breadcrumb";
-import { CaseCard } from "@/components/CaseCard";
+import { CaseExplorer } from "@/components/CaseExplorer";
 import { getAllCases } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -24,10 +24,8 @@ export default function CasesPage() {
         <p className="text-sm text-smoke">{cases.length} published</p>
       </div>
       {cases.length > 0 ? (
-        <div className="mt-8 grid gap-5 md:grid-cols-2">
-          {cases.map((caseItem) => (
-            <CaseCard key={caseItem.slug} caseItem={caseItem} />
-          ))}
+        <div className="mt-8">
+          <CaseExplorer cases={cases} />
         </div>
       ) : (
         <div className="mt-8 border border-ink/10 bg-white/65 p-6 text-sm leading-7 text-smoke">

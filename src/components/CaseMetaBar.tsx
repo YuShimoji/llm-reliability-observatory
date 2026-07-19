@@ -9,7 +9,9 @@ const labels: Array<[string, keyof CaseRecord]> = [
   ["Version", "model_version"],
   ["Surface", "surface"],
   ["Date", "date"],
+  ["Last verified", "last_verified_at"],
   ["Kind", "case_kind"],
+  ["Category", "primary_failure_category"],
   ["Review", "review_status"]
 ];
 

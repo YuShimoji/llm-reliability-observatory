@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { CaseDetail } from "@/components/CaseDetail";
 import { getAllCases, getCaseBySlug } from "@/lib/content";
+import { describeCaseRelation, getRelatedCases } from "@/lib/case-explorer";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -25,13 +26,13 @@ export default async function CaseDetailPage({ params }: PageProps) {
   const caseItem = getCaseBySlug(slug);
   if (!caseItem) notFound();
 
-  const related = getAllCases()
-    .filter(
-      (item) =>
-        item.slug !== caseItem.slug &&
-        item.primary_failure_category === caseItem.primary_failure_category
-    )
-    .slice(0, 3);
+  const related = getRelatedCases(getAllCases(), caseItem);
 
-  return <CaseDetail caseItem={caseItem} relatedCases={related} />;
+  return (
+    <CaseDetail
+      caseItem={caseItem}
+      relatedCases={related}
+      relatedCaseLabelForCase={(candidate) => describeCaseRelation(caseItem, candidate)}
+    />
+  );
 }
