@@ -1,45 +1,59 @@
 # Turn 4 Mini Corpus Readback
 
-Validated: 2026-07-19
+Updated: 2026-07-20
 
-Scope: local review only. This readback records technical reviewability and production non-exposure. It is not publication approval.
+Scope: case-level owner/editor decisions, source/build publication eligibility, local static review, and production-component acceptance. External deployment is not included.
 
-## Review set
+## Decision set
 
-| Slug | Evidence boundary | State |
+| Slug | Decision and state | Evidence boundary |
 |---|---|---|
-| `002-gpt-4o-sycophancy-rollback` | 2 documents / 1 source origin / no independent reproduction | `draft: true`, `pending`, human review false |
-| `003-new-bing-long-session-context-confusion` | 2 documents / 1 source origin / no independent reproduction | `draft: true`, `pending`, human review false |
-| `004-github-copilot-insecure-code-replication` | 2 documents / 2 independent research teams / published targeted replication not rerun by LRO | `draft: true`, `pending`, human review false |
+| `002-gpt-4o-sycophancy-rollback` | approve; `draft: false`, `approved`, human true | OpenAI documents 2 / issuing origin 1 / no independent reproduction; `single_source` |
+| `003-new-bing-long-session-context-confusion` | `context_loss` explanation corrected, then approve; `draft: false`, `approved`, human true | Microsoft documents 2 / issuing origin 1 / no independent reproduction; `single_source` |
+| `004-github-copilot-insecure-code-replication` | approve; `draft: false`, `approved`, human true | independent research teams 2 / published targeted replication / not rerun by LRO; `multi_source` |
 
-The set covers three vendors or issuers and three primary categories. It is deliberately curated and is not a statistical sample, market ranking, or vendor scorecard.
+The explicit authority record is `../turn4-publication-acceptance/editorial-decision-record.md` / `.json`. No personal identity is stored. The set covers three vendors or issuers and three primary categories, but remains curated rather than statistical or comparative.
 
-## Local review result
+## Classification and verification readback
 
-- `corpus-review.html` reuses the production card, detail, source-link, badge, metadata, and related-case components.
-- Exact filters are available for category, vendor, verification status, and case kind. Selecting GitHub produced `1 of 3 cases`; resetting restored all three.
-- Six external source links are visible and use `target="_blank"` with `rel="noopener noreferrer"`.
-- Related cases use only explicit exact metadata matches and display the matching field; no semantic or causal relationship is inferred.
-- Desktop 1280x800 and mobile 390x844 were opened in the in-app browser. Required text and links were visible without garbling or horizontal overflow.
-- Review advertising elements: 0. Browser console errors: 0.
-- `corpus-review-desktop.png` and `corpus-review-mobile.png` were decoded and encoded as real PNG files. Both begin with `89 50 4E 47 0D 0A 1A 0A`.
+- `context_loss` is LRO's editorial category, not Microsoft terminology. The case states Microsoft's direct scope: very long sessions could confuse the model, reduce accuracy, or produce unintended tone.
+- Two same-origin documents do not establish independent sources. OpenAI and Microsoft remain `single_source`.
+- The Copilot case remains `multi_source` because a second research team published a targeted replication. LRO did not rerun it.
+- Document count, source-origin count, and independent reproduction remain separate review dimensions even though the current schema stores a two-value verification status.
 
-## Production non-exposure result
+## Static local review result
 
-- 12 public routes returned 200.
-- All five draft routes, including the template case, all three corpus cases, and the template article, returned 404.
-- Corpus slugs appeared zero times in production case/article listings and sitemap.
-- Production `/cases` remained an honest 0-published empty state on desktop and mobile.
-- Production advertising elements or markers: 0. Browser console errors: 0. Horizontal overflow: false.
+- `corpus-review.html` accepts either blocked pending drafts or fully eligible approved cases and shows the current approved set.
+- It reuses production card, detail, source-link, badge, metadata, and related-case components.
+- Exact filters remain available for category, vendor, verification status, and case kind.
+- The Reset control is present in static markup. Selecting GitHub produced `1 of 3 cases` with one visible card/detail; Reset cleared all four selects and restored `3 of 3` cards/details.
+- Six source links use `target="_blank"` and `rel="noopener noreferrer"`.
+- Local review ad elements: 0. Browser console errors: 0. Horizontal overflow: false.
 
-## Human review checklist
+## Production-component result
 
-For each case, read the MDX and every linked primary source, then record exactly one decision: `approve`, `revise`, or `reject`.
+- `/cases` showed `3 published` and all three cards at desktop 1280x800 and mobile 390x844.
+- GitHub filter produced `1 of 3`; Reset restored `3 of 3`. An intentionally impossible `context_loss + reproduction_test` combination produced the deterministic empty state, then Reset recovered all cases.
+- All three detail routes displayed approved/human-reviewed state, 9 sections, 2 safe source links, and 3 inert eligible-detail ad placeholders.
+- Related boundary: 002 -> 003, 003 -> 002, 004 -> no related case. Only exact category/vendor/case-kind equality is used.
+- Real advertising elements or code: 0. Browser console errors: 0. Desktop/mobile horizontal overflow: false.
+- Template case/article, all 5 fixtures, and the legacy Gemini slug returned 404. Sitemap includes the 3 approved slugs and excludes all blocked inputs.
 
-- Confirm the summary and each body claim remain inside the directly supported evidence.
-- Confirm date, product/version boundary, case kind, category, severity, and verification status.
-- Confirm counterevidence and non-generalization language.
-- Confirm AI-assistance disclosure and any independent-reproduction wording.
-- State concrete edits for `revise`; state the evidence or scope reason for `reject`.
+## Image acceptance
 
-Do not change `draft`, `review_status`, or `ai_assistance.human_reviewed` merely because the technical review passed. Publication-state changes require an explicit human case-level decision followed by the full validation suite.
+The 8 current production acceptance images are stored under `../turn4-publication-acceptance/`:
+
+- `public-cases-desktop.png`, `public-cases-mobile.png`
+- `002-detail-desktop.png`, `002-detail-mobile.png`
+- `003-detail-desktop.png`, `003-detail-mobile.png`
+- `004-detail-desktop.png`, `004-detail-mobile.png`
+
+Browser capture bytes were JPEG. Each was decoded and encoded as PNG, not renamed. Every file begins with `89 50 4E 47 0D 0A 1A 0A`, is below 1MB, and was reopened for visual inspection. Detail evidence joins two discrete viewports; it is not a continuous full-page image.
+
+No garbled text, clipped required label, missing source display, or horizontal overflow was found.
+
+## Boundary and next gate
+
+Turn 4 approval covers repository source/build publication eligibility. It does not authorize Sites settings, deployment, a public URL, domain configuration, real advertising, paid reports, individual contracts, audit services, payments, or membership.
+
+The next gate is owner-only Turn 5 Sites compatibility from updated `main` on a new branch. Actual external publication remains a separate owner decision and must be validated against the exact deployed artifact.

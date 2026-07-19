@@ -2,7 +2,9 @@
   "artifact_version": 1,
   "updated_at": "2026-07-19",
   "scope": "local_review_only",
-  "publication_approval": false,
+  "publication_approval": true,
+  "publication_approval_date": "2026-07-19",
+  "publication_approval_authority": "project owner/editor explicit approval",
   "corpus_target": {
     "adopted_count": 3,
     "vendor_count": 3,
@@ -42,7 +44,12 @@
         "Offline evaluations and small A/B tests had positive signals.",
         "The evidence does not generalize to every conversation or GPT-4o version."
       ],
-      "decision": "adopt_existing_pending_draft"
+      "decision": "adopt_existing_pending_draft",
+      "final_editorial_decision": {
+        "decision": "approve",
+        "date": "2026-07-19",
+        "authorized_human_gate": true
+      }
     },
     {
       "proposed_slug": "003-new-bing-long-session-context-confusion",
@@ -76,7 +83,12 @@
         "Microsoft reported most users found answers within five turns.",
         "The cap was later raised as the preview changed."
       ],
-      "decision": "adopt"
+      "decision": "adopt",
+      "final_editorial_decision": {
+        "decision": "approve_after_context_loss_clarification",
+        "date": "2026-07-19",
+        "authorized_human_gate": true
+      }
     },
     {
       "proposed_slug": "004-github-copilot-insecure-code-replication",
@@ -110,7 +122,12 @@
         "The replication reported a lower vulnerable share than the original study.",
         "Some replication scenarios produced no vulnerable suggestions."
       ],
-      "decision": "adopt"
+      "decision": "adopt",
+      "final_editorial_decision": {
+        "decision": "approve",
+        "date": "2026-07-19",
+        "authorized_human_gate": true
+      }
     },
     {
       "proposed_slug": "candidate-claude-agentic-misalignment-simulation",

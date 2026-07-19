@@ -1,293 +1,163 @@
 # Project Handoff
 
-Updated: 2026-07-19
+Updated: 2026-07-20
 
 Repository: `llm-reliability-observatory`
 
-Active branch: `codex/lro-turn4-evidence-corpus-ui`
+Active implementation branch: `codex/lro-turn4-batch-editorial-review`
 
-Turn 4 base: `200867e9a748d0f6fd0bfd85716d62b164b3bfd8` on `main`; use live Git state as the final parity authority.
-
-Synced base inherited at task start: `add9336` on `main`, reported `+0/-0` against `origin/main`
+Implementation start: `fe71d4a4d4b8d4626068a020eecec42e57ed92d0` on `codex/lro-turn4-evidence-corpus-ui`; `origin/main` was `200867e9a748d0f6fd0bfd85716d62b164b3bfd8`, and the accepted base was 3 commits ahead / 0 behind. Final branch and remote parity must be read from live Git state.
 
 Remote: `origin` -> `https://github.com/YuShimoji/llm-reliability-observatory.git`
 
-## Outcome / State Transition
+## Current outcome
 
-The repository moved from a healthy static skeleton blocked on human-only prose to a development-ready Publication Engine v2 with a local-only evidence-backed case review artifact.
+Turn 4 is editorially and technically complete in source/build state.
 
-- Turn 0 resume baseline remains valid.
-- Turn 1 authority and dirty-diff integration is complete.
-- Turn 2 Publication Engine v2 is complete and verified.
-- Turn 3 has a technically complete local review artifact; editorial approval is still a human gate.
-- Turn 4 has prepared a three-case pending corpus, evidence matrix, local-only batch review, and Observatory UI components; the corpus now waits for explicit human case-level decisions.
-- Public case count remains truthfully 0.
-- No deployment, Sites conversion, public access change, real AdSense code, PR, or `main` integration was created. Turn 4 remains isolated on its pushed feature branch.
+- The project owner/editor supplied explicit case-level decisions dated 2026-07-19.
+- All three evidence-backed cases are now `draft: false`, `review_status: approved`, and `ai_assistance.human_reviewed: true`.
+- The generated registry contains 3 publication-eligible cases, 1 blocked template case, 0 public articles, and 5 excluded fixtures.
+- Production components show the three cases in `/cases`, expose their detail routes, include them in `sitemap.xml`, and derive related cases only from exact metadata equality.
+- The static local corpus Reset control works without React hydration: a GitHub filter narrows to `1 of 3`, and Reset restores all four selects and `3 of 3` cards/details.
+- Eight new production acceptance images are real PNG files and were opened after encoding.
+- No Sites operation, external deployment, domain change, PR, real advertising code, publisher ID, paid report, individual contract, audit service, payment, or membership feature was created.
 
-## Turn 4 Authority Adjustment
+`publication-eligible` means eligible in the repository's source/build contract. It does not prove that a public URL was deployed or that a hosting environment was accepted.
 
-The first-case human decision is no longer a prerequisite for researching and preparing the rest of the pending corpus. Human judgment remains mandatory before any change to `draft: false`, `review_status: approved`, or `ai_assistance.human_reviewed: true`.
+## Recorded editorial decisions
 
-Allowed before approval:
+The durable decision record is:
 
-- primary-source research and evidence matrices;
-- `draft: true` / `review_status: pending` case drafts;
-- local-only review artifacts and batch comparison;
-- production-component and Observatory UI development that continues to read only `publication.eligible` data in production.
+- `samples/_review/turn4-publication-acceptance/editorial-decision-record.md`
+- `samples/_review/turn4-publication-acceptance/editorial-decision-record.json`
 
-This permits a 3-5 case batch review. It does not change the fail-closed publication contract, advertising eligibility, or owner-only Sites gate.
+| Slug | Decision | Classification | Verification boundary | Source/build state |
+|---|---|---|---|---|
+| `002-gpt-4o-sycophancy-rollback` | approve | `documented_regression` / `sycophancy` / `sev2` | OpenAI documents 2, issuing origin 1, no independent reproduction; `single_source` | approved, human reviewed, publication-eligible |
+| `003-new-bing-long-session-context-confusion` | approve after classification clarification | `documented_regression` / `context_loss` / `sev1` | Microsoft documents 2, issuing origin 1, no independent reproduction; `single_source` | approved, human reviewed, publication-eligible |
+| `004-github-copilot-insecure-code-replication` | approve | `reproduction_test` / `coding_accident` / `sev2` | independent research teams 2, published targeted replication, not rerun by LRO; `multi_source` | approved, human reviewed, publication-eligible |
 
-## Turn 4 Evidence Corpus Outcome
+The held Anthropic simulation and rejected Gemini capability-report direction remain non-input records in the evidence matrix. The legacy Gemini candidate remains documentation-only and blocked.
 
-Turn 4 selected evidence before drafting and records both adopted and rejected directions in:
+## New Bing classification correction
 
-- `samples/_review/turn4-mini-corpus/corpus-evidence-matrix.md`
-- `samples/_review/turn4-mini-corpus/corpus-evidence-matrix.json`
+`context_loss` is an LRO editorial taxonomy term. Microsoft did not use that label. Its official materials directly described very long conversations confusing the underlying model, reducing answer accuracy, or producing unintended tone. The case now says both things explicitly and does not generalize the February 2023 preview observation to short conversations, an undisclosed exact model, or current Bing products.
 
-The adopted pending corpus is:
+The taxonomy description now covers unstable context use in long conversations, including loss of important constraints, lower accuracy, or unintended response tone. This does not assert that every issuer uses the same terminology.
 
-| Slug | Vendor / category | Verification boundary | Publication state |
-|---|---|---|---|
-| `002-gpt-4o-sycophancy-rollback` | OpenAI / `sycophancy` | 2 documents, 1 source origin, no independent reproduction; `single_source` | draft / pending / human review false |
-| `003-new-bing-long-session-context-confusion` | Microsoft / `context_loss` | 2 documents, 1 source origin, no independent reproduction; `single_source` | draft / pending / human review false |
-| `004-github-copilot-insecure-code-replication` | GitHub / `coding_accident` | 2 papers, 2 research teams, published targeted replication not rerun by LRO; `multi_source` | draft / pending / human review false |
+## Verification semantics
 
-The set covers three vendors or issuers and three primary categories, but is curated rather than statistically representative. The Anthropic agentic-misalignment candidate is held because the current taxonomy does not precisely fit a controlled fictional simulation. The Gemini 1.5 report candidate is rejected because a capability report does not directly establish a bounded failure case. Neither held/rejected candidate is a compiler input.
+The current `verification_status` is about source-origin independence rather than raw link count.
 
-Production UI now has exact metadata filtering and deterministic related-case selection based only on explicit category, vendor, or case-kind equality. The live production views still receive only `publication.eligible` cases, so these components do not create a draft preview path.
+- document count: number of supporting documents;
+- source-origin count: number of independent issuing origins;
+- independent reproduction: whether an independent team reproduced the tested behavior.
 
-## Acceptance Hardening
+OpenAI and Microsoft each have two documents but one issuing origin, so both remain `single_source`. The Copilot case has an independent targeted replication by a second research team, so it remains `multi_source`. LRO did not independently rerun any of the three cases.
 
-The Publication Engine v2 acceptance follow-up corrected two evidence inconsistencies before integration:
+These three dimensions remain candidates for future schema separation; no new verification enum was added in Turn 4.
 
-- all four tracked `.png` review files were found to contain JPEG `FF D8 FF` magic bytes; the current artifacts were recaptured, decoded, and re-encoded as real PNG files with signature `89 50 4E 47 0D 0A 1A 0A`;
-- the first case now uses `verification_status: single_source` because its two documents share one issuing origin, OpenAI. The two source links remain intact and independent reproduction remains false.
+## Publication and advertising boundary
 
-Regression protection is explicit and lightweight: `npm run review:verify-images` checks review-image extensions against magic bytes, and the normal test suite covers both signature detection and all four tracked artifacts. It is not added to `prebuild`. The compiler also normalizes source line endings before parsing and hashing, so Windows CRLF and LF checkouts produce the same registry and digest; the registry writer treats LF- and CRLF-equivalent output as unchanged.
+A case is publication-eligible only when schema validation passes and all of these are true:
 
-## Start-State Dirty Diff Audit
+1. `draft === false`;
+2. `review_status === approved`;
+3. all 9 required sections exist and are non-empty;
+4. no `TODO`, empty required value, `example.com`, or invalid URL exists;
+5. at least one structured source link exists;
+6. AI assistance is disclosed and human review is true.
 
-The task began with intentional changes in exactly four files:
+Fixtures never become eligible. The same generated registry controls listing, direct detail lookup, related cases, and sitemap. There is no production draft-preview route.
 
-- `docs/HANDOFF.md`
-- `docs/DEVELOPMENT_TURNS.md`
-- `docs/PROJECT_OVERVIEW.md`
-- `package-lock.json`
+Only substantive eligible detail pages receive inert ad placeholders. Home, listings, policy/info pages, errors, templates, fixtures, and legacy candidates remain ineligible. Repository and rendered-page scans found no `adsbygoogle`, `ca-pub-*`, or `googlesyndication` implementation.
 
-No reset, checkout, or stash was used. The three docs contained the 2026-07-17 restart-readiness handoff and were adopted as the factual baseline before being integrated with the new authority. The initial lockfile diff had only the `esbuild` platform family version move `0.28.0 -> 0.28.1` at the package-version level. It also contained npm-generated peer/dev metadata flag changes.
-
-Decision Packet resolution for the metadata flags:
-
-- Observed fact: flags changed outside the literal `esbuild` version lines.
-- Risk: adopting unexplained lock churn could hide an unrelated dependency change.
-- Safe check: from an isolated copy of the `HEAD` lockfile, the same npm `11.6.2` audit-fix operation was reproduced.
-- Result: reproduced and workspace lockfiles had the same SHA-256, `11E2158D907C531380097D8E0E62CE2FEB3DF6E2AE0C3484EFD703B73EEF82B0`.
-- Decision: the original lock correction was adopted. Later lock changes add the explicit Publication Engine dependencies `gray-matter` and `zod`.
-
-The worktree was then moved to `codex/lro-publication-engine-v2` without discarding the dirty diff. Repository-local Git author email was changed to `YuShimoji@users.noreply.github.com`; existing history was not rewritten.
-
-## Authority Now in Force
-
-The former rules “wait until a human writes all prose,” “the Gemini candidate is the only entrance,” and “AI-assisted public prose is prohibited” are retired.
-
-Current rule:
-
-> AI-assisted drafting is allowed, but sources, verification bounds, counterevidence, AI-assistance disclosure, and review status are mandatory. Content is not public before human approval.
-
-Operational policy is recorded in:
-
-- `docs/EDITORIAL_POLICY.md`
-- `docs/METHODOLOGY.md`
-- `docs/TAXONOMY.md`
-- `docs/MONETIZATION_POLICY.md`
-- `docs/CASE_PUBLICATION_GUIDE.md`
-
-These documents describe implemented workflow and verifiable boundaries; they are not presented as final legal determinations. The old Gemini nonexistent-capability candidate remains in `docs/PUBLIC_CASE_INPUT_TEMPLATE.md` as a `blocked_legacy_candidate`. It is not a compiler input, active gate, or publication candidate.
-
-The roadmap authority is `docs/DEVELOPMENT_TURNS.md`:
-
-0. resume baseline
-1. authority and dirty-diff integration
-2. Publication Engine v2
-3. first evidence-backed case review
-4. 3-5 case corpus and observatory UI
-5. owner-only Sites compatibility deployment
-6. public editorial MVP
-7. AdSense technical probe
-8. recurring observation loop
-
-## Publication Engine v2
-
-### Build-time content boundary
-
-- `gray-matter` parses YAML frontmatter, including nested objects and multiline arrays.
-- Zod schemas in `src/content/schema.ts` validate case/article metadata.
-- `scripts/lib/content-compiler.ts` reads MDX and produces `src/generated/content-registry.json`.
-- source paths and inputs are sorted before serialization; a content SHA-256 is recorded.
-- `predev`, `pretest`, and `prebuild` run the compiler.
-- runtime application code reads the generated registry and contains no `node:fs` or `process.cwd()` dependency.
-
-### Case metadata contract
-
-New required structures include:
-
-- `case_kind`: `documented_regression`, `observed_output`, or `reproduction_test`
-- `review_status`: `pending` or `approved`
-- `last_verified_at`
-- `source_links[]`: `label`, `url`, `source_type`, `accessed_at`
-- `ai_assistance`: `used`, `disclosure`, `human_reviewed`
-
-### Fail-closed publication contract
-
-A case is publication-eligible only when all conditions are true:
-
-1. schema valid;
-2. `draft === false`;
-3. `review_status === approved`;
-4. all 9 required headings exist with non-empty bodies;
-5. no `TODO`, empty required value, `example.com`, or invalid URL exists;
-6. at least one structured source link exists.
-
-Missing `draft` normalizes to non-public and adds a blocker. A case that declares publication intent but breaks a gate makes the compiler/build fail. Fixtures can never become publication-eligible. Missing content no longer renders a `TODO` fallback.
-
-The same generated registry controls case/article listings, direct detail lookup, related cases, and sitemap output. There is no production draft-preview route.
-
-### Advertising eligibility
-
-Ad eligibility is state-based, not a broad route allowlist. A page must be both published and substantive, and must be a case/article detail route. Home, empty listings, policy/info pages, drafts, local review artifacts, and errors are ineligible. No real advertising JavaScript or publisher ID is present.
-
-## First Evidence-Backed Case
-
-Case: `content/cases/002-gpt-4o-sycophancy-rollback.mdx`
-
-- title: GPT-4oの迎合的応答を招いた2025年4月更新とロールバック
-- kind: `documented_regression`
-- category: `sycophancy`
-- severity: conservative `sev2`
-- verification: `single_source`; two official documents, one source origin (OpenAI)
-- state: `draft: true`, `review_status: pending`
-- independent reproduction: not attempted
-- AI assistance: disclosed; human review incomplete
-
-Sources:
-
-- `https://openai.com/index/sycophancy-in-gpt-4o/`
-- `https://openai.com/index/expanding-on-sycophancy/`
-
-The draft records the April 25, 2025 GPT-4o ChatGPT update, the reported increase in sycophantic behavior, and rollback beginning April 28. It does not add an unsupported incident rate, all-user generalization, independent causal theory, or long-term impact claim.
-
-Evidence-counting note for future schema work:
-
-- document count: 2 official OpenAI documents;
-- source-origin count: 1 independent issuing organization (OpenAI);
-- independent reproduction: none.
-
-The current taxonomy therefore uses `single_source`. A future schema may store these three dimensions separately, but this acceptance fix does not add a new verification status.
-
-## Local Review Artifact
+## Production acceptance evidence
 
 Artifact root:
 
-`samples/_review/publication-engine-v2/002-gpt-4o-sycophancy-rollback/`
+`samples/_review/turn4-publication-acceptance/`
 
-Contents:
+Files:
 
-- `case-card.html` / `case-card.png`
-- `case-detail.html` / `case-detail-desktop.png` / `case-detail-mobile.png`
-- `source-links.html` / `source-links.png`
-- `readback.json`
-- `readback.md`
+- `public-cases-desktop.png` / `public-cases-mobile.png`
+- `002-detail-desktop.png` / `002-detail-mobile.png`
+- `003-detail-desktop.png` / `003-detail-mobile.png`
+- `004-detail-desktop.png` / `004-detail-mobile.png`
+- `editorial-decision-record.md` / `.json`
 
-The HTML uses the production component and production CSS output but is served only by `npm run review:serve`. Generation rejects any case that is not a blocked pending draft. These files are diagnostic evidence, not publication approval.
+Browser acceptance covered:
 
-Visual/browser readback:
+- `/cases` at 1280x800 and 390x844;
+- all three detail routes at 1280x800 and 390x844;
+- all six source links and safe `target="_blank"` / `rel="noopener noreferrer"` attributes;
+- approved/human-reviewed labels and case-specific evidence boundaries;
+- related cases: 002 -> 003, 003 -> 002, 004 -> none;
+- static local corpus GitHub filter and Reset behavior;
+- no horizontal overflow, garbled text, missing required labels, real ad elements, or browser console errors.
 
-- desktop detail rendered with local-review and not-approved labels;
-- mobile viewport 390px, no horizontal overflow;
-- two external source links, each with `target=_blank` and `rel="noopener noreferrer"`;
-- review ads: 0;
-- review console errors: 0.
-- all four `.png` artifacts have the PNG signature `89 50 4E 47 0D 0A 1A 0A`; `npm run review:verify-images` enforces extension/magic-byte agreement.
+The browser returned JPEG capture bytes. Each output was decoded and saved as PNG; all eight files begin with `89 50 4E 47 0D 0A 1A 0A`. Detail evidence combines a top viewport with a source/AI/related viewport separated by a neutral strip; it is not represented as a continuous full-page capture.
 
-Turn 4 batch artifact root:
+## Acceptance checks
 
-`samples/_review/turn4-mini-corpus/`
+The complete suite for this branch must remain green immediately before integration:
 
-It contains the evidence matrix, `corpus-review.html`, desktop/mobile PNGs, and Markdown/JSON readbacks. The batch surface reuses production card, detail, source-link, metadata, badge, and related-case components. Four exact metadata filters were exercised; GitHub narrowed the card set to `1 of 3` and reset restored all three. Six external source links retained safe target/rel attributes. Desktop 1280x800 and mobile 390x844 had no horizontal overflow, review ads were 0, and console errors were 0.
-
-The browser returned JPEG screenshots. They were decoded and re-encoded as PNG, not renamed. Both Turn 4 images have the PNG signature `89 50 4E 47 0D 0A 1A 0A` and were opened again after encoding.
-
-## Verification
-
-Passed on this branch after authority integration:
-
-| Check | Result |
+| Check | Expected accepted result |
 |---|---|
-| `npm ls --depth=0` | pass; dependency tree valid |
-| `npm run content:compile` | pass twice; public cases 0, blocked case candidates 4, public articles 0; digest prefix `42e8f27aad23`; second run unchanged |
-| `npm run lint:editorial` | pass, no warnings |
-| `npm test` | 23 pass, 0 fail |
-| `npm run review:verify-images` | all 18 review images match their extension and magic bytes; both new Turn 4 files are real PNG |
-| `npm run build` | pass; 15 routes |
+| `npm ls --depth=0` | valid dependency tree |
+| `npm run content:compile` twice | 3 public cases, 1 blocked case, 0 public articles; second run unchanged; digest `4ea9f26ba88d...` |
+| `npm run lint:editorial` | no errors or warnings |
+| `npm test` | 25 pass, 0 fail |
+| `npm run review:generate-corpus` | approved/human-reviewed local review generated; static Reset present |
+| `npm run review:verify-images` | every tracked review image matches extension and magic bytes |
+| `npm run build` | static build succeeds; all 3 case detail routes generated |
 | `npm audit --audit-level=low` | 0 vulnerabilities |
-| production public HTTP | 12/12 routes returned 200 |
-| blocked HTTP | all 5 compiler-known draft routes returned 404: case template, three corpus cases, article template |
-| production cases/articles | draft slugs absent, ads 0, public counts remain 0 |
-| sitemap | corpus drafts and templates absent |
-| browser console | 0 errors on local batch review and production `/cases` |
-| visual | local review and production `/cases` checked at 1280x800 and 390x844; horizontal overflow false |
+| production route smoke | 15/15 expected routes return 200 |
+| blocked route smoke | template case/article, 5 fixtures, and legacy slug return 404 (8/8) |
+| sitemap/list/related | approved cases included; templates, fixtures, legacy excluded; exact related boundary retained |
+| advertising | ineligible pages 0 placeholders; all pages 0 real ad code/elements |
+| browser | console errors 0; desktop/mobile overflow false |
+| `git diff --check` | clean |
+| secret/PII/artifact audit | no credential, personal identity, or oversized unintended artifact |
 
-Expected 200 routes:
+Expected 200 routes are the 12 static/public resources plus the three approved case detail routes. A Next.js `NoFallbackError` may appear on the server console while intentionally probing unknown static slugs; the HTTP result remains the acceptance authority and must be 404.
 
-`/`, `/cases`, `/articles`, `/taxonomy`, `/methodology`, `/about`, `/privacy`, `/terms`, `/removal-request`, `/disclosures`, `/robots.txt`, `/sitemap.xml`
-
-Compiler-known draft 404 routes checked:
-
-`/cases/001-template-case`, `/cases/002-gpt-4o-sycophancy-rollback`, `/cases/003-new-bing-long-session-context-confusion`, `/cases/004-github-copilot-insecure-code-replication`, `/articles/001-template-article`
-
-## Residual Work Ownership
+## Residual work ownership
 
 | Residual | Purpose | Effect | Requirement | State | Owner | Next move |
 |---|---|---|---|---|---|---|
-| Batch corpus editorial decisions | Close Turn 3/4 human gate | Determines approve/revise/reject per case; production count remains 0 meanwhile | Human review of all MDX, primary sources, evidence boundaries, classification, severity, verification, counterevidence, and AI disclosure | Pending human judgment | Project owner / editor | Use `corpus-readback.md` and record one explicit decision for each of the three slugs |
-| Held Anthropic candidate | Preserve a bounded simulation-only lead without forcing taxonomy | No compiler or publication effect while held | Taxonomy Decision Packet and simulation-scope review | Held | Editor + taxonomy owner | Revisit only if a precise category and review purpose are authorized |
-| Rejected Gemini candidate | Preserve the negative selection rationale | Prevents unsupported failure inference | A primary source that directly establishes a bounded failure | Rejected for current corpus | Research editor | Do not revive from the capability report alone |
-| Production site URL | Correct canonical robots/sitemap URLs | Current fallback remains `https://example.com` | Domain and environment decision | Owner-only pending | Deployment owner | Set `NEXT_PUBLIC_SITE_URL` in Turn 5/6 |
-| Sites compatibility/deployment | Prove target hosting | Would change external/public state | Owner instruction and target configuration | Out of current scope | Project owner | Handle in owner-only Turn 5 |
-| AdSense probe | Validate future primary revenue path | Introduces external policy/account/code surface | Public editorial MVP, owner publisher setup, privacy/consent review | Turn 7 only | Project owner | Do not add IDs or code before explicit gate |
-| Legacy Gemini candidate | Preserve potentially useful observation without blocking work | None while blocked; unsafe if copied | Real source, scope, observation evidence | Blocked legacy reference | Original information owner | Re-evaluate only if evidence arrives |
-| Local MkDocs runtime | Optional browser docs view | Does not block Next.js development | Working local Python + mkdocs-material | Machine-local pending | Local developer | Repair only when docs server is needed |
-| Favicon/OG assets | Presentation polish | Sharing remains skeletal | Approved brand assets | Not started | Brand/product owner | Include with Turn 4 UI work if assets exist |
+| Main fast-forward integration | Put accepted Turn 4 source/build state on canonical branch | Makes `main` contain the three eligible cases; does not deploy a site | unchanged `origin/main`, behind 0, clean tree, full suite green, `--ff-only` | Current closeout gate | Codex implementation lane | Fetch, audit diff, fast-forward only, validate on main, push, prove 0/0 parity |
+| Production site URL | Replace the fallback canonical/robots/sitemap origin | Changes generated canonical URLs | owner-selected domain/environment and Sites plan | Owner-only pending | Deployment owner | Decide in Turn 5 before any external deployment |
+| Sites compatibility and deployment | Prove the built site in the intended hosting surface | Creates external/public state if executed | explicit owner authorization, isolated compatibility check, rollback path | Not started; outside Turn 4 | Project owner | Open a new branch from updated main; do not infer permission from source eligibility |
+| Public editorial MVP | Accept a live URL, canonical metadata, correction/removal flow, and production behavior | Begins public observatory operation | successful Turn 5, owner public-release decision, live-route evidence | Turn 6 closed | Project owner/editor | Validate the exact deployed artifact and URL |
+| AdSense technical probe | Test the planned future revenue path on eligible detail pages | Adds external policy/account/code surface | public MVP, owner publisher setup, privacy/consent review, explicit authorization | Turn 7 closed | Project owner | Keep all IDs and scripts absent until the gate opens |
+| Recurring observation loop | Sustain research, review, publication, re-verification, and correction | Creates an ongoing editorial cadence | owners, schedule, evidence refresh and correction SLA | Turn 8 closed | Editor + project owner | Define only after public MVP acceptance |
+| Held Anthropic simulation | Preserve a bounded research lead without forcing taxonomy | No current compiler/publication effect | taxonomy packet and simulation-scope decision | Held | Taxonomy owner/editor | Revisit only with a precise approved category |
+| Rejected/legacy Gemini directions | Preserve negative rationale | Prevents capability claims becoming unsupported failure cases | direct bounded failure evidence | Rejected/blocked | Research editor | Do not revive from capability material alone |
 
-## Recommended Farthest Safe Goal
+## Farthest safe roadmap
 
-Set the next objective to **Turn 4 batch human editorial review**, without changing publication state during the review itself.
+1. Finish the current branch push and fast-forward-only `main` integration with parity 0/0.
+2. Turn 5, only after explicit owner authorization: create a new branch from updated `main`, set a non-secret target URL/configuration, and perform Sites compatibility checks without adding ads or paid features. Stop before external publication unless separately authorized.
+3. Turn 6, only after an owner release decision: validate the exact deployed artifact, live canonical URL, sitemap/robots, case routes, correction/removal path, mobile UI, console, and rollback. Source/build evidence alone cannot clear this gate.
+4. Turn 7, only after a public editorial MVP and policy/account readiness: run a narrowly scoped AdSense technical probe on eligible detail pages. Do not add a real publisher ID before authorization.
+5. Turn 8: establish recurring source review, case drafting, human approval, publication, re-verification, correction, and retirement procedures with measurable ownership.
 
-The objective is complete when:
+Do not propose or implement paid reports, individual contracts, audit services, payments, or membership features. The intended future revenue lane is owner-authorized Codex Sites publication followed by advertising eligibility work.
 
-1. the editor reads the evidence matrix, all three MDX files, and all six primary-source links;
-2. each slug receives an explicit `approve`, `revise`, or `reject` decision with a reason;
-3. revisions specify exact claim, classification, severity, verification, counterevidence, or disclosure changes;
-4. no publication field changes until those decisions are available;
-5. an implementation branch applies only the authorized decisions and reruns the complete publication/non-exposure suite;
-6. Turn 5 remains closed until the owner separately authorizes hosting work.
+## Resume sequence
 
-Do not include Sites deployment, public access changes, actual AdSense code or applications, paid reports, individual contracts, audit services, payments, or membership features. Turn 4 must start from updated `main` on a new branch and must not implicitly merge itself back.
-
-## Resume Sequence
-
-1. Fetch and inspect the live state of `codex/lro-turn4-evidence-corpus-ui`; do not assume the handoff is newer than Git.
-2. Read this file, `docs/DEVELOPMENT_TURNS.md`, `docs/CASE_PUBLICATION_GUIDE.md`, the evidence matrix, and `corpus-readback.md`.
-3. Open all three MDX files, six primary sources, and both Turn 4 PNGs.
-4. Record an explicit `approve`, `revise`, or `reject` decision for each slug without editing publication fields.
-5. If implementation is authorized, start a separate `codex/` branch from the accepted base and apply only the recorded decisions.
-6. Keep Sites, deployment, real ads, payment, membership, and owner-only Turn 5+ work outside that branch unless separately authorized.
+1. Read live Git state first: branch, HEAD, worktree, upstream parity, and `origin/main` parity.
+2. Read this handoff, `docs/DEVELOPMENT_TURNS.md`, `docs/CASE_PUBLICATION_GUIDE.md`, the decision record, evidence matrix, and corpus readback.
+3. Confirm whether Turn 4 has already been fast-forwarded to `main`; do not repeat the merge or create a merge commit.
+4. If beginning Turn 5, require a fresh `codex/` branch from updated `main` and an explicit owner instruction for the external-state boundary.
+5. Keep real ads, Sites deployment, domain changes, payments, membership, paid reports, contracts, and audit services outside the branch unless separately authorized.
 
 ## Guardrails
 
-- Preserve fixtures under `content/_fixtures` and never publish them.
-- AI assistance is allowed only with disclosure and human approval before publication.
-- Keep evidence boundaries explicit; local/browser proof is not independent reproduction or production acceptance.
-- Do not expose drafts through query parameters, secret slugs, or alternate production routes.
-- Keep ads off drafts, empty listings, home, policy/info, review, and error pages.
+- Preserve `content/_fixtures`; never publish fixtures.
+- Never infer human approval; use the explicit decision record.
+- Keep issuer document count, independent origins, and independent reproduction separate.
+- Keep local build/browser evidence separate from deployed-public evidence.
+- Do not expose blocked content through alternate routes or preview parameters.
 - Do not add submissions, admin, auth, DB, API, payments, accounts, rankings, real ad IDs, or deployment changes in the current lane.

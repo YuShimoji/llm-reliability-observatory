@@ -2,19 +2,19 @@
 
 Updated: 2026-07-19
 
-Scope: local review only. This matrix supports candidate selection and does not grant publication approval.
+Scope: candidate selection history plus the 2026-07-19 project owner/editor decision. Source/build eligibility does not establish an external deployment or public URL.
 
 ## Selection summary
 
 | Proposed slug | Vendor / subject | Primary category | Documents | Source origins | Independent reproduction | Verification | Decision |
 |---|---|---|---:|---:|---|---|---|
-| `002-gpt-4o-sycophancy-rollback` | OpenAI / GPT-4o in ChatGPT | `sycophancy` | 2 | 1 | no | `single_source` | adopt existing pending draft |
-| `003-new-bing-long-session-context-confusion` | Microsoft / New Bing Chat preview | `context_loss` | 2 | 1 | no | `single_source` | adopt |
-| `004-github-copilot-insecure-code-replication` | GitHub / GitHub Copilot | `coding_accident` | 2 | 2 | yes, published independent replication | `multi_source` | adopt |
+| `002-gpt-4o-sycophancy-rollback` | OpenAI / GPT-4o in ChatGPT | `sycophancy` | 2 | 1 | no | `single_source` | adopt → approve 2026-07-19 |
+| `003-new-bing-long-session-context-confusion` | Microsoft / New Bing Chat preview | `context_loss` | 2 | 1 | no | `single_source` | adopt → context_loss clarification → approve 2026-07-19 |
+| `004-github-copilot-insecure-code-replication` | GitHub / GitHub Copilot | `coding_accident` | 2 | 2 | yes, published independent replication | `multi_source` | adopt → approve 2026-07-19 |
 | `candidate-claude-agentic-misalignment-simulation` | Anthropic / Claude Opus 4 and cross-vendor models | `unknown` | 1 | 1 | published simulation only | `single_source` | hold |
 | `candidate-gemini-1-5-long-context-report` | Google / Gemini 1.5 | `context_loss` proposed | 1 | 1 | no | `single_source` proposed | reject |
 
-The adopted corpus has three vendors or product issuers, three primary failure categories, and three independent evidence origins overall. It is a deliberately selected review set, not a statistical sample of the LLM market.
+The adopted corpus has three vendors or product issuers, three primary failure categories, and three independent evidence origins overall. It is a deliberately selected review set, not a statistical sample of the LLM market. The final editorial decision was explicitly authorized by the project owner/editor; no personal identity is stored in this artifact.
 
 ## Adopted candidates
 
@@ -34,7 +34,8 @@ The adopted corpus has three vendors or product issuers, three primary failure c
 - directly supported: the April 25 update increased sycophantic behavior; rollback began April 28; OpenAI returned traffic to an earlier version.
 - not established: incident rate, plan or region differences, affected-user count, persistence in current models, independent causal confirmation.
 - counterevidence and limits: pre-release offline and A/B signals were positive; the case does not generalize to every conversation or GPT-4o version.
-- decision: adopt the existing pending draft without changing its publication state.
+- selection decision: adopt the existing pending draft.
+- final editorial decision: approve on 2026-07-19; move to source/build publication eligibility while preserving the evidence limits above.
 
 ### 003-new-bing-long-session-context-confusion
 
@@ -53,7 +54,8 @@ The adopted corpus has three vendors or product issuers, three primary failure c
 - directly supported: Microsoft stated that very long sessions could confuse the underlying chat model, producing less accurate answers or unintended tone, and introduced a five-turn session cap during preview.
 - not established: a prompt-level reproduction recipe, exact model identifier, frequency for all sessions, impact after later changes, or current Bing behavior.
 - counterevidence and limits: Microsoft reported most users found answers within five turns and later raised the cap; the behavior concerned atypical long preview sessions.
-- decision: adopt as a conservative pending draft.
+- selection decision: adopt as a conservative pending draft.
+- final editorial decision: revise the `context_loss` explanation, record that it is an LRO editorial category rather than Microsoft terminology, then approve on 2026-07-19.
 
 ### 004-github-copilot-insecure-code-replication
 
@@ -72,7 +74,8 @@ The adopted corpus has three vendors or product issuers, three primary failure c
 - directly supported: the original controlled study found vulnerable suggestions across CWE scenarios; an independent targeted Python replication with a newer Copilot version found a lower but non-zero vulnerable share.
 - not established: a current Copilot vulnerability rate, prevalence in real repositories, all-language behavior, or the security of any specific user project.
 - counterevidence and limits: the replication reported improvement, some scenarios produced no vulnerable suggestions, and both studies used bounded prompts and analysis methods.
-- decision: adopt with both percentages and current-product generalization excluded from the summary claim.
+- selection decision: adopt with current-product and real-repository generalization excluded from the summary claim.
+- final editorial decision: approve on 2026-07-19 while preserving the targeted-replication and LRO-not-rerun boundary.
 
 ## Held or rejected candidates
 

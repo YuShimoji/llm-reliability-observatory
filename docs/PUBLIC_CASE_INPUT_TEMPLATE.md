@@ -1,17 +1,16 @@
 # Public Case Intake Status
 
-## Active review candidate
+## Approved intake corpus
 
-現在のactive candidateは`content/cases/002-gpt-4o-sycophancy-rollback.mdx`です。
+2026-07-19のowner/editor判断により、次の3件はsource/build上でpublication eligibleです。
 
-- source: OpenAI公式資料2件
-- case kind: `documented_regression`
-- state: `draft: true` / `review_status: pending`
-- AI assistance: 使用・開示済み、人間レビュー未完了
-- production exposure: なし
-- local review: `samples/_review/publication-engine-v2/002-gpt-4o-sycophancy-rollback/`
+| Slug | Source boundary | State |
+|---|---|---|
+| `002-gpt-4o-sycophancy-rollback` | OpenAI公式2文書、発行主体1、独立再現なし | `draft: false` / `approved` / human true |
+| `003-new-bing-long-session-context-confusion` | Microsoft公式2文書、発行主体1、独立再現なし | `draft: false` / `approved` / human true |
+| `004-github-copilot-insecure-code-replication` | 独立研究2件、公開追試あり、LRO再実行なし | `draft: false` / `approved` / human true |
 
-公開前に、人間editorがsourceとの一致、一般化の回避、`sev2`の保守性、反証、AI開示を確認します。
+判断理由は`samples/_review/turn4-publication-acceptance/editorial-decision-record.*`、現行検証は`docs/HANDOFF.md`を正とします。source/build eligibilityはSites配備やpublic URL acceptanceを意味しません。
 
 ## Blocked legacy candidate: Gemini nonexistent capability
 

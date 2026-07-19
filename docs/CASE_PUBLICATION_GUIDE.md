@@ -27,7 +27,7 @@ case本文には「状況」「期待していた回答」「実際の回答ま�
 
 ## 複数caseの一括レビュー
 
-複数のpending draftは、公開状態を変えずにlocal-onlyで比較できます。
+複数のpending draftは、公開状態を変えずにlocal-onlyで比較できます。既にcase単位の判断を得たeligible caseも、決定実装後の回帰確認として同じ一括surfaceを再生成できます。
 
 ```powershell
 npm run review:generate-corpus
@@ -63,4 +63,4 @@ production確認はbuild後に`.\node_modules\.bin\next.cmd start -p 3100`で行
 
 ## 範囲外
 
-投稿、管理画面、認証、DB、API、メール、決済、コメント、投票、ランキング、実AdSenseコード、Sitesデプロイ、公開アクセス変更はこの手順に含めません。
+投稿、管理画面、認証、DB、API、メール、決済、コメント、投票、ランキング、実AdSenseコード、Sitesデプロイ、公開アクセス変更、有料レポート、個別契約、監査サービス、会員機能はこの手順に含めません。
