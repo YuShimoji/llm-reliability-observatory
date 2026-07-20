@@ -8,6 +8,8 @@
 |---|---|
 | 現在地、検証、残作業、owner gate | `docs/HANDOFF.md` |
 | Turn 0〜8と出口条件 | `docs/DEVELOPMENT_TURNS.md` |
+| owner-only Sites証跡 | `docs/TURN5_SITES_COMPATIBILITY.md` |
+| GitHub backport境界と再開手順 | `docs/TURN5B_GITHUB_BACKPORT_INVENTORY.md` |
 | 公開契約と手順 | `docs/CASE_PUBLICATION_GUIDE.md` |
 | case単位の人間判断 | `samples/_review/turn4-publication-acceptance/editorial-decision-record.md` / `.json` |
 | evidence選定と否定判断 | `samples/_review/turn4-mini-corpus/corpus-evidence-matrix.md` / `.json` |
@@ -26,6 +28,8 @@
 | local-only review | 実装済み | 単体と一括generator; static Resetも検証 |
 | 広告適格性 | 実装・テスト済み | eligible detailだけにinert placeholder; 実広告コード0 |
 | Production acceptance images | 8枚保存 | `/cases`と3 detailのdesktop/mobile真正PNG |
+| Owner-only Sites compatibility | Turn 5完了 | private Version 2、Version 1 rollback、access/route/artifact証跡 |
+| GitHub compatibility backport | Turn 5B branch | Vinext/Vite/Worker、unbound既定、artifact tests、tracked handoff |
 | MkDocs local documentation view | 維持 | `docs/index.md`, `mkdocs.yml` |
 
 ## 現在のコンテンツ状態
@@ -41,6 +45,6 @@
 
 ## 現在作らないもの
 
-投稿、管理画面、認証、DB、API、メール、決済、コメント、投票、ランキング、会員機能、有料レポート、個別契約、監査サービス、スポンサー契約、手動納品、実AdSense JavaScript、Sites deployment、domain変更はTurn 4に含みません。
+投稿、管理画面、認証、DB、API、メール、決済、コメント、投票、ランキング、会員機能、有料レポート、個別契約、監査サービス、スポンサー契約、手動納品、実AdSense JavaScript、public access、custom domainは現在のlaneに含みません。
 
-次はowner-onlyのTurn 5です。更新後の`main`から専用branchを作り、ownerがhostingと外部状態変更を明示した場合だけSites compatibilityへ進みます。将来の収益化方針は、Codex Sitesでの公開受入後に広告適格性を検討することです。
+次はownerがTurn 6 public editorial MVPを開くか判断します。Turn 5BのGitHub branchはowner-only互換性の再現面であり、既存Siteへのbinding、再deploy、access変更、public releaseを行いません。将来の収益化は、public editorial MVP受入後に広告適格性を別gateで検討します。

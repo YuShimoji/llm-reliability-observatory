@@ -1,11 +1,15 @@
 .next/
+.vinext/
 node_modules/
 out/
 dist/
+.wrangler/
+outputs/
+work/
 .mkdocs-site/
 coverage/
-.env
-.env*.local
+.env*
+!.env.example
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
