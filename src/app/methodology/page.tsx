@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { AdSlot } from "@/components/AdSlot";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { MarkdownBody } from "@/components/MarkdownBody";
 import { getStaticContentPage } from "@/lib/content";
@@ -17,7 +16,6 @@ export default function MethodologyPage() {
       <Breadcrumb items={[{ label: "Methodology" }]} />
       <h1 className="mt-8 text-3xl font-semibold tracking-normal text-ink">{page.title}</h1>
       {page.summary ? <p className="mt-4 text-base leading-7 text-smoke">{page.summary}</p> : null}
-      <AdSlot slot="top" />
       <div className="mt-8 space-y-8">
         {page.sections.map((section) => (
           <section key={section.heading}>

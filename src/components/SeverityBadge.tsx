@@ -1,3 +1,4 @@
+import React from "react";
 import type { CaseSeverity } from "@/types/case";
 
 const severityLabels: Record<CaseSeverity, string> = {

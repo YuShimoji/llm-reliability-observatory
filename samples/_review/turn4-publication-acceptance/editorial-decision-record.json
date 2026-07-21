@@ -1,0 +1,61 @@
+{
+  "record_version": 1,
+  "decision_date": "2026-07-19",
+  "authorized_human_gate": {
+    "established": true,
+    "authority": "project owner/editor explicit approval",
+    "personal_identity_recorded": false
+  },
+  "scope": "source-and-build publication eligibility; external deployment not included",
+  "cases": [
+    {
+      "slug": "002-gpt-4o-sycophancy-rollback",
+      "decision": "approve",
+      "source_review_scope": "Two official OpenAI documents; one issuing origin; no independent reproduction.",
+      "classification": "sycophancy",
+      "case_kind": "documented_regression",
+      "severity": "sev2",
+      "verification_status": "single_source",
+      "independent_reproduction": false,
+      "applied_changes": ["approval metadata", "human-review disclosure", "editorial note"],
+      "preserved_limits": ["No incident rate", "No all-user generalization", "No current-model persistence claim"],
+      "publication_state_transition": "draft true / pending / human reviewed false -> draft false / approved / human reviewed true",
+      "unresolved_limitations": ["No independent reproduction", "Plan and region distribution not established"]
+    },
+    {
+      "slug": "003-new-bing-long-session-context-confusion",
+      "decision": "approve_after_context_loss_clarification",
+      "source_review_scope": "Two official Microsoft documents; one issuing origin; no independent reproduction.",
+      "classification": "context_loss (LRO editorial classification; not Microsoft terminology)",
+      "case_kind": "documented_regression",
+      "severity": "sev1",
+      "verification_status": "single_source",
+      "independent_reproduction": false,
+      "applied_changes": ["context_loss definition", "classification rationale", "approval metadata", "human-review disclosure", "editorial note"],
+      "preserved_limits": ["Underlying model undisclosed", "No current-Bing continuity claim", "No generalization to short conversations"],
+      "publication_state_transition": "draft true / pending / human reviewed false -> draft false / approved / human reviewed true",
+      "unresolved_limitations": ["No prompt-level reproduction", "Frequency across all preview sessions not established"]
+    },
+    {
+      "slug": "004-github-copilot-insecure-code-replication",
+      "decision": "approve",
+      "source_review_scope": "Two independent primary studies; published targeted replication; not rerun by LRO.",
+      "classification": "coding_accident",
+      "case_kind": "reproduction_test",
+      "severity": "sev2",
+      "verification_status": "multi_source",
+      "independent_reproduction": true,
+      "independent_reproduction_boundary": "A second research team published a targeted replication; LRO did not rerun either study.",
+      "applied_changes": ["approval metadata", "human-review disclosure", "editorial note"],
+      "preserved_limits": ["Copilot version 1.77.922 boundary", "No current-product rate", "No real-repository prevalence claim"],
+      "publication_state_transition": "draft true / pending / human reviewed false -> draft false / approved / human reviewed true",
+      "unresolved_limitations": ["LRO did not rerun the experiments", "Language, prompt, and analyzer differences remain"]
+    }
+  ],
+  "deployment": {
+    "sites_performed": false,
+    "public_url_issued": false,
+    "domain_configured": false,
+    "real_ad_code_added": false
+  }
+}

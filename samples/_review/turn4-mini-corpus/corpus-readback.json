@@ -1,0 +1,123 @@
+{
+  "artifact_version": 2,
+  "updated_at": "2026-07-20",
+  "decision_date": "2026-07-19",
+  "scope": "source_build_publication_eligibility_and_local_production_component_acceptance",
+  "branch": "codex/lro-turn4-batch-editorial-review",
+  "implementation_base": "fe71d4a4d4b8d4626068a020eecec42e57ed92d0",
+  "publication_approval": {
+    "established": true,
+    "authority": "project owner/editor explicit case-level decisions",
+    "external_deployment_authorized": false
+  },
+  "registry": {
+    "source_digest": "4ea9f26ba88d769affeeb2636674438cc8108463753edfd798f1478997b724ba",
+    "public_cases": 3,
+    "blocked_case_candidates": 1,
+    "public_articles": 0,
+    "fixtures_excluded": 5
+  },
+  "corpus": {
+    "adopted_count": 3,
+    "vendors": ["OpenAI", "Microsoft", "GitHub"],
+    "primary_failure_categories": ["sycophancy", "context_loss", "coding_accident"],
+    "verification_distribution": {
+      "single_source": 2,
+      "multi_source": 1
+    },
+    "statistical_sample": false,
+    "cases": [
+      {
+        "slug": "002-gpt-4o-sycophancy-rollback",
+        "decision": "approve",
+        "draft": false,
+        "review_status": "approved",
+        "human_reviewed": true,
+        "document_count": 2,
+        "source_origin_count": 1,
+        "independent_reproduction": false
+      },
+      {
+        "slug": "003-new-bing-long-session-context-confusion",
+        "decision": "approve_after_context_loss_clarification",
+        "draft": false,
+        "review_status": "approved",
+        "human_reviewed": true,
+        "document_count": 2,
+        "source_origin_count": 1,
+        "independent_reproduction": false,
+        "classification_boundary": "context_loss is an LRO editorial classification, not Microsoft terminology"
+      },
+      {
+        "slug": "004-github-copilot-insecure-code-replication",
+        "decision": "approve",
+        "draft": false,
+        "review_status": "approved",
+        "human_reviewed": true,
+        "document_count": 2,
+        "source_origin_count": 2,
+        "independent_reproduction": true,
+        "independent_reproduction_boundary": "Published targeted replication by a second research team; not rerun by LRO."
+      }
+    ]
+  },
+  "local_review": {
+    "html": "corpus-review.html",
+    "filters": ["category", "vendor", "verification_status", "case_kind"],
+    "github_filter_result": "1 of 3 cases",
+    "static_reset_result": "all four select values cleared; 3 of 3 cards and details visible",
+    "source_links": 6,
+    "source_link_target_blank": true,
+    "source_link_rel_noopener_noreferrer": true,
+    "ad_elements": 0,
+    "console_errors": 0,
+    "horizontal_overflow": false
+  },
+  "production": {
+    "public_route_smoke": "15/15 returned 200",
+    "blocked_route_smoke": "8/8 returned 404: template case/article, five fixtures, legacy candidate",
+    "case_count": 3,
+    "article_count": 0,
+    "sitemap_includes_approved_cases": true,
+    "sitemap_excludes_template_fixture_legacy": true,
+    "related_cases": {
+      "002-gpt-4o-sycophancy-rollback": ["003-new-bing-long-session-context-confusion"],
+      "003-new-bing-long-session-context-confusion": ["002-gpt-4o-sycophancy-rollback"],
+      "004-github-copilot-insecure-code-replication": []
+    },
+    "eligible_detail_placeholder_count_per_dom": 3,
+    "ineligible_page_ad_placeholders": 0,
+    "real_ad_elements_or_code": 0,
+    "console_errors": 0,
+    "desktop_horizontal_overflow": false,
+    "mobile_horizontal_overflow": false
+  },
+  "images": {
+    "root": "../turn4-publication-acceptance",
+    "count": 8,
+    "format": "PNG",
+    "signature": "89 50 4E 47 0D 0A 1A 0A",
+    "all_below_one_megabyte": true,
+    "detail_capture_boundary": "two discrete viewports joined with a neutral separator; not continuous full-page capture"
+  },
+  "visual_readback": {
+    "garbled_text": false,
+    "clipped_required_labels": false,
+    "missing_link_display": false,
+    "horizontal_overflow": false
+  },
+  "next_gate": {
+    "turn": 5,
+    "name": "owner-only Sites compatibility",
+    "requires_updated_main_and_new_branch": true,
+    "requires_explicit_owner_external_state_authorization": true,
+    "excluded": [
+      "real advertising",
+      "paid reports",
+      "individual contracts",
+      "audit services",
+      "payments",
+      "membership"
+    ]
+  }
+}

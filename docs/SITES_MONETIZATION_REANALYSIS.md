@@ -2,6 +2,8 @@
 
 Updated: 2026-07-17
 
+> **Historical record:** This analysis predates Publication Engine v2 and the accepted three-case corpus now on `origin/main`. Its statements that public case count is zero, content-contract hardening is unimplemented, or paid audits/reports are a recommended lane are superseded by `docs/HANDOFF.md`, `docs/DEVELOPMENT_TURNS.md`, and `docs/MONETIZATION_POLICY.md` as of 2026-07-20. Keep it for decision history only; it does not authorize deployment, commerce, contracts, or feature work.
+
 この文書は、2026-07-15 から 2026-07-17 に行ったリポジトリ再分析と、Codex Sites を使った収益化判断を、別端末でも再開できる形で保持するための判断記録です。公開 case 本文、編集ポリシー本文、収益化ポリシー本文を代筆するものではありません。
 
 ## 結論

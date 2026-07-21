@@ -1,3 +1,4 @@
+import React from "react";
 import { SeverityBadge } from "@/components/SeverityBadge";
 import { VerificationBadge } from "@/components/VerificationBadge";
 import type { CaseRecord } from "@/types/case";
@@ -7,7 +8,11 @@ const labels: Array<[string, keyof CaseRecord]> = [
   ["Product", "model_product"],
   ["Version", "model_version"],
   ["Surface", "surface"],
-  ["Date", "date"]
+  ["Date", "date"],
+  ["Last verified", "last_verified_at"],
+  ["Kind", "case_kind"],
+  ["Category", "primary_failure_category"],
+  ["Review", "review_status"]
 ];
 
 export function CaseMetaBar({ caseItem }: { caseItem: CaseRecord }) {

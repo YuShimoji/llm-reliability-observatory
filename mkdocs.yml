@@ -23,7 +23,7 @@ nav:
   - Overview:
       - Local Documentation View: index.md
       - Project Overview: PROJECT_OVERVIEW.md
-      - Codex Sites Monetization Reanalysis: SITES_MONETIZATION_REANALYSIS.md
+      - Historical Sites Monetization Reanalysis: SITES_MONETIZATION_REANALYSIS.md
       - Turn-Based Development Plan: DEVELOPMENT_TURNS.md
       - Screenshot Index: SCREENSHOT_INDEX.md
       - Repository README: _root_README.md

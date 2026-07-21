@@ -7,7 +7,7 @@
 ## 主要導線
 
 - `Project Overview` で、実装済み範囲、進行中の作業、次に見るべき正本文書を確認します。
-- `Codex Sites 収益化再分析` で、Sites 公開可否、収益化方向、content contract の問題、再開順序を確認します。
+- `Codex Sites 収益化再分析` は 2026-07-17 時点の判断履歴として参照します。現在の実装状態や許可境界は `Project Handoff` と `Turn-Based Development Plan` を優先します。
 - `Turn-Based Development Plan` で、日付ではなく開発ターン単位の区切りと進捗を確認します。
 - `Screenshot Index` で、ルート監査時のスクリーンショットと配置場所を確認します。
 - 左側のツリーペインから、Overview / Specs / Runtime State / Development Notes / Artifacts を切り替えて確認します。

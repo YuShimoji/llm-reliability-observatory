@@ -1,18 +1,12 @@
-"use client";
-
-import { usePathname } from "next/navigation";
-import { isAdAllowedPath } from "@/lib/ad-allowlist";
+import React from "react";
 
 type AdSlotProps = {
   slot: "top" | "mid" | "bottom";
+  eligible: boolean;
 };
 
-export function AdSlot({ slot }: AdSlotProps) {
-  const pathname = usePathname();
-
-  if (!pathname || !isAdAllowedPath(pathname)) {
-    return null;
-  }
+export function AdSlot({ slot, eligible }: AdSlotProps) {
+  if (!eligible) return null;
 
   return (
     <div

@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { AdSlot } from "@/components/AdSlot";
+import { getContentStats } from "@/lib/content";
 
 const entryLinks = [
   {
     href: "/cases",
     label: "ケースを読む",
-    text: "公開準備が済んだ事例だけを一覧化します。"
+    text: "一次資料、検証範囲、反証、レビュー状態を確認できる事例だけを一覧化します。"
   },
   {
     href: "/taxonomy",
@@ -15,17 +15,19 @@ const entryLinks = [
   {
     href: "/methodology",
     label: "編集方法を見る",
-    text: "検証・反証・公開判断の書式を今後整えます。"
+    text: "検証・反証・AI補助開示・公開判断の運用境界を確認できます。"
   }
 ];
 
 export default function HomePage() {
+  const stats = getContentStats();
+
   return (
     <div className="mx-auto max-w-6xl px-5 py-12 sm:py-16">
       <section className="grid gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:items-end">
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-rust">
-            Static casebook MVP
+            Evidence before claims
           </p>
           <h1 className="mt-4 max-w-4xl text-4xl font-semibold tracking-normal text-ink sm:text-5xl">
             生成AIの出力事故を、公開可能な形で観測する。
@@ -36,10 +38,10 @@ export default function HomePage() {
           </p>
         </div>
         <div className="border-l-4 border-rust bg-white/62 p-6 shadow-sm">
-          <p className="text-sm font-semibold text-ink">MVP1の範囲</p>
+          <p className="text-sm font-semibold text-ink">公開境界</p>
           <p className="mt-3 text-sm leading-7 text-smoke">
-            現時点では投稿、認証、DB、管理画面、ランキング、AdSense本体を持たない静的サイトです。
-            実在事例の本文は、人間が後で執筆します。
+            公開中のケースは {stats.public_case_count} 件です。下書き、未承認記録、
+            一次資料や必須セクションを欠く候補は公開経路へ出しません。
           </p>
         </div>
       </section>
@@ -56,7 +58,6 @@ export default function HomePage() {
           </Link>
         ))}
       </section>
-      <AdSlot slot="top" />
     </div>
   );
 }

@@ -1,3 +1,4 @@
+import React from "react";
 import type { VerificationStatus } from "@/types/case";
 
 const statusLabels: Record<VerificationStatus, string> = {

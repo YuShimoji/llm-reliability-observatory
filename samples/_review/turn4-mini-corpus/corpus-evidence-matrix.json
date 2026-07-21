@@ -1,0 +1,195 @@
+{
+  "artifact_version": 1,
+  "updated_at": "2026-07-19",
+  "scope": "local_review_only",
+  "publication_approval": true,
+  "publication_approval_date": "2026-07-19",
+  "publication_approval_authority": "project owner/editor explicit approval",
+  "corpus_target": {
+    "adopted_count": 3,
+    "vendor_count": 3,
+    "primary_failure_category_count": 3,
+    "statistical_sample": false
+  },
+  "candidates": [
+    {
+      "proposed_slug": "002-gpt-4o-sycophancy-rollback",
+      "case_title": "GPT-4oの迎合的応答を招いた2025年4月更新とロールバック",
+      "vendor": "OpenAI",
+      "model": "GPT-4o in ChatGPT",
+      "version": "April 25, 2025 update",
+      "incident_or_observation_date": "2025-04-25",
+      "case_kind": "documented_regression",
+      "primary_failure_category": "sycophancy",
+      "proposed_severity": "sev2",
+      "proposed_verification_status": "single_source",
+      "reproducibility": "not_independently_reproduced",
+      "document_count": 2,
+      "source_origin_count": 1,
+      "independent_reproduction": false,
+      "source_urls": [
+        "https://openai.com/index/sycophancy-in-gpt-4o/",
+        "https://openai.com/index/expanding-on-sycophancy/"
+      ],
+      "directly_supported_claims": [
+        "The April 25 update increased sycophantic behavior.",
+        "Rollback began April 28 and traffic returned to an earlier version."
+      ],
+      "not_established": [
+        "Incident rate or affected-user count.",
+        "Persistence in current models.",
+        "Independent causal confirmation."
+      ],
+      "counterevidence_or_limits": [
+        "Offline evaluations and small A/B tests had positive signals.",
+        "The evidence does not generalize to every conversation or GPT-4o version."
+      ],
+      "decision": "adopt_existing_pending_draft",
+      "final_editorial_decision": {
+        "decision": "approve",
+        "date": "2026-07-19",
+        "authorized_human_gate": true
+      }
+    },
+    {
+      "proposed_slug": "003-new-bing-long-session-context-confusion",
+      "case_title": "New Bing previewで長い会話がモデルを混乱させたとしてturn上限を導入",
+      "vendor": "Microsoft",
+      "model": "New Bing Chat",
+      "version": "February 2023 preview; underlying model version undisclosed",
+      "incident_or_observation_date": "2023-02-17",
+      "case_kind": "documented_regression",
+      "primary_failure_category": "context_loss",
+      "proposed_severity": "sev1",
+      "proposed_verification_status": "single_source",
+      "reproducibility": "not_independently_reproduced_by_lro",
+      "document_count": 2,
+      "source_origin_count": 1,
+      "independent_reproduction": false,
+      "source_urls": [
+        "https://blogs.bing.com/search/february-2023/The-new-Bing-Edge-Updates-to-Chat",
+        "https://blogs.bing.com/search-quality-insights/february-2023/Building-the-New-Bing"
+      ],
+      "directly_supported_claims": [
+        "Very long sessions could confuse the underlying chat model.",
+        "Microsoft associated this condition with less accurate answers or unintended tone and introduced a five-turn cap."
+      ],
+      "not_established": [
+        "Exact underlying model identifier.",
+        "Frequency across all preview sessions.",
+        "Current Bing behavior."
+      ],
+      "counterevidence_or_limits": [
+        "Microsoft reported most users found answers within five turns.",
+        "The cap was later raised as the preview changed."
+      ],
+      "decision": "adopt",
+      "final_editorial_decision": {
+        "decision": "approve_after_context_loss_clarification",
+        "date": "2026-07-19",
+        "authorized_human_gate": true
+      }
+    },
+    {
+      "proposed_slug": "004-github-copilot-insecure-code-replication",
+      "case_title": "GitHub Copilotのコード提案に脆弱性が含まれた一次研究と追試",
+      "vendor": "GitHub",
+      "model": "GitHub Copilot",
+      "version": "technical preview and 1.77.922",
+      "incident_or_observation_date": "2023-11-18",
+      "case_kind": "reproduction_test",
+      "primary_failure_category": "coding_accident",
+      "proposed_severity": "sev2",
+      "proposed_verification_status": "multi_source",
+      "reproducibility": "published_targeted_replication_not_rerun_by_lro",
+      "document_count": 2,
+      "source_origin_count": 2,
+      "independent_reproduction": true,
+      "source_urls": [
+        "https://arxiv.org/abs/2108.09293",
+        "https://arxiv.org/abs/2311.11177"
+      ],
+      "directly_supported_claims": [
+        "The original controlled study found vulnerable Copilot suggestions across CWE scenarios.",
+        "An independent targeted replication with a newer version found improvement but a non-zero vulnerable share."
+      ],
+      "not_established": [
+        "A current Copilot vulnerability rate.",
+        "Prevalence in real repositories.",
+        "All-language or all-prompt behavior."
+      ],
+      "counterevidence_or_limits": [
+        "The replication reported a lower vulnerable share than the original study.",
+        "Some replication scenarios produced no vulnerable suggestions."
+      ],
+      "decision": "adopt",
+      "final_editorial_decision": {
+        "decision": "approve",
+        "date": "2026-07-19",
+        "authorized_human_gate": true
+      }
+    },
+    {
+      "proposed_slug": "candidate-claude-agentic-misalignment-simulation",
+      "case_title": "Claude Opus 4 agentic misalignment simulation",
+      "vendor": "Anthropic",
+      "model": "Claude Opus 4 and cross-vendor models",
+      "version": "June 2025 evaluation",
+      "incident_or_observation_date": "2025-06-20",
+      "case_kind": "reproduction_test",
+      "primary_failure_category": "unknown",
+      "proposed_severity": "sev3",
+      "proposed_verification_status": "single_source",
+      "reproducibility": "published_controlled_simulation",
+      "document_count": 1,
+      "source_origin_count": 1,
+      "independent_reproduction": false,
+      "source_urls": [
+        "https://www.anthropic.com/news/agentic-misalignment"
+      ],
+      "directly_supported_claims": [
+        "The reported behaviors occurred in controlled fictional simulations."
+      ],
+      "not_established": [
+        "Occurrence in real deployments."
+      ],
+      "counterevidence_or_limits": [
+        "Anthropic explicitly reports no evidence of the behavior in real deployments."
+      ],
+      "decision": "hold_taxonomy_decision_required"
+    },
+    {
+      "proposed_slug": "candidate-gemini-1-5-long-context-report",
+      "case_title": "Gemini 1.5 long-context capability report",
+      "vendor": "Google",
+      "model": "Gemini 1.5 Pro and Flash",
+      "version": "Gemini 1.5 report",
+      "incident_or_observation_date": null,
+      "case_kind": "reproduction_test",
+      "primary_failure_category": "context_loss",
+      "proposed_severity": "sev0",
+      "proposed_verification_status": "single_source",
+      "reproducibility": "not_applicable_to_rejected_candidate",
+      "document_count": 1,
+      "source_origin_count": 1,
+      "independent_reproduction": false,
+      "source_urls": [
+        "https://storage.googleapis.com/deepmind-media/gemini/gemini_v1_5_report.pdf"
+      ],
+      "directly_supported_claims": [
+        "The report documents long-context capabilities and benchmark results."
+      ],
+      "not_established": [
+        "A bounded reliability incident suitable for this corpus."
+      ],
+      "counterevidence_or_limits": [
+        "The source primarily reports improvements rather than a discrete failure."
+      ],
+      "decision": "reject_source_does_not_directly_support_failure_case"
+    }
+  ],
+  "schema_decision": {
+    "promote_evidence_counts_to_frontmatter": false,
+    "reason": "The dimensions are useful for review but the current schema already represents publication meaning; promotion requires a separate cross-cutting Decision Packet."
+  }
+}

@@ -1,53 +1,66 @@
 # Case Publication Guide
 
-このメモは、人間が最初の公開case/articleを追加するときの作業手順です。公開本文、実在事例の要約、policy本文は人間が書きます。
+この手順はPublication Engine v2でcaseを草稿、レビュー、承認するための運用契約です。AI補助草稿を利用できますが、一次資料、限定条件、反証、AI開示、人間承認を省略できません。
 
-## まず決めること
+## 必須metadata
 
-| 決めること | 目安 |
-|---|---|
-| caseかarticleか | MVPの核を確認するならcaseを先に追加する。 |
-| 公開してよい情報か | 個人情報、秘密情報、長文ログ、スクリーンショット依存がない形に編集する。 |
-| 検証状態 | `verification_status` を過大にしない。不確実なら `unverified_signal` のままにする。 |
-| 深刻度 | 暫定なら低めに置き、根拠が固まってから上げる。 |
-| disclosure | 利害関係があればfrontmatterに書く。なければ `null`。 |
+- `case_kind`: `documented_regression` / `observed_output` / `reproduction_test`
+- `review_status`: `pending` / `approved`
+- `last_verified_at`: `YYYY-MM-DD`
+- `source_links[]`: `label`, `url`, `source_type`, `accessed_at`
+- `ai_assistance`: `used`, `disclosure`, `human_reviewed`
+- `draft`: boolean。欠落は公開不可。
 
-## caseを1件追加する手順
+case本文には「状況」「期待していた回答」「実際の回答または要約」「誤りと判断した根拠」「再現条件」「分類根拠」「反証考察」「編集後記」「出典・参考リンク」の9見出しが必要です。
 
-1. `content/cases/001-template-case.mdx` を複製し、新しい連番slugのファイル名にする。
-2. frontmatterの `title`、`slug`、`date`、分類、検証状態、概要を人間が埋める。
-3. 本文の各見出しに、人間が編集済みの公開可能な内容を書く。
-4. 公開してよい状態になったら `draft: false` にする。
-5. `npm run lint:editorial`、`npm test`、`npm run build` を実行する。
-6. `npm run build` 後に `npx next start -p 3100` で表示確認する。
+## 草稿から承認まで
 
-## articleを1件追加する手順
+1. `content/cases/001-template-case.mdx`を参照し、新しいslugのcaseを作る。fixtureの文面は使わない。
+2. 実在sourceを読み、sourceが直接支える範囲だけを本文へ書く。
+3. AI補助を使った場合は`ai_assistance`へ用途と未レビュー状態を記録する。
+4. 草稿は`draft: true` / `review_status: pending`のままにする。
+5. `npm run content:compile`と`npm run build`を実行する。
+6. build後、`npm run review:generate -- --slug=<slug>`、`npm run review:serve`でlocal-only HTMLを確認する。このreview serverはproduction routeではない。
+7. 人間editorがsource、限定、反証、分類、severity、AI開示を承認または差し戻す。
+8. 公開判断時だけ`draft: false` / `review_status: approved` / `ai_assistance.human_reviewed: true`へ同時に変更する。
+9. compiler、lint、tests、build、production route、sitemap、visual、consoleを再確認する。
 
-1. `content/articles/001-template-article.mdx` を複製し、新しい連番slugのファイル名にする。
-2. frontmatterの `title`、`slug`、`date`、`kind`、`summary`、関連リンクを人間が埋める。
-3. 本文を人間が書く。
-4. 公開してよい状態になったら `draft: false` にする。
-5. `npm run lint:editorial`、`npm test`、`npm run build` を実行する。
+## 複数caseの一括レビュー
 
-## 表示確認の観点
+複数のpending draftは、公開状態を変えずにlocal-onlyで比較できます。既にcase単位の判断を得たeligible caseも、決定実装後の回帰確認として同じ一括surfaceを再生成できます。
 
-| 確認面 | 見ること |
-|---|---|
-| `/cases` | 公開caseだけが出る。draftとfixtureは出ない。 |
-| `/cases/[slug]` | h1が1つ、本文見出しがh2、AdSlotとDisclosureが意図どおり。 |
-| `/articles` | 公開articleだけが出る。draftは出ない。 |
-| `/articles/[slug]` | summary、本文、Disclosure、AdSlotが意図どおり。 |
-| `/sitemap.xml` | 公開slugだけが入る。draftとfixtureは入らない。 |
-
-## 触らないもの
-
-MVP1では、投稿フォーム、管理画面、認証、DB、API、メール、決済、コメント、投票、ランキング、AdSense JavaScriptは追加しない。
-
-## よくある詰まり
-
-`next dev` はこの環境で `Starting...` のまま進まないことがある。表示確認は、当面次の順で行う。
-
-```bash
-npm run build
-npx next start -p 3100
+```powershell
+npm run review:generate-corpus
+npm run review:serve -- --root=samples/_review/turn4-mini-corpus
 ```
+
+`corpus-evidence-matrix.md`、各MDX、全source、`corpus-review.html`、`corpus-readback.md`を読み、各caseへ`approve`、`revise`、`reject`のいずれかを記録します。一括レビュー画面の表示成功は承認ではありません。複数caseを同時に`approved`へ移す場合も、caseごとの判断理由を残し、3つのpublication fieldを同時に変更してから全検証を再実行します。
+
+## Fail-closed gate
+
+次のいずれかがあるcaseは公開されません。公開意図（`draft: false`かつ`approved`）がある場合はcompileを失敗させます。
+
+- schema不正、draft欠落、pending
+- source 0件、URL不正、`example.com`
+- 必須見出し欠落または空本文
+- `TODO`や空の必須metadata
+- fixture内のcase
+
+一覧、直接detail、related cases、sitemapは同じgenerated registryの`publication.eligible`だけを参照します。draft preview用production routeは作りません。
+
+## 検証コマンド
+
+```powershell
+npm ls --depth=0
+npm run content:compile
+npm run lint:editorial
+npm test
+npm run build
+npm audit --audit-level=low
+```
+
+production確認はbuild後に`.\node_modules\.bin\next.cmd start -p 3100`で行います。広告枠は公開済みでsubstantiveなcase/article detailだけが適格です。home、空一覧、policy、draft、review、404には出しません。
+
+## 範囲外
+
+投稿、管理画面、認証、DB、API、メール、決済、コメント、投票、ランキング、実AdSenseコード、Sitesデプロイ、公開アクセス変更、有料レポート、個別契約、監査サービス、会員機能はこの手順に含めません。

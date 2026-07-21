@@ -1,284 +1,165 @@
 # Project Handoff
 
-Updated: 2026-07-17
+Updated: 2026-07-21
 
 Repository: `llm-reliability-observatory`
 
-Handoff update branch: `codex/refresh-restart-handoff`
+Current local integration branch: `codex/refresh-restart-handoff`
+
+Remote baseline integrated locally: `db3b563` (`docs: close turn 4 editorial review`) from `origin/main`. The current branch preserves two older local documentation commits and merges the remote baseline; read live Git state for the final report commit and upstream parity.
 
 Remote: `origin` -> `https://github.com/YuShimoji/llm-reliability-observatory.git`
 
-Last verified base before this handoff update: `add9336 docs: add local documentation overview`
+## Current outcome
 
-During review, fetch and switch to `codex/refresh-restart-handoff` only after the branch exists on `origin`. Until then, the remote handoff is incomplete. After merge, use `main`. Run `git log --oneline -5` to confirm the latest synced commits.
+Turn 4 is editorially and technically complete in source/build state and is already present on `origin/main`. The 2026-07-21 local restart merged that baseline without discarding the older local documentation history.
 
-## Current State
+- The project owner/editor supplied explicit case-level decisions dated 2026-07-19.
+- All three evidence-backed cases are now `draft: false`, `review_status: approved`, and `ai_assistance.human_reviewed: true`.
+- The generated registry contains 3 publication-eligible cases, 1 blocked template case, 0 public articles, and 5 excluded fixtures.
+- Production components show the three cases in `/cases`, expose their detail routes, include them in `sitemap.xml`, and derive related cases only from exact metadata equality.
+- The static local corpus Reset control works without React hydration: a GitHub filter narrows to `1 of 3`, and Reset restores all four selects and `3 of 3` cards/details.
+- Eight new production acceptance images are real PNG files and were opened after encoding.
+- No Sites operation, external deployment, domain change, PR, real advertising code, publisher ID, paid report, individual contract, audit service, payment, or membership feature was created.
+- The local dependency tree was rebuilt with `npm ci`; 25 tests, editorial lint, a deterministic double compile, 26 review-image checks, the 18-page production build, and all 23 production route-boundary probes passed.
+- `next dev` now reaches Ready on this Windows checkout. Because development mode replaces the shared `.next` output, rebuild before starting the production server after a dev session.
 
-MVP1 Static Casebook Skeleton has been implemented and audited as a static Next.js App Router site.
+`publication-eligible` means eligible in the repository's source/build contract. It does not prove that a public URL was deployed or that a hosting environment was accepted.
 
-The project is intentionally limited to a static casebook skeleton. It does not include submissions, admin screens, authentication, Supabase, database, storage, email, payments, API routes, comments, voting, ranking, user accounts, organization pages, pricing, subscriptions, AdSense JavaScript, or model score/ranking UI.
+## Recorded editorial decisions
 
-MVP1.2 First Human-Written Public Case was attempted on 2026-05-28, but no human-provided publishable case input was present in the task prompt, `content/cases`, or `docs/PUBLIC_CASE_INPUT_TEMPLATE.md`. No `draft: false` public case was created, and no fixture/template prose was reused as public content.
+The durable decision record is:
 
-On 2026-05-29, a human-provided candidate case was staged into `docs/PUBLIC_CASE_INPUT_TEMPLATE.md` only. It is not yet copied into `content/cases` and must not be published until the remaining blockers are resolved: replace the placeholder source URL with a real official URL, make or approve the public summary for the preferred 160-220 character range, and confirm the adjusted taxonomy values.
+- `samples/_review/turn4-publication-acceptance/editorial-decision-record.md`
+- `samples/_review/turn4-publication-acceptance/editorial-decision-record.json`
 
-On 2026-06-03, local `main` was confirmed clean and up to date with `origin/main` before this handoff refresh. No public case file has been added yet.
+| Slug | Decision | Classification | Verification boundary | Source/build state |
+|---|---|---|---|---|
+| `002-gpt-4o-sycophancy-rollback` | approve | `documented_regression` / `sycophancy` / `sev2` | OpenAI documents 2, issuing origin 1, no independent reproduction; `single_source` | approved, human reviewed, publication-eligible |
+| `003-new-bing-long-session-context-confusion` | approve after classification clarification | `documented_regression` / `context_loss` / `sev1` | Microsoft documents 2, issuing origin 1, no independent reproduction; `single_source` | approved, human reviewed, publication-eligible |
+| `004-github-copilot-insecure-code-replication` | approve | `reproduction_test` / `coding_accident` / `sev2` | independent research teams 2, published targeted replication, not rerun by LRO; `multi_source` | approved, human reviewed, publication-eligible |
 
-On 2026-06-08, local `main` was confirmed clean and up to date with `origin/main` before this handoff refresh. No public case file has been added yet, and the candidate remains staged only in `docs/PUBLIC_CASE_INPUT_TEMPLATE.md`.
+The held Anthropic simulation and rejected Gemini capability-report direction remain non-input records in the evidence matrix. The legacy Gemini candidate remains documentation-only and blocked.
 
-On 2026-06-15, a local MkDocs Material documentation view was added so the repository Markdown can be reviewed through a browser tree pane and temporary Chrome / Edge / DeepL page translation. This adds overview, turn-plan, and screenshot-index documents without rewriting the existing canonical Markdown bodies. The policy/TODO documents remain intentionally unfilled, and no translated permanent files were created.
+## New Bing classification correction
 
-On 2026-07-17, the repository was reanalysed for eventual Codex Sites publication and monetization. The decision, technical gaps, revenue ladder, external references, and exact cross-device resume path are recorded in `docs/SITES_MONETIZATION_REANALYSIS.md`. The conclusion is that a Sites build direction is potentially feasible after a hosting-layer conversion, but production suitability remains unproven until Worker HTTP behavior and platform constraints are verified. The project is not revenue-ready while it has zero public cases/articles and unresolved source-data and publication-contract defects.
+`context_loss` is an LRO editorial taxonomy term. Microsoft did not use that label. Its official materials directly described very long conversations confusing the underlying model, reducing answer accuracy, or producing unintended tone. The case now says both things explicitly and does not generalize the February 2023 preview observation to short conversations, an undisclosed exact model, or current Bing products.
 
-## Current Direction
+The taxonomy description now covers unstable context use in long conversations, including loss of important constraints, lower accuracy, or unintended response tone. This does not assert that every issuer uses the same terminology.
 
-The intended long-term direction is a free, evidence-backed Japanese LLM reliability casebook that can lead to paid audits, workshops, and cross-case reports through a separate sales and contracting channel. Ads are not the first revenue mechanism. Team SaaS, subscriptions, and API/data licensing remain later options only after repeated customer demand is demonstrated.
+## Verification semantics
 
-Current OpenAI guidance says ChatGPT Sites must not process payment-card data or enable financial transactions. Do not add checkout, purchase buttons, payment links, payment webhooks, or entitlement billing to a Site. Sites may be evaluated as the free publishing, trust, and analytics surface; any commerce product needs a separate compliant hosting and operating decision. See `docs/SITES_MONETIZATION_REANALYSIS.md` for the dated source links and the correction to the earlier external-checkout assumption.
+The current `verification_status` is about source-origin independence rather than raw link count.
 
-The immediate implementation priority is content contract hardening before the first `draft: false` case:
+- document count: number of supporting documents;
+- source-origin count: number of independent issuing origins;
+- independent reproduction: whether an independent team reproduced the tested behavior.
 
-1. Replace the flat frontmatter assumptions with runtime schema validation.
-2. Make `source_links` use one consistent `{ label, url }` contract and render clickable sources.
-3. Publish only records with `draft === false` and complete required fields.
-4. Add a positive integration test for one complete public case.
-5. Reject missing required sections instead of rendering `TODO`.
+OpenAI and Microsoft each have two documents but one issuing origin, so both remain `single_source`. The Copilot case has an independent targeted replication by a second research team, so it remains `multi_source`. LRO did not independently rerun any of the three cases.
 
-Do not start the Sites conversion, authentication, database, payments, or API work as part of this handoff documentation change. Those are separate implementation scopes with dependency and contract implications.
+These three dimensions remain candidates for future schema separation; no new verification enum was added in Turn 4.
 
-## Document Authority
+## Publication and advertising boundary
 
-When documents overlap, read them in this order:
+A case is publication-eligible only when schema validation passes and all of these are true:
 
-1. `docs/HANDOFF.md` for current state, guardrails, verification, and the next safe implementation boundary.
-2. `docs/SITES_MONETIZATION_REANALYSIS.md` for the Sites and business decision record; it is not final policy or implementation authorization.
-3. `docs/DEVELOPMENT_TURNS.md` for work lanes and exit conditions. Turn numbers preserve project history but are not a strict requirement to complete every maintenance lane before a later probe.
-4. `docs/PUBLIC_CASE_INPUT_TEMPLATE.md` for the human-provided first-case candidate and its publication gate.
-5. `docs/MVP1_VERIFY_REPORT.md` and `docs/MVP1_1_PUBLIC_CASE_PROBE_REPORT.md` as historical verification snapshots.
-6. `docs/METHODOLOGY.md`, `docs/EDITORIAL_POLICY.md`, `docs/TAXONOMY.md`, and `docs/MONETIZATION_POLICY.md` as human-owned final policy surfaces. Their current TODO state has no approved policy effect and must not be replaced by the decision record. After owner approval, their final text takes precedence over provisional business guidance in the dated Sites reanalysis.
+1. `draft === false`;
+2. `review_status === approved`;
+3. all 9 required sections exist and are non-empty;
+4. no `TODO`, empty required value, `example.com`, or invalid URL exists;
+5. at least one structured source link exists;
+6. AI assistance is disclosed and human review is true.
 
-## Implemented Surface
+Fixtures never become eligible. The same generated registry controls listing, direct detail lookup, related cases, and sitemap. There is no production draft-preview route.
 
-Public routes:
+Only substantive eligible detail pages receive inert ad placeholders. Home, listings, policy/info pages, errors, templates, fixtures, and legacy candidates remain ineligible. Repository and rendered-page scans found no `adsbygoogle`, `ca-pub-*`, or `googlesyndication` implementation.
 
-- `/`
-- `/cases`
-- `/articles`
-- `/taxonomy`
-- `/methodology`
-- `/about`
-- `/privacy`
-- `/terms`
-- `/removal-request`
-- `/disclosures`
+## Production acceptance evidence
 
-Generated metadata routes:
+Artifact root:
 
-- `/sitemap.xml`
-- `/robots.txt`
+`samples/_review/turn4-publication-acceptance/`
 
-Blocked or absent routes verified as 404:
+Files:
 
-- `/submit`
-- `/admin`
-- `/admin/review`
-- `/api`
+- `public-cases-desktop.png` / `public-cases-mobile.png`
+- `002-detail-desktop.png` / `002-detail-mobile.png`
+- `003-detail-desktop.png` / `003-detail-mobile.png`
+- `004-detail-desktop.png` / `004-detail-mobile.png`
+- `editorial-decision-record.md` / `.json`
 
-## Content Model
+Browser acceptance covered:
 
-Production content templates:
+- `/cases` at 1280x800 and 390x844;
+- all three detail routes at 1280x800 and 390x844;
+- all six source links and safe `target="_blank"` / `rel="noopener noreferrer"` attributes;
+- approved/human-reviewed labels and case-specific evidence boundaries;
+- related cases: 002 -> 003, 003 -> 002, 004 -> none;
+- static local corpus GitHub filter and Reset behavior;
+- no horizontal overflow, garbled text, missing required labels, real ad elements, or browser console errors.
 
-- `content/cases/001-template-case.mdx`
-- `content/articles/001-template-article.mdx`
+The browser returned JPEG capture bytes. Each output was decoded and saved as PNG; all eight files begin with `89 50 4E 47 0D 0A 1A 0A`. Detail evidence combines a top viewport with a source/AI/related viewport separated by a neutral strip; it is not represented as a continuous full-page capture.
 
-Both are `draft: true`, so they are excluded from public listings, direct detail pages, and sitemap output.
+## Acceptance checks
 
-Synthetic examples live only in `content/_fixtures/`. Fixtures are for local UI/test/reference use and are excluded from public routes and sitemap output.
+The complete suite for this branch must remain green immediately before integration:
 
-Docs intentionally contain headings and TODO only:
-
-- `docs/METHODOLOGY.md`
-- `docs/EDITORIAL_POLICY.md`
-- `docs/TAXONOMY.md`
-- `docs/MONETIZATION_POLICY.md`
-
-Do not fill these with AI-authored final policy text unless the project owner explicitly changes that rule.
-
-## Local Documentation View
-
-Local browser review is now available through MkDocs Material.
-
-Primary files:
-
-- `mkdocs.yml`
-- `docs/index.md`
-- `docs/PROJECT_OVERVIEW.md`
-- `docs/DEVELOPMENT_TURNS.md`
-- `docs/SCREENSHOT_INDEX.md`
-- `docs/_root_README.md`
-- `tools/generate-doc-nav.ps1`
-
-Screenshot artifacts remain in `samples/_review/mvp1-route-audit/`. For MkDocs browser display, the same 12 PNG files are copied under `docs/assets/review/mvp1-route-audit/`.
-
-Normal local startup:
-
-```powershell
-python -m pip install mkdocs-material
-python -m mkdocs serve -a 127.0.0.1:8000
-```
-
-Then open `http://127.0.0.1:8000/` and use the left navigation:
-
-- `Project Overview` for implemented scope, future work, and where each status lives.
-- `Turn-Based Development Plan` for non-date-based development turns.
-- `Screenshot Index` for immediate visual checks and screenshot paths.
-
-If port 8000 is already occupied, use another local port such as:
-
-```powershell
-python -m mkdocs serve -a 127.0.0.1:8002
-```
-
-## Verification Already Performed
-
-Detailed audit report:
-
-- `docs/MVP1_VERIFY_REPORT.md`
-
-MVP1.1 public case probe report:
-
-- `docs/MVP1_1_PUBLIC_CASE_PROBE_REPORT.md`
-
-Public case input contract:
-
-- `docs/PUBLIC_CASE_INPUT_TEMPLATE.md`
-
-Hands-on publication guide:
-
-- `docs/CASE_PUBLICATION_GUIDE.md`
-
-Screenshot artifacts:
-
-- `samples/_review/mvp1-route-audit/`
-
-Commands that passed after the audit fixes:
-
-```bash
-npm run lint:editorial
-npm test
-npm run build
-npm audit --audit-level=moderate
-```
-
-The same four commands were rerun on 2026-05-28 after the MVP1.2 resume check and passed again:
-
-- `npm run lint:editorial`: passed with no warnings.
-- `npm test`: passed, 8 tests.
-- `npm run build`: passed, 15 pages generated.
-- `npm audit --audit-level=moderate`: passed, 0 vulnerabilities.
-
-`next start -p 3100` route checks were also rerun. Expected public routes returned 200, forbidden routes and draft template slugs returned 404, `/cases` and `/articles` did not expose TODO templates or fixtures, and AdSlot remained limited to allowed pages.
-
-On 2026-05-29, after staging the candidate case in `docs/PUBLIC_CASE_INPUT_TEMPLATE.md`, these commands also passed:
-
-- `npm run lint:editorial`: passed with no warnings.
-- `npm test`: passed, 8 tests.
-- `npm run build`: passed, 15 pages generated.
-
-On 2026-06-03, before pushing this handoff refresh, these commands passed again:
-
-- `npm run lint:editorial`: passed with no warnings.
-- `npm test`: passed, 8 tests.
-- `npm run build`: passed, 15 pages generated.
-- `npm audit --audit-level=moderate`: passed, 0 vulnerabilities.
-
-On 2026-06-08, before pushing this handoff refresh, these commands passed again:
-
-- `npm run lint:editorial`: passed with no warnings.
-- `npm test`: passed, 8 tests.
-- `npm run build`: passed, 15 pages generated.
-- `npm audit --audit-level=moderate`: passed, 0 vulnerabilities.
-
-On 2026-06-15, the local documentation view was verified:
-
-- `powershell -NoProfile -ExecutionPolicy Bypass -File .\tools\generate-doc-nav.ps1`: produced a nav candidate for the current Markdown layout.
-- `python -m mkdocs build --clean -d <temp-dir>`: passed. `PROJECT_OVERVIEW/index.html` and `assets/review/mvp1-route-audit/home-desktop.png` were generated in the temp site.
-- Local HTTP checks passed for `PROJECT_OVERVIEW`, `DEVELOPMENT_TURNS`, `SCREENSHOT_INDEX`, and `home-desktop.png` through the MkDocs server.
-- Existing canonical Markdown bodies were checked with `git diff` and were not modified by the documentation-view work.
-
-On 2026-07-17, the handoff and Sites reanalysis documentation change was verified against the current dependency resolution:
-
-- `npm run lint:editorial`: passed with no warnings.
-- `npm test`: passed, 8 tests.
-- `npm run build`: passed, 15 pages generated with Next.js 15.5.18.
-- `python -m mkdocs build --strict --clean -d <temp-dir>`: passed. Material for MkDocs printed its upstream MkDocs 2.0 compatibility notice, but the strict build completed successfully.
-- `npm audit --audit-level=moderate`: exited successfully but reported one low-severity `esbuild` development-server advisory (`GHSA-g7r4-m6w7-qqqr`). This supersedes the older zero-vulnerability snapshot; no dependency change was made in this documentation-only turn.
-- Production HTTP checks passed for 12 public/metadata routes with 200 and 7 forbidden, draft, or fixture routes with 404. The public case/article indexes did not expose template or fixture slugs.
-- Requests to fallback-disabled draft/fixture detail slugs still write the known `Internal: NoFallbackError` messages to server stderr while returning the expected 404. This remains an operational warning rather than an HTTP boundary failure.
-
-The current automated tests do not cover nested/multiline `source_links`, missing `draft`, runtime frontmatter validation, or a complete positive public-case render. Those gaps are the reason content contract hardening precedes the first public case.
-
-Test coverage currently includes:
-
-- AdSlot allowlist and denylist behavior.
-- Content publication boundaries: draft templates and fixtures stay out of public queries and sitemap output.
-- Editorial lint negative examples for email, phone number, API-key-like string, derogatory terms, warning-only terms, fixture exclusion, and classification frontmatter exclusion.
-
-## Operational Notes
-
-`next start` works for verification after `npm run build`.
-
-`next dev` was tested on this machine and repeatedly stayed at `Starting...` without serving HTTP. This was recorded but not debugged further because the audit request said not to deep-dive. Also, do not run `next dev` and `next start` against the same `.next` output at the same time; doing so can make static asset checks fail until the project is rebuilt.
-
-`NEXT_PUBLIC_SITE_URL` currently defaults to `https://example.com`, so robots and sitemap output use `https://example.com/sitemap.xml` unless the environment variable is set. Replace it after the public domain is decided.
-
-If route verification is needed again:
-
-```bash
-npm run build
-npx next start -p 3100
-```
-
-Then check:
-
-- Expected 200: `/`, `/cases`, `/articles`, `/taxonomy`, `/methodology`, `/about`, `/privacy`, `/terms`, `/removal-request`, `/disclosures`
-- Expected 404: `/submit`, `/admin`, `/admin/review`, `/api`, `/cases/001-template-case`, `/articles/001-template-article`
-
-## Safe Next Work
-
-| Entry | Purpose | What It Unlocks |
-|---|---|---|
-| Harden the content contract | Add runtime validation, strict `draft === false`, a consistent source-link object, required-section checks, clickable citations, and a positive public-case integration test. | Prevents incomplete or untraceable records from becoming public and makes the first real case safe to integrate. |
-| Complete first public case input | `docs/PUBLIC_CASE_INPUT_TEMPLATE.md` contains one human-provided candidate. Remaining blockers: real official source URL, final summary approval, and taxonomy confirmation. | Makes it safe to create the first non-fixture public case after the content contract is hardened. |
-| Publish 3-5 verified cases and Methodology | Add human-approved cases with official sources and replace the public Methodology TODO with owner-approved text. | Gives readers and prospective customers enough evidence to experience the product value. |
-| Probe Codex Sites compatibility | On a dedicated implementation branch, keep `origin` as the source remote, treat any `sites` remote as deployment-only, preserve a working Next.js rollback, and verify Worker HTTP routes, metadata, sharing, domain, external links, and third-party script constraints. | Produces an explicit go/no-go decision without committing the product to unverified beta behavior. |
-| Validate one paid offer outside Sites | After 5-10 verified cases, keep Sites informational and use a separate sales, contract, invoice, and fulfillment channel for a manual LLM audit/workshop or report. Use the first 3-5 cases for free discovery and credibility testing. | Tests willingness to pay without violating the current Sites financial-transaction restriction. |
-| Audit local docs view | Review `docs/PROJECT_OVERVIEW.md`, `docs/DEVELOPMENT_TURNS.md`, and `docs/SCREENSHOT_INDEX.md` in a browser translation workflow. | Confirms whether a new terminal can recover project state without reading every document manually. |
-| Refresh screenshots | Re-capture current route screenshots if UI changes. | Keeps `docs/SCREENSHOT_INDEX.md` aligned with the actual rendered app. |
-| Debug dev server | Investigate why `next dev` stays at `Starting...` on this machine. | Faster local iteration. |
-| Polish assets | Add favicon and minimal OG image. | Removes favicon 404 and improves sharing previews. |
-
-## Human-Side Resume Checklist
-
-For the next human working session, start here:
-
-1. Clone or fetch `https://github.com/YuShimoji/llm-reliability-observatory.git`.
-2. During review, switch to `codex/refresh-restart-handoff` only if `git branch -r` shows `origin/codex/refresh-restart-handoff`; after merge, pull `main` with `--ff-only`.
-3. Read `docs/HANDOFF.md` and `docs/SITES_MONETIZATION_REANALYSIS.md`.
-4. Run the existing lint, test, and build commands.
-5. Start the next implementation turn with content contract hardening.
-6. Open `docs/PUBLIC_CASE_INPUT_TEMPLATE.md` and obtain the real official source URL, final summary approval, and taxonomy confirmation from the project owner.
-7. Do not change `draft` to `false` until the code-level and human publication gates both pass.
-8. Add one complete public case, verify its detail page and sources, then expand toward 3-5 verified cases.
-
-Do not use `content/_fixtures` or `content/cases/001-template-case.mdx` prose as public case text.
-
-## Guardrails For Future Work
-
-- Keep public case/article prose human-authored.
-- Keep fixtures under `content/_fixtures`.
-- Keep `draft: true` content out of listings, detail routes, and sitemap.
-- Keep AdSense JavaScript out of MVP1; only placeholder slots are allowed.
-- Do not add API routes, auth, DB, Supabase, storage, mail, payment, comments, voting, ranking, or account features during MVP1 skeleton work.
-- Treat the Sites and monetization direction as a recorded decision path, not authorization to add dependencies or change API/auth/payment contracts inside MVP1.
-- Keep `docs/METHODOLOGY.md`, `docs/EDITORIAL_POLICY.md`, `docs/TAXONOMY.md`, and `docs/MONETIZATION_POLICY.md` human-authored unless the project owner explicitly changes that rule.
+| Check | Expected accepted result |
+|---|---|
+| `npm ls --depth=0` | valid dependency tree |
+| `npm run content:compile` twice | 3 public cases, 1 blocked case, 0 public articles; second run unchanged; digest `4ea9f26ba88d...` |
+| `npm run lint:editorial` | no errors or warnings |
+| `npm test` | 25 pass, 0 fail |
+| `npm run review:generate-corpus` | approved/human-reviewed local review generated; static Reset present |
+| `npm run review:verify-images` | every tracked review image matches extension and magic bytes |
+| `npm run build` | static build succeeds; all 3 case detail routes generated |
+| `npm audit --audit-level=low` | 0 vulnerabilities |
+| production route smoke | 15/15 expected routes return 200 |
+| blocked route smoke | template case/article, 5 fixtures, and legacy slug return 404 (8/8) |
+| sitemap/list/related | approved cases included; templates, fixtures, legacy excluded; exact related boundary retained |
+| advertising | ineligible pages 0 placeholders; all pages 0 real ad code/elements |
+| browser | console errors 0; desktop/mobile overflow false |
+| `git diff --check` | clean |
+| secret/PII/artifact audit | no credential, personal identity, or oversized unintended artifact |
+
+Expected 200 routes are the 12 static/public resources plus the three approved case detail routes. A Next.js `NoFallbackError` may appear on the server console while intentionally probing unknown static slugs; the HTTP result remains the acceptance authority and must be 404.
+
+## Residual work ownership
+
+| Residual | Purpose | Effect | Requirement | State | Owner | Next move |
+|---|---|---|---|---|---|---|
+| Local synchronization report | Preserve the remote Turn 4 baseline together with dated local decision history and current verification | Gives the next reviewer an evidence-backed restart point; does not deploy a site | resolved merge, green local suite, clear document authority | Complete locally; publication not requested | Supervising AI / project owner | Review `CONTINUATION.md` and decide whether the local handoff branch should be published or retired |
+| Production site URL | Replace the fallback canonical/robots/sitemap origin | Changes generated canonical URLs | owner-selected domain/environment and Sites plan | Owner-only pending | Deployment owner | Decide in Turn 5 before any external deployment |
+| Sites compatibility and deployment | Prove the built site in the intended hosting surface | Creates external/public state if executed | explicit owner authorization, isolated compatibility check, rollback path | Not started; outside Turn 4 | Project owner | Open a new branch from updated main; do not infer permission from source eligibility |
+| Public editorial MVP | Accept a live URL, canonical metadata, correction/removal flow, and production behavior | Begins public observatory operation | successful Turn 5, owner public-release decision, live-route evidence | Turn 6 closed | Project owner/editor | Validate the exact deployed artifact and URL |
+| AdSense technical probe | Test the planned future revenue path on eligible detail pages | Adds external policy/account/code surface | public MVP, owner publisher setup, privacy/consent review, explicit authorization | Turn 7 closed | Project owner | Keep all IDs and scripts absent until the gate opens |
+| Recurring observation loop | Sustain research, review, publication, re-verification, and correction | Creates an ongoing editorial cadence | owners, schedule, evidence refresh and correction SLA | Turn 8 closed | Editor + project owner | Define only after public MVP acceptance |
+| Held Anthropic simulation | Preserve a bounded research lead without forcing taxonomy | No current compiler/publication effect | taxonomy packet and simulation-scope decision | Held | Taxonomy owner/editor | Revisit only with a precise approved category |
+| Rejected/legacy Gemini directions | Preserve negative rationale | Prevents capability claims becoming unsupported failure cases | direct bounded failure evidence | Rejected/blocked | Research editor | Do not revive from capability material alone |
+
+## Farthest safe roadmap
+
+1. Review the local synchronization report and decide whether its historical documentation additions belong on the remote. `origin/main` already contains the accepted Turn 4 implementation.
+2. Turn 5, only after explicit owner authorization: create a new branch from updated `main`, set a non-secret target URL/configuration, and perform Sites compatibility checks without adding ads or paid features. Stop before external publication unless separately authorized.
+3. Turn 6, only after an owner release decision: validate the exact deployed artifact, live canonical URL, sitemap/robots, case routes, correction/removal path, mobile UI, console, and rollback. Source/build evidence alone cannot clear this gate.
+4. Turn 7, only after a public editorial MVP and policy/account readiness: run a narrowly scoped AdSense technical probe on eligible detail pages. Do not add a real publisher ID before authorization.
+5. Turn 8: establish recurring source review, case drafting, human approval, publication, re-verification, correction, and retirement procedures with measurable ownership.
+
+Do not propose or implement paid reports, individual contracts, audit services, payments, or membership features. The intended future revenue lane is owner-authorized Codex Sites publication followed by advertising eligibility work.
+
+## Resume sequence
+
+1. Read live Git state first: branch, HEAD, worktree, upstream parity, and `origin/main` parity.
+2. Read this handoff, `docs/DEVELOPMENT_TURNS.md`, `docs/CASE_PUBLICATION_GUIDE.md`, the decision record, evidence matrix, and corpus readback.
+3. Treat Turn 4 as already integrated on `origin/main` at `db3b563`; do not repeat its merge or publication decision.
+4. If beginning Turn 5, require a fresh `codex/` branch from updated `main` and an explicit owner instruction for the external-state boundary.
+5. Keep real ads, Sites deployment, domain changes, payments, membership, paid reports, contracts, and audit services outside the branch unless separately authorized.
+
+## Guardrails
+
+- Preserve `content/_fixtures`; never publish fixtures.
+- Never infer human approval; use the explicit decision record.
+- Keep issuer document count, independent origins, and independent reproduction separate.
+- Keep local build/browser evidence separate from deployed-public evidence.
+- Do not expose blocked content through alternate routes or preview parameters.
+- Do not add submissions, admin, auth, DB, API, payments, accounts, rankings, real ad IDs, or deployment changes in the current lane.

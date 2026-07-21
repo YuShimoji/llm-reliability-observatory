@@ -3,7 +3,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
-import { lintEditorialContent } from "../src/lib/editorial-lint";
+import { lintEditorialContent } from "../scripts/lib/editorial-lint";
 
 function withTempContent(callback: (cwd: string) => void) {
   const cwd = fs.mkdtempSync(path.join(os.tmpdir(), "lro-editorial-"));

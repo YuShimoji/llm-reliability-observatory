@@ -57,7 +57,6 @@ function listTargetFiles(cwd: string) {
         .map((file) => path.join(directory, file));
     });
 }
-
 function splitFrontmatter(source: string) {
   const match = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?/.exec(source);
   if (!match) {
@@ -65,7 +64,6 @@ function splitFrontmatter(source: string) {
   }
   return { frontmatter: match[1], body: source.slice(match[0].length) };
 }
-
 function extractLintText(source: string) {
   const { frontmatter, body } = splitFrontmatter(source);
   const selectedFrontmatter = frontmatter
