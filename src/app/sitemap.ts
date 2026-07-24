@@ -1,7 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getAllArticles, getAllCases } from "@/lib/content";
-
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://example.com";
+import { siteUrl } from "@/lib/site-url";
 
 const staticPaths = [
   "/",

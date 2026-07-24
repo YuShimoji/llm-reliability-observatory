@@ -2,6 +2,8 @@
 
 Updated: 2026-07-21
 
+2026-07-25 reconciliation: this file remains the historical Version 1/2 deployment and access evidence. The GitHub source contract advanced on `codex/lro-turn5c-security-refresh` to track the exact binding and production canonical while rejecting unbound artifacts. That source-only change did not save, deploy, alter access, or alter Sites environment state. See `docs/TURN5C_DEPENDENCY_SECURITY_REFRESH.md`.
+
 ## Authority and source boundary
 
 - GitHub source: `YuShimoji/llm-reliability-observatory` `main` at `db3b56391c49534d4b703d59486263fcb5b7d4e0`.

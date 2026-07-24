@@ -2,6 +2,16 @@
 
 Updated: 2026-07-21
 
+## 2026-07-25 status correction
+
+Commit `59433dc7135d5878128d8f3efe82dd7d9b8fe5a5` successfully reproduced the compatibility layer, but Turn 5B was PARTIAL as a production source contract:
+
+- `.openai/hosting.json` was absent from tracked source;
+- canonical production identity depended on untracked/process environment state;
+- missing binding produced a successful artifact with `project_id: null`.
+
+`codex/lro-turn5c-security-refresh` closes these gaps, integrates the Turn 5C dependency refresh, and supersedes the unbound production instructions below. The historical Sites deployment remains unchanged. See `docs/TURN5C_DEPENDENCY_SECURITY_REFRESH.md`.
+
 ## Fixed inputs and boundary
 
 - GitHub base: `main` at `db3b56391c49534d4b703d59486263fcb5b7d4e0`, fetched and verified at `HEAD...origin/main = 0/0`.
@@ -14,10 +24,10 @@ Updated: 2026-07-21
 
 | Path | Treatment |
 |---|---|
-| `.env.example` | Track only `NEXT_PUBLIC_SITE_URL=`. |
-| `.gitignore` | Preserve existing ignores; add Vinext, Wrangler, Sites output, work, and all local env files except the example. |
-| `.openai/hosting.json` | Do not track the bound Sites project metadata. An absent file means an explicit unbound build and emits a null marker into the artifact. |
-| `build/sites-vite-plugin.ts` | Package a local binding when present; otherwise package `{ project_id: null, d1: null, r2: null }`. |
+| `.env.example` | Historical Turn 5B tracked only the key. Turn 5BC documents the override boundary. |
+| `.gitignore` | Preserve local env ignores; Turn 5BC explicitly tracks non-secret `.env.production`. |
+| `.openai/hosting.json` | Historical Turn 5B omitted it. Turn 5BC tracks only the authenticated exact `project_id`; the value stays out of prose/logs. |
+| `build/sites-vite-plugin.ts` | Turn 5BC rejects missing/unbound/unsafe source state before bundling and packages the exact validated binding. |
 | `eslint.config.mjs` | Use the Next 16 flat config. |
 | `package.json` / `package-lock.json` | Apply Vinext/Vite/Worker dependencies atomically; regenerate the lock through one monitored install. |
 | `tests/sites-artifact.test.mjs` | Validate callable Worker fetch, explicit hosting state, public/blocked routes, sitemap, source links, and no real ad code. |
@@ -32,12 +42,12 @@ Updated: 2026-07-21
 - Core compatibility versions: Vinext 0.0.50, Vite 8.1.5, Cloudflare Vite plugin 1.45.1, Wrangler 4.112.0, React 19.2.6, Next 16.2.10.
 - Preserve npm, the committed lockfile, `gray-matter`, Zod, Tailwind 3, Autoprefixer, PostCSS, `tsx`, and all editorial/review scripts.
 - Runtime application source must not import `node:fs` or use `process.cwd()`; optional binding reads and artifact packaging stay in build configuration only.
-- `dist/server/index.js` must be ESM with a default callable `fetch`; `dist/.openai/hosting.json` must explicitly report bound or unbound state.
+- `dist/server/index.js` must be ESM with a default callable `fetch`; `dist/.openai/hosting.json` must match the safe bound source manifest. Unbound production artifacts are rejected.
 
 ## Revalidation
 
 ```powershell
-npm install
+npm ci --include=optional
 npm ls --depth=0
 npm run content:compile
 npm run content:compile
@@ -46,26 +56,26 @@ npm test
 npm run review:verify-images
 npm run lint
 npx --no-install tsc --noEmit
-npm audit --audit-level=low
-$env:NEXT_PUBLIC_SITE_URL = 'https://llm-reliability-observatory.thankyoukass.chatgpt.site'
 npm run build
 npm run test:artifact
-Remove-Item Env:NEXT_PUBLIC_SITE_URL
+npm audit --json
 git diff --check
 ```
 
-Acceptance requires: unchanged second registry output, 3 public cases / 0 public articles, 25 source tests, 26 valid review images, audit 0, generic lint and typecheck green, 3 artifact tests, exact canonical without `example.com`, 7 public routes at 200, 8 blocked routes at 404, 6 safe source links, real ad code 0, and no credential/PII leak.
+Acceptance requires: unchanged second registry output, 3 public cases / 0 public articles, 25 source tests, 26 valid review images, generic lint and typecheck green, 5 artifact tests, exact canonical without `example.com`, bound source/artifact equality, 7 public routes at 200, 8 blocked content routes at 404, image optimizer route at 404, 6 safe source links, real ad code 0, and no credential/PII leak.
+
+Dependency acceptance is audit 0 or the single exact, non-reachable, artifact-absent, expiring exception defined in the Turn 5C document. The current accepted measurement is high 2 / critical 0 through Next.js -> Sharp 0.34.5 only; it must never be reported as audit 0.
 
 ## Another-terminal resume
 
 ```powershell
 Set-Location 'C:\Users\thank\Storage\Media Contents Projects\llm-reliability-observatory'
 git fetch --prune origin
-git switch codex/lro-turn5-sites-compatibility
-git pull --ff-only origin codex/lro-turn5-sites-compatibility
-git rev-list --left-right --count HEAD...origin/codex/lro-turn5-sites-compatibility
-npm ci
+git switch codex/lro-turn5c-security-refresh
+git pull --ff-only origin codex/lro-turn5c-security-refresh
+git rev-list --left-right --count 'HEAD...origin/codex/lro-turn5c-security-refresh'
+npm ci --include=optional
 npm ls --depth=0
 ```
 
-Then read `docs/HANDOFF.md`, this inventory, and `docs/TURN5_SITES_COMPATIBILITY.md`. Do not create `.openai/hosting.json` unless the owner explicitly authorizes binding this GitHub checkout to the existing private Site. The first owner-owned next decision is whether to accept a public editorial MVP; until then, keep access owner-only and all Turn 6-8 gates closed.
+Then read `docs/HANDOFF.md`, `docs/TURN5C_DEPENDENCY_SECURITY_REFRESH.md`, this inventory, and `docs/TURN5_SITES_COMPATIBILITY.md`. Keep the opaque Site identity confined to the tracked manifest. The next decision is Supervisor acceptance/main integration; Turn 6 local candidate may follow acceptance, while public release remains a separate owner gate.

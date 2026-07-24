@@ -13,8 +13,8 @@
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next --ignore-pattern samples --ignore-pattern docs",
     "lint:editorial": "tsx scripts/lint-editorial.mjs",
     "pretest": "npm run content:compile",
-    "test": "node --import tsx --test tests/*.test.ts",
-    "test:artifact": "node --test tests/sites-artifact.test.mjs",
+    "test": "node --env-file=.env.production --import tsx --test tests/*.test.ts",
+    "test:artifact": "node --import tsx --test tests/sites-artifact.test.mjs",
     "prebuild": "npm run content:compile",
     "build": "npm run lint:editorial && vinext build",
     "start": "vinext start",
@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
-    "next": "16.2.10",
+    "next": "16.2.11",
     "react": "19.2.6",
     "react-dom": "19.2.6",
     "zod": "^4.4.3"
@@ -34,7 +34,7 @@
     "postcss": "^8.5.20"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "1.45.1",
+    "@cloudflare/vite-plugin": "1.47.0",
     "@emnapi/core": "1.11.2",
     "@emnapi/runtime": "1.11.2",
     "@tybys/wasm-util": "0.10.3",
@@ -45,7 +45,7 @@
     "@vitejs/plugin-rsc": "0.5.28",
     "autoprefixer": "^10.4.20",
     "eslint": "9.39.4",
-    "eslint-config-next": "16.2.10",
+    "eslint-config-next": "16.2.11",
     "postcss": "^8.5.20",
     "react-server-dom-webpack": "19.2.6",
     "tailwindcss": "3.4.17",
@@ -53,6 +53,6 @@
     "typescript": "5.9.3",
     "vinext": "0.0.50",
     "vite": "8.1.5",
-    "wrangler": "4.112.0"
+    "wrangler": "4.114.0"
   }
 }

@@ -1,18 +1,18 @@
 # Project Handoff
 
-Updated: 2026-07-21
+Updated: 2026-07-25
 
 Repository: `llm-reliability-observatory`
 
-Active implementation branch: `codex/lro-turn5-sites-compatibility`
+Active local implementation branch: `codex/lro-turn5c-security-refresh`
 
-Implementation start: clean GitHub `main` at `db3b56391c49534d4b703d59486263fcb5b7d4e0`, fetched on 2026-07-21 with `HEAD...origin/main = 0/0`. Turn 5B must remain on the dedicated branch; final branch SHA and remote parity must be read from live Git state.
+Implementation start: remote state was fetched and pruned on 2026-07-25. `main` and `origin/main` remain at `db3b56391c49534d4b703d59486263fcb5b7d4e0`; `codex/lro-turn5-sites-compatibility` and its remote remain at `59433dc7135d5878128d8f3efe82dd7d9b8fe5a5`. Turn 5BC is derived from that exact compatibility SHA; read the current exact branch commit and parity from live Git.
 
 Remote: `origin` -> `https://github.com/YuShimoji/llm-reliability-observatory.git`
 
 ## Current outcome
 
-Turn 4 remains editorially and technically complete. Turn 5 owner-only Sites compatibility/private deployment is complete, and Turn 5B has backported its reproducible compatibility layer to the dedicated GitHub branch without binding GitHub to the private Site.
+Turn 4 remains editorially and technically complete. Turn 5 owner-only Sites compatibility/private deployment is complete. Turn 5B backported the compatibility layer but remained partial because its GitHub artifact was unbound, its canonical depended on untracked environment state, and it permitted a null hosting identity. The current Turn 5BC branch closes those source/build gaps and integrates the Turn 5C dependency refresh.
 
 - The project owner/editor supplied explicit case-level decisions dated 2026-07-19.
 - All three evidence-backed cases are now `draft: false`, `review_status: approved`, and `ai_assistance.human_reviewed: true`.
@@ -21,11 +21,24 @@ Turn 4 remains editorially and technically complete. Turn 5 owner-only Sites com
 - The static local corpus Reset control works without React hydration: a GitHub filter narrows to `1 of 3`, and Reset restores all four selects and `3 of 3` cards/details.
 - Eight new production acceptance images are real PNG files and were opened after encoding.
 - Owner-only Sites Version 2 succeeded with the exact Sites-issued canonical; Version 1 remains rollback. Access stayed owner-only. No public access, custom domain, PR, real advertising code, publisher ID, paid report, individual contract, audit service, payment, or membership feature was created.
-- GitHub backport uses Vinext 0.0.50, Vite 8.1.5, Cloudflare Vite plugin 1.45.1, Wrangler 4.112.0, React 19.2.6, and Next 16.2.10.
-- Bound `.openai/hosting.json` metadata is not tracked. An unbound checkout builds deterministically and packages `project_id`, `d1`, and `r2` as null.
+- Historical Turn 5B used Vinext 0.0.50, Vite 8.1.5, Cloudflare Vite plugin 1.45.1, Wrangler 4.112.0, React 19.2.6, and Next 16.2.10. Turn 5BC updates Next / eslint config to 16.2.11, Cloudflare Vite plugin to 1.47.0, and Wrangler to 4.114.0 while keeping Vinext, Vite, and React fixed.
+- The current branch tracks the exact existing Site binding without recording its value in docs or logs. Production builds fail before bundling when the binding is missing, empty, malformed, unexpected, or secret-bearing.
+- The exact Sites URL is tracked in `.env.production`; process/local overrides remain available, `.env.local` stays ignored, and clean-clone production builds need no manual environment value.
 - No application, content, taxonomy, generated registry, component, source-link, review-evidence, or public-case file changed from the GitHub base.
 
 `publication-eligible` means eligible in the repository's source/build contract. Owner-only deployment success does not prove public-release acceptance.
+
+## Turn 5BC current branch state
+
+Detailed evidence and restart steps are in `docs/TURN5C_DEPENDENCY_SECURITY_REFRESH.md`.
+
+- Remote synchronization found protected `origin/main` and the compatibility branch at their required SHAs.
+- Authenticated Sites readback produced one exact title/slug/URL/status/Version 2 match with custom owner-only access. The opaque identity value is not reproduced in this repository's prose.
+- Stable Next.js remains 16.2.11. Audit remains red at high 2, critical 0 through optional Sharp 0.34.5.
+- The public Worker blocks the unused Vinext image optimizer route with 404. Source imports, upload/decode/remote-image routes, and artifact Sharp/libvips/native binaries are absent.
+- The exact-artifact exception is `DEBT_NONBLOCKING` until 2026-08-08 and returns to `BLOCK_SAFETY` on any recorded trigger. It permits local candidate work, never public release.
+- Two deterministic compiles, editorial/generic lint, typecheck, 25/25 source tests, 26/26 image checks, Vinext build, and 5/5 Worker artifact tests pass.
+- Content and UI are unchanged. No Sites deployment, access, environment, version, or public exposure was changed.
 
 ## Recorded editorial decisions
 
@@ -113,17 +126,19 @@ The complete suite for this branch must remain green immediately before integrat
 | `npm test` | 25 pass, 0 fail |
 | `npm run review:generate-corpus` | approved/human-reviewed local review generated; static Reset present |
 | `npm run review:verify-images` | every tracked review image matches extension and magic bytes |
-| `npm run build` | static build succeeds; all 3 case detail routes generated |
-| `npm audit --audit-level=low` | 0 vulnerabilities |
-| production route smoke | 15/15 expected routes return 200 |
+| `npm run build` | succeeds with tracked binding/canonical, process canonical unset, and `.env.local` absent |
+| `npm run test:artifact` | 5 pass; safe exact binding, fail-closed manifest, route/content/link/ad and image-security contracts |
+| `npm audit --json` | audit 0, or only the exact unexpired Turn 5C Sharp exception; current result high 2 / critical 0 and must remain reported as red |
+| Worker public route smoke | 7/7 expected routes return 200 |
 | blocked route smoke | template case/article, 5 fixtures, and legacy slug return 404 (8/8) |
+| image optimizer route | `/_vinext/image` returns 404; Sharp/libvips/native image code absent from artifact |
+| binding/canonical | safe nonempty source binding equals artifact; exact canonical/robots/sitemap; no `example.com` |
 | sitemap/list/related | approved cases included; templates, fixtures, legacy excluded; exact related boundary retained |
 | advertising | ineligible pages 0 placeholders; all pages 0 real ad code/elements |
-| browser | console errors 0; desktop/mobile overflow false |
 | `git diff --check` | clean |
 | secret/PII/artifact audit | no credential, personal identity, or oversized unintended artifact |
 
-Expected 200 routes are the 12 static/public resources plus the three approved case detail routes. A Next.js `NoFallbackError` may appear on the server console while intentionally probing unknown static slugs; the HTTP result remains the acceptance authority and must be 404.
+Turn 5BC uses Worker-artifact route evidence for source/build acceptance. Historical browser evidence remains in the Turn 4/5 records and is not upgraded into a fresh live deployment claim.
 
 ## Turn 5B acceptance evidence
 
@@ -151,9 +166,10 @@ The first dev start was probed before the initial optimizer had opened a stable 
 
 | Residual | Purpose | Effect | Requirement | State | Owner | Next move |
 |---|---|---|---|---|---|---|
-| Turn 5B remote branch | Make compatibility and handoff reproducible from another terminal | Publishes source/docs only; does not bind or deploy Sites | full gates green, one intentional commit, branch push, `0/0` branch parity | Implementation/validation complete; remote parity is live-Git authority | Codex implementation lane | Require `0/0` before resuming; after that, no remaining Turn 5B implementation action |
-| GitHub-to-Site binding | Optionally bind this GitHub checkout to the existing private Site | Adds project resource identity to a checkout and may affect future deploy workflow | explicit owner decision on the exact Site and binding file | Closed / not performed | Project owner | Keep `.openai/hosting.json` absent until explicitly authorized |
-| Public editorial MVP | Accept public access, exact artifact, canonical metadata, correction/removal flow, and production behavior | Begins public observatory operation | explicit owner public-release decision and fresh live evidence | Turn 6 owner gate | Project owner/editor | Decide whether to open Turn 6; owner-only evidence cannot clear it |
+| Turn 5BC supervisory acceptance | Decide whether the exact remote branch may enter canonical source | May authorize a later main integration; does not itself deploy | exact remote commit, parity 0/0, protected refs unchanged, exception review | owner/supervisor gate | Supervisory AI / project owner | inspect the exact pushed commit; issue separate integration authority if accepted |
+| Sharp stable remediation | Remove the bounded exception | Restores audit 0 on a supported stable framework | patched stable Next.js and the complete validation suite | upstream pending; exception expires 2026-08-08 | Implementation AI | recheck on release, trigger, or expiry; never force or override Sharp |
+| Turn 6 local candidate | Prepare the public-editorial-release candidate without live effects | Produces local review evidence only | accepted branch; same runtime/image contract; unexpired exception | enabled after supervisory acceptance | Implementation AI | work locally; keep deployment/access/public release closed |
+| Public editorial MVP | Accept public access, exact artifact, canonical metadata, correction/removal flow, and production behavior | Begins public observatory operation | valid security state, explicit owner public-release decision, fresh live evidence | Turn 6 owner gate | Project owner/editor | Keep closed until separately authorized |
 | AdSense technical probe | Test the planned future revenue path on eligible detail pages | Adds external policy/account/code surface | public MVP, owner publisher setup, privacy/consent review, explicit authorization | Turn 7 closed | Project owner | Keep all IDs and scripts absent until the gate opens |
 | Recurring observation loop | Sustain research, review, publication, re-verification, and correction | Creates an ongoing editorial cadence | owners, schedule, evidence refresh and correction SLA | Turn 8 closed | Editor + project owner | Define only after public MVP acceptance |
 | Held Anthropic simulation | Preserve a bounded research lead without forcing taxonomy | No current compiler/publication effect | taxonomy packet and simulation-scope decision | Held | Taxonomy owner/editor | Revisit only with a precise approved category |
@@ -161,21 +177,27 @@ The first dev start was probed before the initial optimizer had opened a stable 
 
 ## Farthest safe roadmap
 
-1. Require the dedicated Turn 5B branch to be at remote parity `0/0` before resuming; do not merge `main` or create a PR without a new instruction.
-2. Turn 6, only after an owner public-release decision: re-fetch access policy and validate the exact deployed artifact, live canonical URL, sitemap/robots, case routes, correction/removal path, mobile UI, console, and rollback. Source/build or owner-only evidence cannot clear this gate.
-3. Turn 7, only after a public editorial MVP and policy/account readiness: run a narrowly scoped AdSense technical probe on eligible detail pages. Do not add a real publisher ID before authorization.
-4. Turn 8: establish recurring source review, case drafting, human approval, publication, re-verification, correction, and retirement procedures with measurable ownership.
+1. Review the exact Turn 5BC remote commit and decide whether to integrate it to `main`; branch success does not authorize integration.
+2. Build the Turn 6 candidate locally under the recorded Sharp exception. Public release remains a separate owner gate.
+3. Turn 6 public release, only after an owner decision and fresh security/access evidence: validate the exact deployed artifact, live canonical URL, sitemap/robots, case routes, correction/removal path, mobile UI, console, and rollback.
+4. Turn 7, only after a public editorial MVP and policy/account readiness: run a narrowly scoped AdSense technical probe on eligible detail pages. Do not add a real publisher ID before authorization.
+5. Turn 8: establish recurring source review, case drafting, human approval, publication, re-verification, correction, and retirement procedures with measurable ownership.
+6. Turn 9: establish evidence-freshness targets, source-link health checks, correction SLA, and explicit stale-case states.
+7. Turn 10: expand the corpus only through coverage targets and case-level human approval; separate document count, source-origin count, and independent reproduction in the schema when migration evidence is ready.
+8. Turn 11: bind every release decision to source SHA, artifact digest, dependency audit, access policy, rollback target, accessibility checks, and a reproducible release manifest.
+9. Turn 12: operate the observatory against transparent reliability, editorial, accessibility, and correction metrics; review taxonomy and policy changes through an auditable governance cadence.
 
 Do not propose or implement paid reports, individual contracts, audit services, payments, or membership features. The intended future revenue lane is owner-authorized Codex Sites publication followed by advertising eligibility work.
 
 ## Resume sequence
 
 1. Read live Git state first: branch, HEAD, worktree, upstream parity, and `origin/main` parity.
-2. Read this handoff, `docs/DEVELOPMENT_TURNS.md`, `docs/CASE_PUBLICATION_GUIDE.md`, the decision record, evidence matrix, and corpus readback.
-3. Switch to `codex/lro-turn5-sites-compatibility`, pull `--ff-only`, and require branch parity `0/0`; do not merge it to `main` or create a PR without a new instruction.
-4. Run `npm ci` without overlapping package operations, then `npm ls --depth=0`. For full canonical validation, set `NEXT_PUBLIC_SITE_URL` only in the process environment and follow `docs/TURN5B_GITHUB_BACKPORT_INVENTORY.md`.
-5. Treat `docs/TURN5_SITES_COMPATIBILITY.md` as private-deployment evidence and `docs/TURN5B_GITHUB_BACKPORT_INVENTORY.md` as the code/backport boundary.
-6. The first next decision is owner-owned: open Turn 6 public editorial MVP or keep owner-only operation. Keep binding, public access, custom domains, real ads, payments, membership, paid reports, contracts, and audit services closed without explicit authorization.
+2. Read this handoff, `docs/TURN5C_DEPENDENCY_SECURITY_REFRESH.md`, `docs/DEVELOPMENT_TURNS.md`, and `docs/TURN5B_GITHUB_BACKPORT_INVENTORY.md`.
+3. Fetch and remain on `codex/lro-turn5c-security-refresh`; require its upstream parity `0/0`. Do not merge it or open a PR without new authority.
+4. Before dependency reconstruction, confirm no overlapping package operation in this checkout. Run `npm ci --include=optional`, then `npm ls --depth=0`.
+5. Re-run `npm audit --json`. The accepted branch result is high 2 / critical 0 through Next.js -> Sharp 0.34.5 only; any additional advisory or changed reachability is a safety regression.
+6. Keep `NEXT_PUBLIC_SITE_URL` unset and `.env.local` absent for the clean canonical/build proof. Verify source/artifact binding equality without printing the identity value.
+7. The next supervisory action is branch acceptance/main-integration judgment. The next implementation lane is a local Turn 6 candidate; public release remains owner-controlled.
 
 ## Guardrails
 
@@ -184,4 +206,5 @@ Do not propose or implement paid reports, individual contracts, audit services, 
 - Keep issuer document count, independent origins, and independent reproduction separate.
 - Keep local build/Worker evidence, owner-only deployment evidence, and public-release evidence separate.
 - Do not expose blocked content through alternate routes or preview parameters.
-- Do not add submissions, admin, auth, DB, API, payments, accounts, rankings, real ad IDs, bound Site metadata, or deployment/access changes in the current lane.
+- Do not add submissions, admin, auth, DB, API, payments, accounts, rankings, real ad IDs, or deployment/access changes in the current lane.
+- Keep the tracked Site identity confined to `.openai/hosting.json`; never copy its value into docs, logs, or reports.

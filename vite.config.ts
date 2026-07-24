@@ -1,34 +1,18 @@
-import { readFile } from "node:fs/promises";
 import vinext from "vinext";
-import { defineConfig } from "vite";
-import { sites } from "./build/sites-vite-plugin";
+import { defineConfig, loadEnv } from "vite";
+import { readHostingConfig, sites } from "./build/sites-vite-plugin";
 
 const SITE_CREATOR_PLACEHOLDER_DATABASE_ID =
   "00000000-0000-4000-8000-000000000000";
 
-interface HostingConfig {
-  project_id: string | null;
-  d1: string | null;
-  r2: string | null;
-}
-
-async function loadHostingConfig(): Promise<HostingConfig> {
-  try {
-    return JSON.parse(
-      await readFile(new URL("./.openai/hosting.json", import.meta.url), "utf8"),
-    ) as HostingConfig;
-  } catch (error) {
-    if ((error as NodeJS.ErrnoException).code === "ENOENT") {
-      return { project_id: null, d1: null, r2: null };
-    }
-    throw error;
-  }
-}
-
 const isCodexSeatbeltSandbox = process.env.CODEX_SANDBOX === "seatbelt";
 
-export default defineConfig(async () => {
-  const { d1, r2 } = await loadHostingConfig();
+export default defineConfig(async ({ mode }) => {
+  const root = process.cwd();
+  const fileEnvironment = loadEnv(mode, root, "");
+  process.env.NEXT_PUBLIC_SITE_URL ??= fileEnvironment.NEXT_PUBLIC_SITE_URL;
+
+  const { d1, r2 } = await readHostingConfig(root);
 
   const localBindingConfig = {
     main: "./worker/index.ts",

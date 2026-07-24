@@ -1,6 +1,12 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { mkdtemp, readFile, rm } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import test from "node:test";
+import {
+  parseHostingConfig,
+  readHostingConfig,
+} from "../build/sites-vite-plugin.ts";
 
 const workerUrl = new URL("../dist/server/index.js", import.meta.url);
 workerUrl.searchParams.set("artifact-test", `${process.pid}-${Date.now()}`);
@@ -27,15 +33,55 @@ async function fetchRoute(pathname) {
   );
 }
 
-test("exports a callable Worker fetch handler and packages explicit hosting state", async () => {
+const allowedHostingFields = new Set(["project_id", "d1", "r2"]);
+const sensitiveHostingField =
+  /authorization|bearer|credential|password|private|secret|token/i;
+
+function assertSafeBoundHosting(hosting) {
+  assert.deepEqual(
+    Object.keys(hosting).filter((key) => !allowedHostingFields.has(key)),
+    [],
+  );
+  assert.deepEqual(
+    Object.keys(hosting).filter((key) => sensitiveHostingField.test(key)),
+    [],
+  );
+  assert.equal(typeof hosting.project_id, "string");
+  assert.ok(hosting.project_id.trim().length > 0);
+  for (const key of ["d1", "r2"]) {
+    if (key in hosting) {
+      assert.ok(
+        hosting[key] === null ||
+          (typeof hosting[key] === "string" && hosting[key].trim().length > 0),
+      );
+    }
+  }
+}
+
+test("exports a callable Worker fetch handler and packages the exact safe binding", async () => {
   assert.equal(typeof worker?.fetch, "function");
-  const hosting = JSON.parse(
+  const sourceHosting = JSON.parse(
+    await readFile(new URL("../.openai/hosting.json", import.meta.url), "utf8"),
+  );
+  const artifactHosting = JSON.parse(
     await readFile(new URL("../dist/.openai/hosting.json", import.meta.url), "utf8"),
   );
-  assert.ok(
-    hosting.project_id === null ||
-      (typeof hosting.project_id === "string" && hosting.project_id.length > 0),
-  );
+  assertSafeBoundHosting(sourceHosting);
+  assertSafeBoundHosting(artifactHosting);
+  assert.deepEqual(artifactHosting, sourceHosting);
+});
+
+test("fails closed for missing, unbound, unexpected, or sensitive hosting state", async () => {
+  assert.throws(() => parseHostingConfig({ project_id: null }));
+  assert.throws(() => parseHostingConfig({ project_id: "test-id", extra: true }));
+  assert.throws(() => parseHostingConfig({ project_id: "test-id", token: "redacted" }));
+
+  const temporaryRoot = await mkdtemp(join(tmpdir(), "lro-hosting-test-"));
+  try {
+    await assert.rejects(() => readHostingConfig(temporaryRoot));
+  } finally {
+    await rm(temporaryRoot, { recursive: true, force: true });
+  }
 });
 
 test("serves the public routes and excludes blocked content", async () => {
@@ -101,4 +147,23 @@ test("keeps the three-case sitemap and source links without real ad code", async
   assert.equal((html.match(/target="_blank"/g) ?? []).length, 6);
   assert.equal((html.match(/rel="noopener noreferrer"/g) ?? []).length, 6);
   assert.doesNotMatch(html, /adsbygoogle|ca-pub-|googlesyndication/i);
+});
+
+test("exposes no runtime image optimizer or native image dependency", async () => {
+  for (const path of [
+    "/_vinext/image?url=%2Funtrusted.gif&w=640&q=75",
+    "/_next/image?url=%2Funtrusted.gif&w=640&q=75",
+  ]) {
+    const response = await fetchRoute(path);
+    assert.equal(response.status, 404, path);
+  }
+
+  const workerArtifact = await readFile(
+    new URL("../dist/server/index.js", import.meta.url),
+    "utf8",
+  );
+  assert.doesNotMatch(
+    workerArtifact,
+    /handleImageOptimization|vinext\/server\/image-optimization|libvips|@img\/sharp|sharp\.node/i,
+  );
 });
